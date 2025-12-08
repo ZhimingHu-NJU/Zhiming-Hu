@@ -1,268 +1,457 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Hu Lab – Materials-Level Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-      color: #222;
-      background-color: #f7f7f7;
+    /* 基础 */
+    * {
+      box-sizing: border-box;
     }
-
-    /* ================================
-          顶部黑色导航栏（Morphing Matter Lab 风格）
-       ================================ */
-    .navbar {
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", Roboto, sans-serif;
       background: #000;
       color: #fff;
+      line-height: 1.6;
+    }
+    a {
+      color: inherit;
+    }
+
+    /* 顶部导航：黑底 + 左 logo + 右菜单 */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #000;
       padding: 18px 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
     }
 
-    /* 左侧 Logo 区 */
-    .nav-logo {
+    .nav-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
-
     .nav-logo-mark {
       font-weight: 800;
       font-size: 22px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.16em;
       border: 2px solid #fff;
       border-radius: 6px;
-      padding: 4px 10px;
+      padding: 4px 12px;
       line-height: 1;
     }
-
-    .nav-logo-text {
+    .nav-lab-name {
       font-size: 13px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
-    /* 右侧菜单 */
-    .nav-links {
+    .nav-right {
       display: flex;
       align-items: center;
-      gap: 26px;
+      gap: 28px;
       font-size: 13px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
     }
-
     .nav-links a {
-      color: #fff;
       text-decoration: none;
     }
-
     .nav-links a:hover {
       text-decoration: underline;
     }
-
     .nav-links a.active {
       text-decoration: underline;
     }
-
-    /* 社交图标 */
     .nav-social {
       display: flex;
       align-items: center;
       gap: 14px;
       font-size: 13px;
     }
-
     .nav-social a {
-      color: #fff;
       text-decoration: none;
     }
-    .nav-social a:hover {
-      text-decoration: underline;
-    }
 
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .navbar {
-        padding: 12px 16px;
+        padding: 14px 16px;
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
       }
-      .nav-links {
+      .nav-right {
         flex-wrap: wrap;
         gap: 16px;
       }
     }
 
-    /* ================================ 内容区样式 ================================ */
-    main {
-      max-width: 900px;
-      margin: 24px auto;
-      padding: 0 16px 40px;
-      background: #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      border-radius: 8px;
+    /* 主内容容器 */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 40px 80px;
+    }
+    @media (max-width: 900px) {
+      .page {
+        padding: 24px 16px 40px;
+      }
     }
 
-    section {
-      padding: 24px 0;
-      border-bottom: 1px solid #f0f0f0;
+    /* Hero 区域：大标题 + 副标题 */
+    .hero {
+      padding: 40px 0 32px;
     }
-    section:last-child {
-      border-bottom: none;
+    .hero-kicker {
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #aaaaaa;
+      margin-bottom: 12px;
+    }
+    .hero-title {
+      font-size: clamp(32px, 4vw, 40px);
+      font-weight: 700;
+      max-width: 780px;
+    }
+    .hero-subtitle {
+      margin-top: 16px;
+      max-width: 640px;
+      color: #cccccc;
+      font-size: 15px;
     }
 
-    h2 {
-      margin-top: 0;
-      color: #003a8c;
-      font-size: 22px;
+    /* Section 标题 */
+    .section-label {
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #aaaaaa;
+      margin-top: 40px;
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 12px;
     }
 
-    .two-col {
+    /* 项目卡片网格 */
+    .project-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
     }
-
-    @media (max-width: 768px) {
-      .two-col {
+    @media (max-width: 1000px) {
+      .project-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 700px) {
+      .project-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    footer {
-      text-align: center;
+    .project-card {
+      background: #111;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #222;
+      display: flex;
+      flex-direction: column;
+      min-height: 220px;
+    }
+    .project-thumb {
+      height: 130px;
+      background: radial-gradient(circle at 20% 20%, #4b7bff, #181818);
+    }
+    .project-body {
+      padding: 12px 14px 14px;
+      font-size: 14px;
+    }
+    .project-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+    .project-meta {
       font-size: 12px;
-      color: #888;
-      padding: 16px;
+      color: #aaaaaa;
+      margin-bottom: 6px;
+    }
+    .project-links {
+      font-size: 12px;
+      color: #cccccc;
+    }
+    .project-links a {
+      text-decoration: underline;
+      margin-right: 8px;
+    }
+
+    /* Mission 三栏块 */
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 16px;
+    }
+    @media (max-width: 900px) {
+      .mission-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .mission-card {
+      background: #111;
+      border-radius: 8px;
+      border: 1px solid #222;
+      padding: 16px 18px;
+      font-size: 14px;
+    }
+    .mission-card h3 {
+      margin: 0 0 6px;
+      font-size: 15px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .mission-card p {
+      margin: 0 0 8px;
+      color: #cccccc;
+    }
+    .mission-examples {
+      font-size: 12px;
+      color: #aaaaaa;
+    }
+
+    /* Simple list section (publications / people) */
+    .simple-list {
+      font-size: 14px;
+      color: #cccccc;
+    }
+    .simple-list ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 8px 0 0;
+    }
+    .simple-list li {
+      margin-bottom: 4px;
+    }
+
+    .footer {
+      border-top: 1px solid #222;
+      padding: 16px 40px 24px;
+      font-size: 11px;
+      color: #777;
+      text-align: center;
+    }
+    @media (max-width: 900px) {
+      .footer {
+        padding: 16px;
+      }
     }
   </style>
 </head>
-
 <body>
 
-<!-- ================================
-       顶部导航栏
-     ================================ -->
+<!-- 顶部导航 -->
 <nav class="navbar">
-  <!-- 左侧 Logo -->
-  <div class="nav-logo">
+  <div class="nav-left">
     <div class="nav-logo-mark">HL</div>
-    <div class="nav-logo-text">HU LAB · MATERIALS-LEVEL INTELLIGENCE</div>
+    <div class="nav-lab-name">HU LAB · MATERIALS-LEVEL INTELLIGENCE</div>
   </div>
-
-  <!-- 右侧菜单 -->
-  <div class="nav-links">
-    <a href="#about" class="active">ABOUT</a>
-    <a href="#research">RESEARCH</a>
-    <a href="#people">PEOPLE</a>
-    <a href="#publications">PUBLICATIONS</a>
-    <a href="#join">OPPORTUNITIES</a>
-    <a href="#contact">INFO</a>
-
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#projects" class="active">PROJECTS</a>
+      <a href="#publications">PUBLICATIONS</a>
+      <a href="#news">NEWS</a>
+      <a href="#people">PEOPLE</a>
+      <a href="#opportunities">OPPORTUNITIES</a>
+      <a href="#info">INFO</a>
+    </div>
     <div class="nav-social">
       <a href="#" title="Instagram">IG</a>
-      <a href="#" title="Vimeo">V</a>
+      <a href="#" title="Video">V</a>
       <a href="#" title="YouTube">YT</a>
     </div>
   </div>
 </nav>
 
-<!-- ================================
-      Header（保持原样）
-     ================================ -->
-<header>
-  <h1>Hu Lab</h1>
-  <p>Materials-Level Intelligence for Flexible Photonics & Bio-Inspired Environmental Sensing.<br>
-  柔性智能光子学 & 仿生环境传感课题组</p>
-</header>
-
-<!-- ================================
-      Main 内容区
-     ================================ -->
-<main>
-
-  <section id="about">
-    <h2>关于课题组</h2>
-    <p>
-      Hu Lab 致力于探索“材料级智能”的基本科学问题与应用前景，
-      以液晶高分子、柔性光子结构和仿生微型系统为核心研究对象，
-      聚焦光/力/化学等多模态耦合响应，发展新型柔性执行器、
-      无源环境传感器与可降解微型系统，为环境监测、软体机器人
-      与智慧制造提供新材料与新方案。
+<div class="page">
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div class="hero-kicker">HU LAB · NANJING UNIVERSITY (SUZHOU)</div>
+    <h1 class="hero-title">
+      We explore materials-level intelligence for flexible photonics and bio-inspired environmental sensing.
+    </h1>
+    <p class="hero-subtitle">
+      Our work focuses on liquid crystal polymers, soft photonic structures, and bio-inspired micro-systems to
+      enable sustainable actuation and passive sensing for environments, soft robots, and intelligent manufacturing.
     </p>
   </section>
 
-  <section id="research">
-    <h2>研究方向（Research）</h2>
-    <div class="two-col">
-      <div>
-        <h3>1. 柔性智能光子学</h3>
-        <p>基于液晶、光子结构与柔性光响应材料，实现具有自感知能力的光机械耦合系统。</p>
+  <!-- Projects -->
+  <section id="projects">
+    <div class="section-label">PROJECTS</div>
+    <h2 class="section-title">Selected research directions</h2>
+
+    <div class="project-grid">
+      <article class="project-card">
+        <div class="project-thumb"></div>
+        <div class="project-body">
+          <div class="project-title">Light-driven oscillators & helical actuators</div>
+          <div class="project-meta">Programmable liquid crystal elastomers · Soft robotics</div>
+          <div class="project-links">
+            <a href="#">Project overview</a>
+            <a href="#">Representative paper</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-thumb"></div>
+        <div class="project-body">
+          <div class="project-title">Bio-inspired environmental sensor flier</div>
+          <div class="project-meta">Chemiluminescence · pH / metal ion sensing · Aerial deployment</div>
+          <div class="project-links">
+            <a href="#">Project overview</a>
+            <a href="#">Preprint (coming soon)</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-thumb"></div>
+        <div class="project-body">
+          <div class="project-title">Colorimetric hydrogel & photonic films</div>
+          <div class="project-meta">Flexible photonics · Passive environmental readout</div>
+          <div class="project-links">
+            <a href="#">Project overview</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Mission / Construct-Compute-Contextualize 式三栏 -->
+  <section id="mission">
+    <div class="section-label">MISSION</div>
+    <h2 class="section-title">From materials to intelligent systems</h2>
+
+    <div class="mission-grid">
+      <div class="mission-card">
+        <h3>Construct</h3>
+        <p>
+          Discover morphing and sensing mechanisms in soft materials by tuning molecular alignment, geometry,
+          and multi-physics coupling across scales.
+        </p>
+        <div class="mission-examples">
+          Examples: light-driven LCE oscillators, helical fiber actuators, degradable micro-channels.
+        </div>
       </div>
-      <div>
-        <h3>2. 液晶弹性体驱动与材料级智能</h3>
-        <p>研究液晶弹性体的可编程结构设计、自驱动振荡与复杂形变机制。</p>
+      <div class="mission-card">
+        <h3>Compute</h3>
+        <p>
+          Develop design rules and data-driven tools to program shape, color and signal transduction directly
+          into materials and structures.
+        </p>
+        <div class="mission-examples">
+          Examples: inverse design of LCE patterns, optical readout calibration, image-based colorimetry.
+        </div>
       </div>
-      <div>
-        <h3>3. 仿生微型环境传感平台</h3>
-        <p>发展色变、化学发光等微型传感器，实现对 pH、金属离子与环境参数的无源检测。</p>
-      </div>
-      <div>
-        <h3>4. 可持续与可降解微系统</h3>
-        <p>探索可降解高分子在微型光电与监测系统中的应用。</p>
+      <div class="mission-card">
+        <h3>Contextualize</h3>
+        <p>
+          Embed materials-level intelligence into real environments for sustainable monitoring and soft robotics,
+          with attention to manufacturability and deployment.
+        </p>
+        <div class="mission-examples">
+          Examples: field-deployable sensor fliers, water-quality monitors, UAV-compatible modules.
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="people">
-    <h2>团队成员（People）</h2>
-    <p><strong>PI：胡志明（Zhiming Hu）</strong><br>
-      Assistant Professor, Institute of Functional Materials & Intelligent Manufacturing, Nanjing University (Suzhou)<br>
-      研究方向包括柔性智能光子学、液晶高分子智能材料、仿生环境传感系统等。
-    </p>
-  </section>
-
+  <!-- Publications -->
   <section id="publications">
-    <h2>代表成果（Selected Publications）</h2>
-    <ul>
-      <li>Hu, Z. <em>et al.</em> Representative Paper 1. <strong>Nature Communications</strong>, 20XX.</li>
-      <li>Hu, Z. <em>et al.</em> Representative Paper 2. <strong>Science Advances</strong>, 20XX.</li>
-      <li>Hu, Z. <em>et al.</em> Representative Paper 3. <strong>Joule</strong>, 20XX.</li>
-    </ul>
+    <div class="section-label">PUBLICATIONS</div>
+    <h2 class="section-title">Selected papers & reviews</h2>
+    <div class="simple-list">
+      <ul>
+        <li>Hu, Z. <em>et al.</em> Title of representative work on LCE oscillators. <strong>Nature Communications</strong>, 20XX.</li>
+        <li>Hu, Z. <em>et al.</em> Title of representative work on flexible photonics. <strong>Science Advances</strong>, 20XX.</li>
+        <li>Hu, Z. <em>et al.</em> Bio-inspired environmental sensing systems. <strong>Joule</strong>, 20XX.</li>
+      </ul>
+    </div>
   </section>
 
-  <section id="join">
-    <h2>加入我们（Opportunities）</h2>
-    <p>
-      招收博士、硕士、本科生科研助理；背景包括材料、物理、工程、环境科学、智能制造等。
-      请将<strong>简历 + 成绩单 + 研究兴趣</strong>发送至：
-      <strong>your-email@nju.edu.cn</strong>
-    </p>
+  <!-- News -->
+  <section id="news">
+    <div class="section-label">NEWS</div>
+    <h2 class="section-title">Recent updates</h2>
+    <div class="simple-list">
+      <ul>
+        <li>[2026] Hu Lab is starting at Nanjing University (Suzhou campus).</li>
+        <li>[2026] Our work on environmental sensor fliers is in preparation.</li>
+        <li>[2025] Review on liquid crystal elastomer actuators accepted (details coming soon).</li>
+      </ul>
+    </div>
   </section>
 
-  <section id="contact">
-    <h2>联系信息（Info）</h2>
-    <p>
-      Nanjing University, Suzhou Campus<br>
-      Institute of Functional Materials & Intelligent Manufacturing<br>
-      Email: <strong>your-email@nju.edu.cn</strong>
-    </p>
+  <!-- People -->
+  <section id="people">
+    <div class="section-label">PEOPLE</div>
+    <h2 class="section-title">Hu Lab members</h2>
+    <div class="simple-list">
+      <p><strong>PI · Zhiming Hu</strong><br>
+        Assistant Professor, Institute of Functional Materials & Intelligent Manufacturing, Nanjing University (Suzhou).<br>
+        Research: flexible intelligent photonics, liquid crystal polymer actuators, bio-inspired environmental sensing.
+      </p>
+      <p>We are recruiting PhD students, master students and undergraduate researchers. The first cohort will start in 2026.</p>
+    </div>
   </section>
 
-</main>
+  <!-- Opportunities -->
+  <section id="opportunities">
+    <div class="section-label">OPPORTUNITIES</div>
+    <h2 class="section-title">Join us</h2>
+    <div class="simple-list">
+      <p>
+        We are looking for highly motivated students with backgrounds in materials science, mechanics, physics,
+        microfabrication, environmental engineering, or related fields.
+      </p>
+      <p>
+        To apply, please send a CV, transcript, and a short statement of research interest to
+        <strong>your-email@nju.edu.cn</strong> with subject line:
+        <em>Application to Hu Lab – Your Name</em>.
+      </p>
+    </div>
+  </section>
 
-<footer>
+  <!-- Info / Contact -->
+  <section id="info">
+    <div class="section-label">INFO</div>
+    <h2 class="section-title">Contact & location</h2>
+    <div class="simple-list">
+      <p>
+        Hu Lab – Materials-Level Intelligence<br>
+        Institute of Functional Materials & Intelligent Manufacturing<br>
+        Nanjing University, Suzhou Campus<br>
+        Email: <strong>your-email@nju.edu.cn</strong>
+      </p>
+    </div>
+  </section>
+</div>
+
+<footer class="footer">
   © Hu Lab · Nanjing University · Built with GitHub Pages
 </footer>
 
