@@ -582,7 +582,105 @@
   object-fit: contain;      /* 不裁剪 */
   display: block;
 }
+/* People Section */
+.people-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 24px 120px;
+}
 
+.people-section img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 32px;
+}
+
+.people-subtitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 40px 0 24px;
+}
+
+/* Director 布局：左边大头像，右边文字 */
+.person-card.director {
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+  gap: 32px;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.person-card.director .person-photo {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #111;
+}
+
+/* Members 的网格 */
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 40px 32px;
+}
+
+.person-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.person-card .person-photo {
+  aspect-ratio: 3 / 4; /* 统一头像比例 */
+  overflow: hidden;
+  background: #111;
+  margin-bottom: 12px;
+}
+
+.person-info {
+  font-size: 14px;
+}
+
+.person-started {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-bottom: 8px;
+}
+
+.person-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.person-name a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  padding-bottom: 2px;
+}
+
+.person-name a:hover {
+  border-bottom-color: #fff;
+}
+
+.person-role {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* 小屏幕下 director 变成上下排列 */
+@media (max-width: 768px) {
+  .person-card.director {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+  }
+}
 
   </style>
 </head>
