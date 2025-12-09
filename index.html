@@ -4,28 +4,6 @@
   <meta charset="UTF-8" />
   <title>SASM Lab – Smart Actuation & Sensing Materials Lab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  /* -------- Hero Pagination Dots -------- */
-.hero-dots {
-  margin-top: 16px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding-bottom: 6px;
-}
-
-.hero-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  cursor: pointer;
-  transition: background 0.25s, transform 0.25s;
-}
-
-.hero-dot.active {
-  background: #ffffff;
-  transform: scale(1.25);
-}
   <style>
     * { box-sizing: border-box; }
 
@@ -44,7 +22,7 @@
 
     a { color: inherit; }
 
-    /* 顶部导航：半透明 + 轻微模糊 */
+    /* 顶部导航 */
     .navbar {
       position: sticky;
       top: 0;
@@ -162,7 +140,6 @@
       display: block;
     }
 
-    /* Hero 卡片外观（沿用原来的 hero-wrap 样式） */
     .hero-wrap {
       margin-top: 18px;
       border-radius: 22px;
@@ -263,6 +240,29 @@
       margin-top: 10px;
       font-size: 11px;
       color: #9fb3ff;
+    }
+
+    /* 小圆点指示器 */
+    .hero-dots {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding-bottom: 6px;
+    }
+
+    .hero-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+    }
+
+    .hero-dot.active {
+      background: #ffffff;
+      transform: scale(1.25);
     }
 
     /* Section 标题通用 */
@@ -437,7 +437,7 @@
   <!-- ===== HOME / HERO 轮播 ===== -->
   <section id="home" class="hero-slider">
 
-    <!-- Slide 1：你现在的主视觉 -->
+    <!-- Slide 1 -->
     <div class="hero-wrap hero-slide active">
       <div class="hero-grid">
         <div>
@@ -475,7 +475,7 @@
       </div>
     </div>
 
-    <!-- Slide 2：示例，内容你可以按需要改 -->
+    <!-- Slide 2 -->
     <div class="hero-wrap hero-slide">
       <div class="hero-grid">
         <div>
@@ -511,10 +511,9 @@
       </div>
     </div>
 
-    <!-- 如果要更多 slide，就复制上面的 hero-slide 再改内容即可 -->
-      <!-- Hero Pagination Dots -->
-  <div class="hero-dots"></div>
-</section>
+    <!-- 小圆点容器 -->
+    <div class="hero-dots"></div>
+  </section>
 
   <!-- ===== RESEARCH ===== -->
   <section id="research">
@@ -636,14 +635,16 @@
   © SASM Lab · Nanjing University · Built with GitHub Pages
 </footer>
 
-<!-- Hero 轮播脚本：每 7 秒切换一张 -->
+<!-- Hero 轮播脚本：自动播放 + 小圆点 -->
 <script>
 (function () {
   const slides = document.querySelectorAll('.hero-slide');
   const dotsContainer = document.querySelector('.hero-dots');
+  if (!slides.length || !dotsContainer) return;
+
   let index = 0;
 
-  // 生成小圆点
+  // 创建小圆点
   slides.forEach((_, i) => {
     const dot = document.createElement('div');
     dot.className = 'hero-dot';
@@ -668,14 +669,13 @@
     updateSlides();
   }
 
-  // 初始显示
+  // 初始化
   updateSlides();
 
-  // 自动播放
+  // 每 7 秒切换一次
   setInterval(nextSlide, 7000);
 })();
 </script>
-
 
 </body>
 </html>
