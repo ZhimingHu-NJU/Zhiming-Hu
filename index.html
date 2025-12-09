@@ -2,35 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>SMART ACTUATION & SENSING MATERIALS LAB</title>
+  <title>SASM Lab – Smart Actuation & Sensing Materials Lab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* 基础 */
-    * {
-      box-sizing: border-box;
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
     }
+
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", Roboto, sans-serif;
-      background: #000;
-      color: #fff;
+      background: #050509;
+      color: #f5f5f5;
       line-height: 1.6;
     }
-    a {
-      color: inherit;
-    }
 
-    /* 顶部导航：黑底 + 左 logo + 右菜单 */
+    a { color: inherit; }
+
+    /* 顶部导航：半透明 + 轻微模糊 */
     .navbar {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: #000;
-      padding: 18px 40px;
+      padding: 14px 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      background: rgba(5, 5, 15, 0.86);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px);
     }
 
     .nav-left {
@@ -38,221 +41,330 @@
       align-items: center;
       gap: 14px;
     }
+
     .nav-logo-mark {
       font-weight: 800;
-      font-size: 22px;
+      font-size: 20px;
       letter-spacing: 0.16em;
-      border: 2px solid #fff;
-      border-radius: 6px;
+      border: 2px solid #ffffff;
+      border-radius: 8px;
       padding: 4px 12px;
       line-height: 1;
     }
+
     .nav-lab-name {
-      font-size: 13px;
+      font-size: 12px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
+      color: #d0d0ff;
       white-space: nowrap;
     }
 
     .nav-right {
       display: flex;
       align-items: center;
-      gap: 28px;
-      font-size: 13px;
+      gap: 24px;
+      font-size: 12px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
     }
-    .nav-links a {
-      text-decoration: none;
-    }
-    .nav-links a:hover {
-      text-decoration: underline;
-    }
-    .nav-links a.active {
-      text-decoration: underline;
-    }
-    .nav-social {
+
+    .nav-links {
       display: flex;
       align-items: center;
-      gap: 14px;
-      font-size: 13px;
+      gap: 20px;
     }
-    .nav-social a {
+
+    .nav-links a {
       text-decoration: none;
+      color: #f5f5f5;
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background: linear-gradient(90deg, #6aa2ff, #c077ff);
+      transition: width 0.18s ease-out;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
     }
 
     @media (max-width: 900px) {
       .navbar {
-        padding: 14px 16px;
+        padding: 10px 16px;
         flex-direction: column;
         align-items: flex-start;
-        gap: 12px;
+        gap: 10px;
       }
       .nav-right {
         flex-wrap: wrap;
-        gap: 16px;
+        gap: 14px;
+      }
+      .nav-lab-name {
+        font-size: 10px;
       }
     }
 
-    /* 主内容容器 */
+    /* 页面整体容器 */
     .page {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 40px 40px 80px;
+      padding: 32px 40px 64px;
     }
+
     @media (max-width: 900px) {
       .page {
-        padding: 24px 16px 40px;
+        padding: 20px 16px 40px;
       }
     }
 
-    /* Hero 区域：大标题 + 副标题 */
-    .hero {
-      padding: 40px 0 32px;
+    /* Hero 区：渐变背景 + 左文右卡片 */
+    .hero-wrap {
+      margin-top: 18px;
+      border-radius: 22px;
+      background: radial-gradient(circle at 0% 0%, #3f6dff 0, #1e1556 40%, #050509 100%);
+      padding: 32px 32px 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
     }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 2.1fr 1.4fr;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
     .hero-kicker {
+      font-size: 11px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: #b6c7ff;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: clamp(30px, 4vw, 40px);
+      font-weight: 700;
+      margin: 0 0 12px;
+    }
+
+    .hero-subtitle {
+      margin: 0 0 10px;
+      max-width: 620px;
+      color: #e5e9ff;
+      font-size: 14px;
+    }
+
+    .hero-tagline-cn {
+      font-size: 13px;
+      color: #d2d6ff;
+      margin-top: 4px;
+    }
+
+    .hero-tags {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 11px;
+    }
+
+    .tag-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(4, 12, 32, 0.55);
+      border: 1px solid rgba(206, 221, 255, 0.4);
+      color: #e0e6ff;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-card {
+      background: rgba(6, 10, 30, 0.9);
+      border-radius: 16px;
+      border: 1px solid rgba(163, 200, 255, 0.55);
+      padding: 16px 16px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-title {
       font-size: 13px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: #aaaaaa;
-      margin-bottom: 12px;
+      color: #b6c7ff;
+      margin-bottom: 10px;
     }
-    .hero-title {
-      font-size: clamp(32px, 4vw, 40px);
-      font-weight: 700;
-      max-width: 780px;
+
+    .hero-card-item {
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #e6e9ff;
     }
-    .hero-subtitle {
-      margin-top: 16px;
-      max-width: 640px;
-      color: #cccccc;
-      font-size: 15px;
+
+    .hero-card-item span {
+      display: inline-block;
+      width: 16px;
+    }
+
+    .hero-card-badge {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #9fb3ff;
     }
 
     /* Section 标题 */
     .section-label {
-      font-size: 13px;
-      letter-spacing: 0.22em;
+      font-size: 11px;
+      letter-spacing: 0.26em;
       text-transform: uppercase;
-      color: #aaaaaa;
+      color: #a0a4c0;
       margin-top: 40px;
       margin-bottom: 6px;
     }
+
     .section-title {
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 600;
       margin: 0 0 12px;
     }
 
-    /* 项目卡片网格 */
-    .project-grid {
+    .section-intro {
+      max-width: 720px;
+      font-size: 14px;
+      color: #d0d0e8;
+      margin-bottom: 20px;
+    }
+
+    /* Research 卡片 */
+    .research-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
-      margin-top: 18px;
     }
-    @media (max-width: 1000px) {
-      .project-grid {
+
+    @media (max-width: 1024px) {
+      .research-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
     @media (max-width: 700px) {
-      .project-grid {
+      .research-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    .project-card {
-      background: #111;
-      border-radius: 8px;
+    .research-card {
+      position: relative;
+      padding: 14px 14px 12px;
+      border-radius: 16px;
+      background: radial-gradient(circle at 0% 0%, #273b7a 0, #131321 45%, #070712 100%);
+      border: 1px solid rgba(126, 158, 255, 0.4);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      font-size: 13px;
       overflow: hidden;
-      border: 1px solid #222;
-      display: flex;
-      flex-direction: column;
-      min-height: 220px;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
+        border-color 0.15s ease-out;
     }
-    .project-thumb {
-      height: 130px;
-      background: radial-gradient(circle at 20% 20%, #4b7bff, #181818);
+
+    .research-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.8);
+      border-color: rgba(187, 214, 255, 0.75);
     }
-    .project-body {
-      padding: 12px 14px 14px;
-      font-size: 14px;
-    }
-    .project-title {
-      font-weight: 600;
-      margin-bottom: 4px;
-      font-size: 15px;
-    }
-    .project-meta {
-      font-size: 12px;
-      color: #aaaaaa;
+
+    .research-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #c1cbff;
       margin-bottom: 6px;
     }
-    .project-links {
-      font-size: 12px;
-      color: #cccccc;
-    }
-    .project-links a {
-      text-decoration: underline;
-      margin-right: 8px;
+
+    .research-title {
+      font-weight: 600;
+      margin-bottom: 6px;
     }
 
-    /* Mission 三栏块 */
-    .mission-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 16px;
-    }
-    @media (max-width: 900px) {
-      .mission-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .mission-card {
-      background: #111;
-      border-radius: 8px;
-      border: 1px solid #222;
-      padding: 16px 18px;
-      font-size: 14px;
-    }
-    .mission-card h3 {
-      margin: 0 0 6px;
-      font-size: 15px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-    .mission-card p {
-      margin: 0 0 8px;
-      color: #cccccc;
-    }
-    .mission-examples {
-      font-size: 12px;
-      color: #aaaaaa;
+    .research-desc {
+      color: #dfe4ff;
+      font-size: 13px;
+      margin-bottom: 4px;
     }
 
-    /* Simple list section (publications / people) */
+    .research-note {
+      font-size: 11px;
+      color: #b9c3ff;
+    }
+
+    /* Simple list sections */
     .simple-list {
       font-size: 14px;
-      color: #cccccc;
+      color: #d4d4e8;
     }
+
     .simple-list ul {
       list-style: none;
       padding-left: 0;
       margin: 8px 0 0;
     }
+
     .simple-list li {
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
+    .simple-list strong {
+      font-weight: 600;
+    }
+
+    /* Group section two-column */
+    .group-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .group-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .group-box {
+      background: #11111c;
+      border-radius: 16px;
+      border: 1px solid #25253a;
+      padding: 16px 18px 14px;
+      font-size: 14px;
+    }
+
+    /* Footer */
     .footer {
-      border-top: 1px solid #222;
+      border-top: 1px solid #1e1e30;
       padding: 16px 40px 24px;
       font-size: 11px;
-      color: #777;
+      color: #8a8aa5;
       text-align: center;
     }
+
     @media (max-width: 900px) {
       .footer {
         padding: 16px;
@@ -260,204 +372,188 @@
     }
   </style>
 </head>
+
 <body>
 
 <!-- 顶部导航 -->
 <nav class="navbar">
   <div class="nav-left">
     <div class="nav-logo-mark">HL</div>
-    <div class="nav-lab-name">SMART ACTUATION & SENSING MATERIALS LAB</div>
+    <div class="nav-lab-name">
+      SMART ACTUATION &amp; SENSING MATERIALS LAB · NANJING UNIVERSITY (SUZHOU)
+    </div>
   </div>
 
   <div class="nav-right">
     <div class="nav-links">
-      <a href="#projects" class="active">PROJECTS</a>
+      <a href="#home" class="active">HOME</a>
+      <a href="#research">RESEARCH</a>
       <a href="#publications">PUBLICATIONS</a>
       <a href="#news">NEWS</a>
-      <a href="#people">PEOPLE</a>
-      <a href="#opportunities">OPPORTUNITIES</a>
-      <a href="#info">INFO</a>
-    </div>
-    <div class="nav-social">
-      <a href="#" title="Instagram">IG</a>
-      <a href="#" title="Video">V</a>
-      <a href="#" title="YouTube">YT</a>
+      <a href="#group">GROUP</a>
+      <a href="#contact">CONTACT</a>
     </div>
   </div>
 </nav>
 
 <div class="page">
-  <!-- Hero -->
-  <section class="hero" id="top">
-    <div class="hero-kicker">
-      SMART ACTUATION & SENSING MATERIALS LAB · NANJING UNIVERSITY (SUZHOU)
+
+  <!-- HOME / HERO -->
+  <section id="home" class="hero-wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-kicker">SASM LAB · SMART ACTUATION &amp; SENSING MATERIALS</div>
+        <h1 class="hero-title">
+          Intelligent soft materials for actuation, photonics, and environmental sensing.
+        </h1>
+        <p class="hero-subtitle">
+          At SASM Lab, we explore how liquid crystal polymers, soft photonic structures, and
+          bio-inspired micro-systems can encode actuation and sensing directly into materials,
+          enabling sustainable environmental devices and soft robotic platforms.
+        </p>
+        <div class="hero-tagline-cn">
+          柔性智能光子学 · 液晶高分子驱动 · 仿生环境传感
+        </div>
+
+        <div class="hero-tags">
+          <span class="tag-pill">Liquid crystal elastomers</span>
+          <span class="tag-pill">Light-driven oscillators</span>
+          <span class="tag-pill">Colorimetric sensing</span>
+          <span class="tag-pill">Chemiluminescent micro-fliers</span>
+        </div>
+      </div>
+
+      <aside class="hero-card">
+        <div class="hero-card-title">CURRENT FOCUS</div>
+        <div class="hero-card-item"><span>•</span>Self-oscillating LCE actuators</div>
+        <div class="hero-card-item"><span>•</span>Bio-inspired sensor fliers for pH / metal ions</div>
+        <div class="hero-card-item"><span>•</span>Flexible photonic films for passive readout</div>
+        <div class="hero-card-item"><span>•</span>Materials-level intelligence in harsh environments</div>
+        <div class="hero-card-badge">
+          We are building a new lab at Nanjing University (Suzhou) and recruiting our first cohort of students.
+        </div>
+      </aside>
     </div>
+  </section>
 
-    <h1 class="hero-title">
-      Intelligent materials for soft actuation, flexible photonics, and passive environmental sensing.
-    </h1>
-
-    <p class="hero-subtitle">
-      We design liquid crystal polymers, soft photonic structures, and bio-inspired micro-systems to enable 
-      programmable actuation, chemiluminescent sensing, and sustainable environmental devices.
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="section-label">RESEARCH</div>
+    <h2 class="section-title">Research directions</h2>
+    <p class="section-intro">
+      We investigate how structure, alignment, and multi-physics coupling in soft matter give rise
+      to programmable actuation and sensing. Our work spans materials design, mechanics, optics,
+      and device integration.
     </p>
-  </section>
 
-  <!-- Projects -->
-  <section id="projects">
-    <div class="section-label">PROJECTS</div>
-    <h2 class="section-title">Selected research directions</h2>
-
-    <div class="project-grid">
-      <article class="project-card">
-        <div class="project-thumb"></div>
-        <div class="project-body">
-          <div class="project-title">Light-driven oscillators & helical actuators</div>
-          <div class="project-meta">Programmable liquid crystal elastomers · Soft robotics</div>
-          <div class="project-links">
-            <a href="#">Project overview</a>
-            <a href="#">Representative paper</a>
-          </div>
+    <div class="research-grid">
+      <div class="research-card">
+        <div class="research-tag">ACTUATION · LCE</div>
+        <div class="research-title">Light-driven helical actuators &amp; oscillators</div>
+        <div class="research-desc">
+          Programmable liquid crystal elastomer architectures that convert light into
+          complex 3D motion, including autonomous oscillation and helical coiling.
         </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-thumb"></div>
-        <div class="project-body">
-          <div class="project-title">Bio-inspired environmental sensor flier</div>
-          <div class="project-meta">Chemiluminescence · pH / metal ion sensing · Aerial deployment</div>
-          <div class="project-links">
-            <a href="#">Project overview</a>
-            <a href="#">Preprint (coming soon)</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-thumb"></div>
-        <div class="project-body">
-          <div class="project-title">Colorimetric hydrogel & photonic films</div>
-          <div class="project-meta">Flexible photonics · Passive environmental readout</div>
-          <div class="project-links">
-            <a href="#">Project overview</a>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- Mission / Construct-Compute-Contextualize 式三栏 -->
-  <section id="mission">
-    <div class="section-label">MISSION</div>
-    <h2 class="section-title">From materials to intelligent systems</h2>
-
-    <div class="mission-grid">
-      <div class="mission-card">
-        <h3>Construct</h3>
-        <p>
-          Discover morphing and sensing mechanisms in soft materials by tuning molecular alignment, geometry,
-          and multi-physics coupling across scales.
-        </p>
-        <div class="mission-examples">
-          Examples: light-driven LCE oscillators, helical fiber actuators, degradable micro-channels.
-        </div>
+        <div class="research-note">Towards soft robots and intelligent materials-level engines.</div>
       </div>
-      <div class="mission-card">
-        <h3>Compute</h3>
-        <p>
-          Develop design rules and data-driven tools to program shape, color and signal transduction directly
-          into materials and structures.
-        </p>
-        <div class="mission-examples">
-          Examples: inverse design of LCE patterns, optical readout calibration, image-based colorimetry.
+
+      <div class="research-card">
+        <div class="research-tag">PHOTONICS · SENSING</div>
+        <div class="research-title">Flexible photonic &amp; colorimetric materials</div>
+        <div class="research-desc">
+          Hydrogel and polymer photonic systems that encode environmental information
+          in color, reflection, and scattering, enabling battery-free readout.
         </div>
+        <div class="research-note">Image-based colorimetry and optical calibration pipelines.</div>
       </div>
-      <div class="mission-card">
-        <h3>Contextualize</h3>
-        <p>
-          Embed materials-level intelligence into real environments for sustainable monitoring and soft robotics,
-          with attention to manufacturability and deployment.
-        </p>
-        <div class="mission-examples">
-          Examples: field-deployable sensor fliers, water-quality monitors, UAV-compatible modules.
+
+      <div class="research-card">
+        <div class="research-tag">ENVIRONMENT · DEVICES</div>
+        <div class="research-title">Bio-inspired environmental sensor platforms</div>
+        <div class="research-desc">
+          Chemiluminescent micro-fliers and degradable sensor modules that can be
+          deployed into real environments for pH and heavy-metal monitoring.
         </div>
+        <div class="research-note">Bridging materials science, microfluidics, and field deployment.</div>
       </div>
     </div>
   </section>
 
-  <!-- Publications -->
+  <!-- PUBLICATIONS -->
   <section id="publications">
     <div class="section-label">PUBLICATIONS</div>
-    <h2 class="section-title">Selected papers & reviews</h2>
+    <h2 class="section-title">Selected publications</h2>
     <div class="simple-list">
       <ul>
-        <li>Hu, Z. <em>et al.</em> Title of representative work on LCE oscillators. <strong>Nature Communications</strong>, 20XX.</li>
-        <li>Hu, Z. <em>et al.</em> Title of representative work on flexible photonics. <strong>Science Advances</strong>, 20XX.</li>
-        <li>Hu, Z. <em>et al.</em> Bio-inspired environmental sensing systems. <strong>Joule</strong>, 20XX.</li>
+        <li>Hu, Z. <em>et al.</em> Liquid crystal elastomer oscillators for programmable soft actuation.
+          <strong>Nature Communications</strong>, 20XX.</li>
+        <li>Hu, Z. <em>et al.</em> Flexible photonic structures with environment-responsive color.
+          <strong>Science Advances</strong>, 20XX.</li>
+        <li>Hu, Z. <em>et al.</em> Bio-inspired micro-systems for environmental sensing.
+          <strong>Joule</strong>, 20XX.</li>
       </ul>
     </div>
   </section>
 
-  <!-- News -->
+  <!-- NEWS -->
   <section id="news">
     <div class="section-label">NEWS</div>
-    <h2 class="section-title">Recent updates</h2>
+    <h2 class="section-title">News &amp; updates</h2>
     <div class="simple-list">
       <ul>
-        <li>[2026] Hu Lab is starting at Nanjing University (Suzhou campus).</li>
-        <li>[2026] Our work on environmental sensor fliers is in preparation.</li>
-        <li>[2025] Review on liquid crystal elastomer actuators accepted (details coming soon).</li>
+        <li>[2026] SASM Lab is being established at Nanjing University (Suzhou campus).</li>
+        <li>[2026] Environmental sensor flier project enters device-level evaluation.</li>
+        <li>[2025] Review on liquid crystal elastomer actuation accepted (details coming soon).</li>
       </ul>
     </div>
   </section>
 
-  <!-- People -->
-  <section id="people">
-    <div class="section-label">PEOPLE</div>
-    <h2 class="section-title">Hu Lab members</h2>
-    <div class="simple-list">
-      <p><strong>PI · Zhiming Hu</strong><br>
-        Assistant Professor, Institute of Functional Materials & Intelligent Manufacturing, Nanjing University (Suzhou).<br>
-        Research: flexible intelligent photonics, liquid crystal polymer actuators, bio-inspired environmental sensing.
-      </p>
-      <p>We are recruiting PhD students, master students and undergraduate researchers. The first cohort will start in 2026.</p>
-    </div>
-  </section>
+  <!-- GROUP -->
+  <section id="group">
+    <div class="section-label">GROUP</div>
+    <h2 class="section-title">Group</h2>
 
-  <!-- Opportunities -->
-  <section id="opportunities">
-    <div class="section-label">OPPORTUNITIES</div>
-    <h2 class="section-title">Join us</h2>
-    <div class="simple-list">
-      <p>
-        We are looking for highly motivated students with backgrounds in materials science, mechanics, physics,
-        microfabrication, environmental engineering, or related fields.
-      </p>
-      <p>
+    <div class="group-grid">
+      <div class="group-box">
+        <strong>PI · Zhiming Hu</strong><br />
+        Assistant Professor, Institute of Functional Materials &amp; Intelligent Manufacturing,
+        Nanjing University (Suzhou).<br />
+        <br />
+        Research interests:
+        smart actuation &amp; sensing materials, liquid crystal polymers,
+        flexible photonics, and bio-inspired environmental devices.
+      </div>
+
+      <div class="group-box">
+        <strong>Join SASM Lab</strong><br />
+        We are recruiting motivated graduate students and collaborators with backgrounds in
+        materials science, mechanics, physics, microfabrication, or environmental engineering.<br />
+        <br />
         To apply, please send a CV, transcript, and a short statement of research interest to
-        <strong>your-email@nju.edu.cn</strong> with subject line:
-        <em>Application to Hu Lab – Your Name</em>.
-      </p>
+        <strong>your-email@nju.edu.cn</strong> with the subject:
+        <em>Application to SASM Lab – Your Name</em>.
+      </div>
     </div>
   </section>
 
-  <!-- Info / Contact -->
-  <section id="info">
-    <div class="section-label">INFO</div>
-    <h2 class="section-title">Contact & location</h2>
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">CONTACT</div>
+    <h2 class="section-title">Contact</h2>
     <div class="simple-list">
       <p>
-        Hu Lab – Materials-Level Intelligence<br>
-        Institute of Functional Materials & Intelligent Manufacturing<br>
-        Nanjing University, Suzhou Campus<br>
+        SASM Lab – Smart Actuation &amp; Sensing Materials Lab<br />
+        Institute of Functional Materials &amp; Intelligent Manufacturing<br />
+        Nanjing University, Suzhou Campus<br />
         Email: <strong>your-email@nju.edu.cn</strong>
       </p>
     </div>
   </section>
+
 </div>
 
 <footer class="footer">
-  © Hu Lab · Nanjing University · Built with GitHub Pages
+  © SASM Lab · Nanjing University · Built with GitHub Pages
 </footer>
 
 </body>
