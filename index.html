@@ -4,6 +4,28 @@
   <meta charset="UTF-8" />
   <title>SASM Lab – Smart Actuation & Sensing Materials Lab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  /* -------- Hero Pagination Dots -------- */
+.hero-dots {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding-bottom: 6px;
+}
+
+.hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: background 0.25s, transform 0.25s;
+}
+
+.hero-dot.active {
+  background: #ffffff;
+  transform: scale(1.25);
+}
   <style>
     * { box-sizing: border-box; }
 
@@ -490,8 +512,9 @@
     </div>
 
     <!-- 如果要更多 slide，就复制上面的 hero-slide 再改内容即可 -->
-
-  </section>
+      <!-- Hero Pagination Dots -->
+  <div class="hero-dots"></div>
+</section>
 
   <!-- ===== RESEARCH ===== -->
   <section id="research">
@@ -615,34 +638,44 @@
 
 <!-- Hero 轮播脚本：每 7 秒切换一张 -->
 <script>
-  (function () {
-    const slides = document.querySelectorAll('.hero-slide');
-    if (!slides.length) return;
+(function () {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dotsContainer = document.querySelector('.hero-dots');
+  let index = 0;
 
-    let index = 0;
+  // 生成小圆点
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'hero-dot';
+    dot.addEventListener('click', () => {
+      index = i;
+      updateSlides();
+    });
+    dotsContainer.appendChild(dot);
+  });
 
-    function showSlide(i) {
-      slides.forEach((s, idx) => {
-        if (idx === i) {
-          s.classList.add('active');
-        } else {
-          s.classList.remove('active');
-        }
-      });
-    }
+  const dots = document.querySelectorAll('.hero-dot');
 
-    function nextSlide() {
-      index = (index + 1) % slides.length;
-      showSlide(index);
-    }
+  function updateSlides() {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+      dots[i].classList.toggle('active', i === index);
+    });
+  }
 
-    // 初始化
-    showSlide(index);
+  function nextSlide() {
+    index = (index + 1) % slides.length;
+    updateSlides();
+  }
 
-    // 每 7 秒切换一次
-    setInterval(nextSlide, 7000);
-  })();
+  // 初始显示
+  updateSlides();
+
+  // 自动播放
+  setInterval(nextSlide, 7000);
+})();
 </script>
+
 
 </body>
 </html>
