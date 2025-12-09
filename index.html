@@ -556,7 +556,12 @@
   object-fit: contain;      /* 避免被拉伸 */
   border-radius: 6px;       /* 更美观 */
 }
-
+.pub-image img {
+  width: 320px;        /* 统一宽度 */
+  height: auto;        /* 保持比例自动缩放 */
+  object-fit: contain; /* 防止裁切 */
+  display: block;
+}
 
   </style>
 </head>
