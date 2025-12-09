@@ -562,6 +562,27 @@
   object-fit: contain; /* 防止裁切 */
   display: block;
 }
+    /* 统一左侧图片区域的宽度 */
+.pub-item {
+  display: flex;
+  align-items: center;      /* 垂直居中 */
+  gap: 24px;
+}
+
+/* 固定左侧图片“容器”的宽度 */
+.pub-image {
+  flex: 0 0 320px;          /* 左侧列固定 320px 宽 */
+  max-width: 320px;
+}
+
+/* 图片自己始终铺满这个 320px 宽度，等比例缩放 */
+.pub-image img {
+  width: 100%;              /* 填满容器 */
+  height: auto;             /* 保持比例 */
+  object-fit: contain;      /* 不裁剪 */
+  display: block;
+}
+
 
   </style>
 </head>
