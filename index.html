@@ -5,29 +5,6 @@
   <title>SASM Lab – Smart Actuation & Sensing Materials Lab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* 轮播容器本身只负责占位 */
-.hero-slider {
-  position: relative;
-}
-
-/* 每一页 hero-slide 做淡入淡出 */
-.hero-slide {
-  position: relative;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.6s ease-in-out;
-}
-
-/* 当前显示的那一页 */
-.hero-slide.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* 让不显示的 slide 也不撑高度（可选，看你想要哪种效果） */
-.hero-slider {
-  min-height: 0;
-}
     * { box-sizing: border-box; }
 
     html {
@@ -150,7 +127,20 @@
       }
     }
 
-    /* Hero 区：渐变背景 + 左文右卡片 */
+    /* ===== Hero 轮播 ===== */
+    .hero-slider {
+      position: relative;
+    }
+
+    .hero-slide {
+      display: none;
+    }
+
+    .hero-slide.active {
+      display: block;
+    }
+
+    /* Hero 卡片外观（沿用原来的 hero-wrap 样式） */
     .hero-wrap {
       margin-top: 18px;
       border-radius: 22px;
@@ -253,7 +243,7 @@
       color: #9fb3ff;
     }
 
-    /* Section 标题 */
+    /* Section 标题通用 */
     .section-label {
       font-size: 11px;
       letter-spacing: 0.26em;
@@ -276,7 +266,7 @@
       margin-bottom: 20px;
     }
 
-    /* Research 卡片 */
+    /* RESEARCH 卡片 */
     .research-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -288,6 +278,7 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
+
     @media (max-width: 700px) {
       .research-grid {
         grid-template-columns: 1fr;
@@ -337,7 +328,7 @@
       color: #b9c3ff;
     }
 
-    /* Simple list sections */
+    /* 简单列表区域 */
     .simple-list {
       font-size: 14px;
       color: #d4d4e8;
@@ -357,7 +348,7 @@
       font-weight: 600;
     }
 
-    /* Group section two-column */
+    /* GROUP 区两列布局 */
     .group-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
@@ -421,83 +412,88 @@
 
 <div class="page">
 
-  <!-- HOME / HERO -->
- <section id="home" class="hero-slider">
-  <!-- Slide 1：现在这张图（原来的内容） -->
-  <div class="hero-wrap hero-slide active">
-    <div class="hero-grid">
-      <div>
-        <div class="hero-kicker">SASM LAB · SMART ACTUATION &amp; SENSING MATERIALS</div>
-        <h1 class="hero-title">
-          Intelligent soft materials for actuation, photonics, and environmental sensing.
-        </h1>
-        <p class="hero-subtitle">
-          At SASM Lab, we explore how liquid crystal polymers, soft photonic structures, and
-          bio-inspired micro-systems can encode actuation and sensing directly into materials,
-          enabling sustainable environmental devices and soft robotic platforms.
-        </p>
-        <div class="hero-tagline-cn">
-          柔性智能光子学 · 液晶高分子驱动 · 仿生环境传感
+  <!-- ===== HOME / HERO 轮播 ===== -->
+  <section id="home" class="hero-slider">
+
+    <!-- Slide 1：你现在的主视觉 -->
+    <div class="hero-wrap hero-slide active">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-kicker">SASM LAB · SMART ACTUATION &amp; SENSING MATERIALS</div>
+          <h1 class="hero-title">
+            Intelligent soft materials for actuation, photonics, and environmental sensing.
+          </h1>
+          <p class="hero-subtitle">
+            At SASM Lab, we explore how liquid crystal polymers, soft photonic structures,
+            and bio-inspired micro-systems can encode actuation and sensing directly into
+            materials, enabling sustainable environmental devices and soft robotic platforms.
+          </p>
+          <div class="hero-tagline-cn">
+            柔性智能光子学 · 液晶高分子驱动 · 仿生环境传感
+          </div>
+
+          <div class="hero-tags">
+            <span class="tag-pill">Liquid crystal elastomers</span>
+            <span class="tag-pill">Light-driven oscillators</span>
+            <span class="tag-pill">Colorimetric sensing</span>
+            <span class="tag-pill">Chemiluminescent micro-fliers</span>
+          </div>
         </div>
-        <div class="hero-tags">
-          <span class="tag-pill">Liquid crystal elastomers</span>
-          <span class="tag-pill">Light-driven oscillators</span>
-          <span class="tag-pill">Colorimetric sensing</span>
-          <span class="tag-pill">Chemiluminescent micro-fliers</span>
-        </div>
+
+        <aside class="hero-card">
+          <div class="hero-card-title">CURRENT FOCUS</div>
+          <div class="hero-card-item"><span>•</span>Self-oscillating LCE actuators</div>
+          <div class="hero-card-item"><span>•</span>Bio-inspired sensor fliers for pH / metal ions</div>
+          <div class="hero-card-item"><span>•</span>Flexible photonic films for passive readout</div>
+          <div class="hero-card-item"><span>•</span>Materials-level intelligence in harsh environments</div>
+          <div class="hero-card-badge">
+            We are building a new lab at Nanjing University (Suzhou) and recruiting our first cohort of students.
+          </div>
+        </aside>
       </div>
-
-      <aside class="hero-card">
-        <div class="hero-card-title">CURRENT FOCUS</div>
-        <div class="hero-card-item"><span>•</span>Self-oscillating LCE actuators</div>
-        <div class="hero-card-item"><span>•</span>Bio-inspired sensor fliers for pH / metal ions</div>
-        <div class="hero-card-item"><span>•</span>Flexible photonic films for passive readout</div>
-        <div class="hero-card-item"><span>•</span>Materials-level intelligence in harsh environments</div>
-        <div class="hero-card-badge">
-          We are building a new lab at Nanjing University (Suzhou) and recruiting our first cohort of students.
-        </div>
-      </aside>
     </div>
-  </div>
 
-  <!-- Slide 2：示例（你可以按需要改文字/配色） -->
-  <div class="hero-wrap hero-slide">
-    <div class="hero-grid">
-      <div>
-        <div class="hero-kicker">SASM LAB · LIQUID CRYSTAL ELASTOMERS</div>
-        <h1 class="hero-title">
-          Programming light-driven oscillators with liquid crystal elastomers.
-        </h1>
-        <p class="hero-subtitle">
-          We design multi-scale LCE architectures to achieve controllable helical coiling,
-          autonomous oscillation, and complex soft robotic motions under light stimuli.
-        </p>
-        <div class="hero-tagline-cn">
-          可编程液晶弹性体结构 · 自驱动振荡 · 软体机器人
+    <!-- Slide 2：示例，内容你可以按需要改 -->
+    <div class="hero-wrap hero-slide">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-kicker">SASM LAB · LIQUID CRYSTAL ELASTOMERS</div>
+          <h1 class="hero-title">
+            Programming light-driven oscillators with liquid crystal elastomers.
+          </h1>
+          <p class="hero-subtitle">
+            We design multi-scale LCE architectures to achieve controllable helical coiling,
+            autonomous oscillation, and complex soft robotic motions under light stimuli.
+          </p>
+          <div class="hero-tagline-cn">
+            可编程液晶弹性体结构 · 自驱动振荡 · 软体机器人
+          </div>
+
+          <div class="hero-tags">
+            <span class="tag-pill">Helical actuators</span>
+            <span class="tag-pill">Self-oscillation</span>
+            <span class="tag-pill">Soft robotics</span>
+          </div>
         </div>
-        <div class="hero-tags">
-          <span class="tag-pill">Helical actuators</span>
-          <span class="tag-pill">Self-oscillation</span>
-          <span class="tag-pill">Soft robotics</span>
-        </div>
+
+        <aside class="hero-card">
+          <div class="hero-card-title">HIGHLIGHTS</div>
+          <div class="hero-card-item"><span>•</span>Twist-free strategies for helical morphing</div>
+          <div class="hero-card-item"><span>•</span>Multi-mode oscillation under light</div>
+          <div class="hero-card-item"><span>•</span>Material-level control of trajectories</div>
+          <div class="hero-card-badge">
+            Representative works published in high-impact journals,
+            with ongoing extensions to new LCE systems.
+          </div>
+        </aside>
       </div>
-
-      <aside class="hero-card">
-        <div class="hero-card-title">HIGHLIGHTS</div>
-        <div class="hero-card-item"><span>•</span>Twist-free strategies for helical morphing</div>
-        <div class="hero-card-item"><span>•</span>Multi-mode oscillation under light</div>
-        <div class="hero-card-item"><span>•</span>Material-level control of trajectories</div>
-        <div class="hero-card-badge">
-          Representative works published in high-impact journals, with ongoing extensions to new LCE systems.
-        </div>
-      </aside>
     </div>
-  </div>
 
-  <!-- 如果需要更多 slide，复制上面的 <div class="hero-wrap hero-slide"> ... </div> 即可 -->
-</section>
+    <!-- 如果要更多 slide，就复制上面的 hero-slide 再改内容即可 -->
 
-  <!-- RESEARCH -->
+  </section>
+
+  <!-- ===== RESEARCH ===== -->
   <section id="research">
     <div class="section-label">RESEARCH</div>
     <h2 class="section-title">Research directions</h2>
@@ -540,7 +536,7 @@
     </div>
   </section>
 
-  <!-- PUBLICATIONS -->
+  <!-- ===== PUBLICATIONS ===== -->
   <section id="publications">
     <div class="section-label">PUBLICATIONS</div>
     <h2 class="section-title">Selected publications</h2>
@@ -556,7 +552,7 @@
     </div>
   </section>
 
-  <!-- NEWS -->
+  <!-- ===== NEWS ===== -->
   <section id="news">
     <div class="section-label">NEWS</div>
     <h2 class="section-title">News &amp; updates</h2>
@@ -569,7 +565,7 @@
     </div>
   </section>
 
-  <!-- GROUP -->
+  <!-- ===== GROUP ===== -->
   <section id="group">
     <div class="section-label">GROUP</div>
     <h2 class="section-title">Group</h2>
@@ -597,7 +593,7 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- ===== CONTACT ===== -->
   <section id="contact">
     <div class="section-label">CONTACT</div>
     <h2 class="section-title">Contact</h2>
@@ -617,8 +613,8 @@
   © SASM Lab · Nanjing University · Built with GitHub Pages
 </footer>
 
+<!-- Hero 轮播脚本：每 7 秒切换一张 -->
 <script>
-  // 简单自动轮播：每 7 秒切换一张
   (function () {
     const slides = document.querySelectorAll('.hero-slide');
     if (!slides.length) return;
@@ -647,5 +643,6 @@
     setInterval(nextSlide, 7000);
   })();
 </script>
+
 </body>
 </html>
