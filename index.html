@@ -5,6 +5,29 @@
   <title>SASM Lab – Smart Actuation & Sensing Materials Lab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    /* 轮播容器本身只负责占位 */
+.hero-slider {
+  position: relative;
+}
+
+/* 每一页 hero-slide 做淡入淡出 */
+.hero-slide {
+  position: relative;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease-in-out;
+}
+
+/* 当前显示的那一页 */
+.hero-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 让不显示的 slide 也不撑高度（可选，看你想要哪种效果） */
+.hero-slider {
+  min-height: 0;
+}
     * { box-sizing: border-box; }
 
     html {
@@ -399,7 +422,9 @@
 <div class="page">
 
   <!-- HOME / HERO -->
-  <section id="home" class="hero-wrap">
+ <section id="home" class="hero-slider">
+  <!-- Slide 1：现在这张图（原来的内容） -->
+  <div class="hero-wrap hero-slide active">
     <div class="hero-grid">
       <div>
         <div class="hero-kicker">SASM LAB · SMART ACTUATION &amp; SENSING MATERIALS</div>
@@ -414,7 +439,6 @@
         <div class="hero-tagline-cn">
           柔性智能光子学 · 液晶高分子驱动 · 仿生环境传感
         </div>
-
         <div class="hero-tags">
           <span class="tag-pill">Liquid crystal elastomers</span>
           <span class="tag-pill">Light-driven oscillators</span>
@@ -434,7 +458,44 @@
         </div>
       </aside>
     </div>
-  </section>
+  </div>
+
+  <!-- Slide 2：示例（你可以按需要改文字/配色） -->
+  <div class="hero-wrap hero-slide">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-kicker">SASM LAB · LIQUID CRYSTAL ELASTOMERS</div>
+        <h1 class="hero-title">
+          Programming light-driven oscillators with liquid crystal elastomers.
+        </h1>
+        <p class="hero-subtitle">
+          We design multi-scale LCE architectures to achieve controllable helical coiling,
+          autonomous oscillation, and complex soft robotic motions under light stimuli.
+        </p>
+        <div class="hero-tagline-cn">
+          可编程液晶弹性体结构 · 自驱动振荡 · 软体机器人
+        </div>
+        <div class="hero-tags">
+          <span class="tag-pill">Helical actuators</span>
+          <span class="tag-pill">Self-oscillation</span>
+          <span class="tag-pill">Soft robotics</span>
+        </div>
+      </div>
+
+      <aside class="hero-card">
+        <div class="hero-card-title">HIGHLIGHTS</div>
+        <div class="hero-card-item"><span>•</span>Twist-free strategies for helical morphing</div>
+        <div class="hero-card-item"><span>•</span>Multi-mode oscillation under light</div>
+        <div class="hero-card-item"><span>•</span>Material-level control of trajectories</div>
+        <div class="hero-card-badge">
+          Representative works published in high-impact journals, with ongoing extensions to new LCE systems.
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- 如果需要更多 slide，复制上面的 <div class="hero-wrap hero-slide"> ... </div> 即可 -->
+</section>
 
   <!-- RESEARCH -->
   <section id="research">
@@ -556,5 +617,35 @@
   © SASM Lab · Nanjing University · Built with GitHub Pages
 </footer>
 
+<script>
+  // 简单自动轮播：每 7 秒切换一张
+  (function () {
+    const slides = document.querySelectorAll('.hero-slide');
+    if (!slides.length) return;
+
+    let index = 0;
+
+    function showSlide(i) {
+      slides.forEach((s, idx) => {
+        if (idx === i) {
+          s.classList.add('active');
+        } else {
+          s.classList.remove('active');
+        }
+      });
+    }
+
+    function nextSlide() {
+      index = (index + 1) % slides.length;
+      showSlide(index);
+    }
+
+    // 初始化
+    showSlide(index);
+
+    // 每 7 秒切换一次
+    setInterval(nextSlide, 7000);
+  })();
+</script>
 </body>
 </html>
