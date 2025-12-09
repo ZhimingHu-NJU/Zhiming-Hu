@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --primary: #0f172a;
-      --accent: #2563eb;
-      --bg: #f5f5f7;
-      --text: #111827;
-      --muted: #6b7280;
-      --card: #ffffff;
+      --primary: #e5e7eb;
+      --accent: #22c55e;
+      --bg: #000000;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --card: #020617;
       --radius-lg: 18px;
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.18);
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.9);
     }
 
     * {
@@ -35,7 +35,7 @@
       color: inherit;
     }
 
-    /* 顶部导航栏 */
+    /* 顶部导航栏（黑色背景 + 白字） */
     header {
       position: fixed;
       top: 0;
@@ -43,8 +43,8 @@
       right: 0;
       z-index: 50;
       backdrop-filter: blur(16px);
-      background: rgba(248, 250, 252, 0.85);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(0, 0, 0, 0.9);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
     }
 
     .nav-inner {
@@ -66,8 +66,8 @@
       width: 34px;
       height: 34px;
       border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #4f46e5, #0f172a);
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.4);
+      background: radial-gradient(circle at 30% 30%, #4f46e5, #0ea5e9);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.7);
       position: relative;
       overflow: hidden;
     }
@@ -77,7 +77,7 @@
       position: absolute;
       inset: 7px;
       border-radius: 999px;
-      border: 2px solid rgba(248, 250, 252, 0.75);
+      border: 2px solid rgba(248, 250, 252, 0.8);
       opacity: 0.9;
     }
 
@@ -104,7 +104,7 @@
     nav a {
       padding: 0.2rem 0;
       position: relative;
-      color: #334155;
+      color: #e5e7eb;
     }
 
     nav a::after {
@@ -128,26 +128,28 @@
 
     /* 主体 */
     main {
-      padding-top: 70px; /* 顶部导航高度 */
+      padding-top: 70px;
     }
 
-    /* 全屏轮播区域 */
+    /* Home：轮播 + 底部两个块 */
     .hero-wrapper {
       min-height: calc(100vh - 70px);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       padding: 1.5rem;
+      gap: 1.8rem;
     }
 
     .hero-slider {
       position: relative;
       width: 100%;
       max-width: 1120px;
-      height: min(70vh, 640px);
+      height: min(60vh, 520px);
       border-radius: 26px;
       overflow: hidden;
-      background: radial-gradient(circle at 0% 0%, #e0f2fe, #0f172a);
+      background: radial-gradient(circle at 0% 0%, #0f172a, #020617);
       box-shadow: var(--shadow-soft);
     }
 
@@ -176,21 +178,20 @@
       transform: scale(1.02);
     }
 
-    /* 图片上方文字遮罩 */
     .hero-overlay {
       position: absolute;
       inset: 0;
       background: linear-gradient(
         135deg,
-        rgba(15, 23, 42, 0.58),
-        rgba(15, 23, 42, 0.2),
-        rgba(15, 23, 42, 0.65)
+        rgba(0, 0, 0, 0.7),
+        rgba(15, 23, 42, 0.35),
+        rgba(0, 0, 0, 0.8)
       );
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 3rem 3.2rem;
-      color: #f9fafb;
+      color: var(--text);
     }
 
     .hero-text {
@@ -229,9 +230,9 @@
       font-size: 0.72rem;
       padding: 0.25rem 0.7rem;
       border-radius: 999px;
-      border: 1px solid rgba(226, 232, 240, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.8);
       backdrop-filter: blur(6px);
-      background: rgba(15, 23, 42, 0.25);
+      background: rgba(15, 23, 42, 0.6);
       display: inline-flex;
       align-items: center;
       gap: 0.25rem;
@@ -250,8 +251,8 @@
       top: 3.2rem;
       padding: 0.55rem 0.9rem;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.55);
-      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.8);
       font-size: 0.78rem;
       display: inline-flex;
       align-items: center;
@@ -274,8 +275,8 @@
       width: 38px;
       height: 38px;
       border-radius: 999px;
-      border: 1px solid rgba(226, 232, 240, 0.8);
-      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: rgba(15, 23, 42, 0.7);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -288,7 +289,7 @@
     }
 
     .hero-arrow:hover {
-      background: rgba(15, 23, 42, 0.78);
+      background: rgba(15, 23, 42, 0.95);
       transform: translateY(-50%) translateX(1px);
     }
 
@@ -300,7 +301,7 @@
       right: 1.1rem;
     }
 
-    /* 轮播小圆点指示器 */
+    /* 轮播小圆点 */
     .hero-dots {
       position: absolute;
       bottom: 1.4rem;
@@ -310,16 +311,16 @@
       gap: 0.5rem;
       padding: 0.35rem 0.7rem;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.4);
+      background: rgba(15, 23, 42, 0.8);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(148, 163, 184, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.8);
     }
 
     .hero-dot {
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: rgba(226, 232, 240, 0.7);
+      background: rgba(226, 232, 240, 0.9);
       cursor: pointer;
       transition: all 0.2s ease-out;
       position: relative;
@@ -343,12 +344,57 @@
       border-color: rgba(52, 211, 153, 0.6);
     }
 
-    /* 内容区（默认隐藏，点击菜单显示） */
+    /* Home 底部两块：About + Contact */
+    .home-bottom {
+      width: 100%;
+      max-width: 1120px;
+      display: flex;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+
+    .home-card {
+      flex: 1;
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1.6rem 1.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.8);
+    }
+
+    /* 左边 About 稍微宽一些 */
+    #home-about {
+      flex: 1.8;
+    }
+
+    .home-card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--primary);
+    }
+
+    .home-card-sub {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .home-card-body {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .home-card-body p + p {
+      margin-top: 0.6rem;
+    }
+
+    /* 其他内容页（Research / People / Publications / News） */
     .content-wrapper {
       max-width: 1120px;
       margin: 0 auto;
       padding: 2.5rem 1.5rem 3rem;
-      display: none; /* 初始不显示 */
+      display: none;
     }
 
     .content-section {
@@ -357,7 +403,8 @@
       padding: 1.8rem 2rem;
       border-radius: var(--radius-lg);
       background: var(--card);
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
     }
 
     .content-section.active {
@@ -379,7 +426,7 @@
 
     .section-body {
       font-size: 0.92rem;
-      color: #111827;
+      color: var(--text);
     }
 
     .section-body p + p {
@@ -387,6 +434,23 @@
     }
 
     /* 响应式 */
+    @media (max-width: 900px) {
+      .hero-overlay {
+        padding: 2rem 1.8rem;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 1.3rem;
+      }
+
+      .home-bottom {
+        flex-direction: column;
+      }
+
+      #home-about {
+        flex: 1;
+      }
+    }
+
     @media (max-width: 768px) {
       .nav-inner {
         padding-inline: 1rem;
@@ -397,28 +461,16 @@
         font-size: 0.78rem;
       }
 
-      .hero-overlay {
-        padding: 1.8rem 1.6rem;
-        flex-direction: column;
-        justify-content: flex-end;
-        gap: 1.3rem;
-      }
-
       .hero-title {
-        font-size: 1.6rem;
+        font-size: 1.7rem;
       }
 
       .hero-subtitle {
         font-size: 0.88rem;
       }
 
-      .hero-badge {
-        top: 1.4rem;
-        right: 1.2rem;
-      }
-
       .hero-arrow {
-        display: none; /* 小屏可以只用自动轮播和小圆点 */
+        display: none;
       }
 
       .content-section {
@@ -446,23 +498,23 @@
       <nav>
         <ul>
           <li><a href="#" class="nav-link active" data-target="home">Home</a></li>
-          <li><a href="#" class="nav-link" data-target="about">About</a></li>
+          <li><a href="#" class="nav-link" data-target="about-home">About</a></li>
           <li><a href="#" class="nav-link" data-target="research">Research</a></li>
           <li><a href="#" class="nav-link" data-target="people">People</a></li>
           <li><a href="#" class="nav-link" data-target="publications">Publications</a></li>
           <li><a href="#" class="nav-link" data-target="news">News</a></li>
-          <li><a href="#" class="nav-link" data-target="contact">Contact</a></li>
+          <li><a href="#" class="nav-link" data-target="contact-home">Contact</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
   <main>
-    <!-- 主页：只显示大图轮播 -->
+    <!-- Home：主图滚动 + 下方 About & Contact -->
     <section class="hero-wrapper" id="hero-section">
       <div class="hero-slider">
         <div class="slides">
-          <!-- 替换为你自己的图片路径 -->
+          <!-- 替换为你自己的图片 -->
           <div class="slide active">
             <img src="hero1.jpg" alt="SASM Lab research image 1" />
           </div>
@@ -504,47 +556,60 @@
           </div>
         </div>
 
-        <!-- 左右切换箭头 -->
         <button class="hero-arrow prev" aria-label="Previous slide">&#10094;</button>
         <button class="hero-arrow next" aria-label="Next slide">&#10095;</button>
 
-        <!-- 小圆点指示器 -->
         <div class="hero-dots">
           <span class="hero-dot active" data-index="0"></span>
           <span class="hero-dot" data-index="1"></span>
           <span class="hero-dot" data-index="2"></span>
         </div>
       </div>
+
+      <!-- 底部布局：左 About，右 Contact -->
+      <div class="home-bottom">
+        <div class="home-card" id="home-about">
+          <div class="home-card-title">About SASM Lab</div>
+          <div class="home-card-sub">
+            Smart Actuation &amp; Sensing Materials Lab · Nanjing University
+          </div>
+          <div class="home-card-body">
+            <p>
+              The SASM Lab focuses on <strong>flexible intelligent photonics</strong>,
+              liquid-crystal polymer systems, and bio-inspired environmental sensors.
+              We explore materials-level intelligence by integrating actuation, perception,
+              and information encoding directly into soft matter.
+            </p>
+            <p>
+              Our long-term vision is to build scalable platforms for
+              <em>soft robotics, adaptive architectures, and sustainable environmental monitoring</em>.
+            </p>
+          </div>
+        </div>
+
+        <div class="home-card" id="home-contact">
+          <div class="home-card-title">Contact</div>
+          <div class="home-card-sub">
+            Join us &amp; get in touch
+          </div>
+          <div class="home-card-body">
+            <p>Email: yourname@nju.edu.cn</p>
+            <p>Institute of Functional Materials &amp; Intelligent Manufacturing,</p>
+            <p>Nanjing University (Suzhou Campus)</p>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- 其他内容：默认隐藏，通过点击菜单显示 -->
+    <!-- 其他内容：通过 Research / People / Publications / News 进入 -->
     <div class="content-wrapper" id="content-wrapper">
-      <section class="content-section" id="about">
-        <h2 class="section-title">About SASM Lab</h2>
-        <p class="section-subtitle">
-          Smart Actuation &amp; Sensing Materials Lab · Nanjing University
-        </p>
-        <div class="section-body">
-          <p>
-            The SASM Lab focuses on <strong>flexible intelligent photonics</strong>,
-            liquid-crystal polymer systems, and bio-inspired environmental sensors.
-            We explore materials-level intelligence by integrating actuation,
-            perception, and information encoding directly into soft matter.
-          </p>
-          <p>
-            Our long-term vision is to build scalable platforms for
-            <em>soft robotics, adaptive architectures, and sustainable environmental monitoring</em>.
-          </p>
-        </div>
-      </section>
-
       <section class="content-section" id="research">
         <h2 class="section-title">Research</h2>
         <p class="section-subtitle">
           From programmable soft actuators to self-sustained oscillators
         </p>
         <div class="section-body">
-          <p>Representative directions include (you可以按需修改)：</p>
+          <p>Representative directions include:</p>
           <p>1) Liquid-crystal elastomer based self-oscillating systems and bio-inspired helical actuators.</p>
           <p>2) Flexible photonic materials for light-controlled actuation and multi-modal sensing.</p>
           <p>3) Bio-degradable micro-fliers and chemiluminescent “firefly” environmental sensor platforms.</p>
@@ -581,29 +646,18 @@
           <p>2025-xx-xx · Looking for highly motivated students and postdocs.</p>
         </div>
       </section>
-
-      <section class="content-section" id="contact">
-        <h2 class="section-title">Contact</h2>
-        <p class="section-subtitle">
-          Join us &amp; get in touch
-        </p>
-        <div class="section-body">
-          <p>Email: yourname@nju.edu.cn</p>
-          <p>Address: Institute of Functional Materials &amp; Intelligent Manufacturing, Nanjing University (Suzhou Campus)</p>
-        </div>
-      </section>
     </div>
   </main>
 
   <script>
-    // 轮播逻辑
+    // ---------- 轮播逻辑 ----------
     const slides = document.querySelectorAll(".slide");
     const dots = document.querySelectorAll(".hero-dot");
     const prevBtn = document.querySelector(".hero-arrow.prev");
     const nextBtn = document.querySelector(".hero-arrow.next");
     let currentIndex = 0;
     let autoTimer = null;
-    const AUTO_INTERVAL = 6000; // 自动轮播间隔（毫秒）
+    const AUTO_INTERVAL = 6000;
 
     function showSlide(index) {
       slides.forEach((s, i) => {
@@ -638,7 +692,6 @@
       }
     }
 
-    // 绑定事件
     if (nextBtn && prevBtn) {
       nextBtn.addEventListener("click", () => {
         nextSlide();
@@ -659,34 +712,33 @@
       });
     });
 
-    // 鼠标悬停暂停轮播（桌面端体验更好）
     const heroSlider = document.querySelector(".hero-slider");
     heroSlider.addEventListener("mouseenter", stopAutoPlay);
     heroSlider.addEventListener("mouseleave", startAutoPlay);
 
-    // 初始化自动轮播
     startAutoPlay();
 
-    // 导航 + 内容切换逻辑
+    // ---------- 导航与内容切换 ----------
     const navLinks = document.querySelectorAll(".nav-link");
     const heroSection = document.getElementById("hero-section");
     const contentWrapper = document.getElementById("content-wrapper");
     const contentSections = document.querySelectorAll(".content-section");
+    const homeAbout = document.getElementById("home-about");
+    const homeContact = document.getElementById("home-contact");
 
     function switchToHome() {
-      // 显示大图轮播，隐藏内容
       heroSection.style.display = "flex";
       contentWrapper.style.display = "none";
       contentSections.forEach((sec) => sec.classList.remove("active"));
     }
 
     function switchToSection(id) {
-      // 隐藏大图，只显示内容
       heroSection.style.display = "none";
       contentWrapper.style.display = "block";
       contentSections.forEach((sec) => {
         sec.classList.toggle("active", sec.id === id);
       });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     navLinks.forEach((link) => {
@@ -700,7 +752,15 @@
 
         if (target === "home") {
           switchToHome();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else if (target === "about-home") {
+          switchToHome();
+          homeAbout.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else if (target === "contact-home") {
+          switchToHome();
+          homeContact.scrollIntoView({ behavior: "smooth", block: "start" });
         } else {
+          // Research / People / Publications / News
           switchToSection(target);
         }
       });
