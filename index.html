@@ -748,34 +748,38 @@
 }
 
 /* 右侧团队合照区域 */
-.group-photo-box {
-  background: #020617;
-  border-radius: 18px;
-  padding: 16px 18px 20px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
-  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.9);
+/* 右侧整列区域 */
+.group-column {
+  background: rgba(2, 6, 23, 0.7);
+  border-left: 1px solid rgba(148,163,184,0.4);
+  padding: 32px 24px;
+  border-radius: 0; /* 不要卡片样式 */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
+/* 右侧合照标题 */
+.group-column .people-subtitle {
+  margin-top: 0;
+}
+
+/* 合照图片容器：自动撑满 */
 .group-photo-inner {
-  margin-top: 8px;
-  border-radius: 14px;
+  flex: 1; /* 自动填满右侧整列剩余空间 */
+  border-radius: 12px;
   overflow: hidden;
   background: #020617;
 }
 
+/* 合照图片：完整铺满（你可以改成 contain） */
 .group-photo-inner img {
   width: 100%;
   height: 100%;
-  display: block;
   object-fit: cover;
 }
 
-/* 小屏：上下堆叠显示 */
-@media (max-width: 900px) {
-  .people-layout {
-    grid-template-columns: 1fr;
-  }
-}
   </style>
 </head>
 <body>
@@ -990,7 +994,7 @@
     </div>
 
     <!-- 右侧：团队合照 -->
-    <aside class="group-photo-box">
+   <aside class="group-column">
       <h3 class="people-subtitle">Group Photo</h3>
       <div class="group-photo-inner">
         <!-- 换成你的团队合照路径 -->
