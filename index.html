@@ -681,7 +681,101 @@
     max-width: 420px;
   }
 }
+/* 整体左右两列布局：左 PI+成员，右团队合照 */
+.people-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.5fr) minmax(260px, 1fr); /* 左约 2/3，右约 1/3 */
+  gap: 32px;
+  align-items: flex-start;
+}
 
+/* 左侧整体 */
+.people-left {
+  display: flex;
+  flex-direction: column;
+}
+
+/* PI 行：左照片 + 右信息卡片 */
+.pi-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.pi-photo {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #111;
+  border-radius: 14px;
+}
+
+.pi-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 右侧 PI 信息卡片 */
+.pi-info-box {
+  background: #020617;
+  border-radius: 16px;
+  padding: 16px 20px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.85);
+}
+
+.pi-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 6px 0;
+}
+
+.pi-name a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  padding-bottom: 2px;
+}
+
+.pi-name a:hover {
+  border-bottom-color: #fff;
+}
+
+.members-title {
+  margin-top: 8px;
+}
+
+/* 右侧团队合照区域 */
+.group-photo-box {
+  background: #020617;
+  border-radius: 18px;
+  padding: 16px 18px 20px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.9);
+}
+
+.group-photo-inner {
+  margin-top: 8px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #020617;
+}
+
+.group-photo-inner img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* 小屏：上下堆叠显示 */
+@media (max-width: 900px) {
+  .people-layout {
+    grid-template-columns: 1fr;
+  }
+}
   </style>
 </head>
 <body>
@@ -819,81 +913,93 @@
 <section id="people" class="content-section people-section">
   <h2 class="section-title">People</h2>
 
-  <!-- Lab Director -->
-  <h3 class="people-subtitle">Lab Director</h3>
-  <div class="person-card director">
-    <div class="person-photo">
-      <!-- 换成你的照片路径 -->
-      <img src="images/zhiming-hu.jpg" alt="Zhiming Hu" />
+  <div class="people-layout">
+    <!-- 左侧：PI + 成员 -->
+    <div class="people-left">
+      <!-- PI 行：左照片 + 右信息卡片 -->
+      <div class="pi-row">
+        <div class="pi-photo">
+          <img src="images/zhiming-hu.jpg" alt="Zhiming Hu" />
+        </div>
+
+        <div class="pi-info-box">
+          <p class="person-started">Started · Jan 1, 2026</p>
+          <p class="pi-name">
+            <a href="people-zhiming-hu.html">Zhiming Hu</a>
+          </p>
+          <p class="person-role">Lab Director</p>
+          <p class="person-role">Assistant Professor</p>
+        </div>
+      </div>
+
+      <!-- 成员 -->
+      <h3 class="people-subtitle members-title">Current Members</h3>
+      <div class="people-grid">
+        <!-- 成员 1 -->
+        <article class="person-card">
+          <div class="person-photo">
+            <img src="images/member-01.jpg" alt="Member 1" />
+          </div>
+          <div class="person-info">
+            <p class="person-name">
+              <a href="people-member-01.html">Member Name 1</a>
+            </p>
+            <p class="person-role">PhD Student</p>
+          </div>
+        </article>
+
+        <!-- 成员 2 -->
+        <article class="person-card">
+          <div class="person-photo">
+            <img src="images/member-02.jpg" alt="Member 2" />
+          </div>
+          <div class="person-info">
+            <p class="person-name">
+              <a href="people-member-02.html">Member Name 2</a>
+            </p>
+            <p class="person-role">Postdoctoral Fellow</p>
+          </div>
+        </article>
+
+        <!-- 成员 3 -->
+        <article class="person-card">
+          <div class="person-photo">
+            <img src="images/member-03.jpg" alt="Member 3" />
+          </div>
+          <div class="person-info">
+            <p class="person-name">
+              <a href="people-member-03.html">Member Name 3</a>
+            </p>
+            <p class="person-role">Master Student</p>
+          </div>
+        </article>
+
+        <!-- 成员 4（可选，多一个也没问题） -->
+        <article class="person-card">
+          <div class="person-photo">
+            <img src="images/member-04.jpg" alt="Member 4" />
+          </div>
+          <div class="person-info">
+            <p class="person-name">
+              <a href="people-member-04.html">Member Name 4</a>
+            </p>
+            <p class="person-role">Undergraduate Researcher</p>
+          </div>
+        </article>
+      </div>
     </div>
-    <div class="person-info">
-      <p class="person-started">Started · Jan 1, 2026</p>
-      <p class="person-name">
-        <!-- 这里是个人主页链接 -->
-        <a href="people-zhiming-hu.html">Zhiming Hu（胡志明）</a>
-      </p>
-      <p class="person-role">Lab Director</p>
-      <p class="person-role">Assistant Professor</p>
-    </div>
+
+    <!-- 右侧：团队合照 -->
+    <aside class="group-photo-box">
+      <h3 class="people-subtitle">Group Photo</h3>
+      <div class="group-photo-inner">
+        <!-- 换成你的团队合照路径 -->
+        <img src="images/group-01.jpg" alt="SASM Lab group photo" />
+      </div>
+    </aside>
   </div>
+</section>
 
-  
-  <!-- Current Members -->
-  <h3 class="people-subtitle">Current Members</h3>
-  <div class="people-grid">
-    <!-- 成员 1 -->
-    <article class="person-card">
-      <div class="person-photo">
-        <img src="images/member-01.jpg" alt="Member 1" />
-      </div>
-      <div class="person-info">
-        <p class="person-name">
-          <a href="people-member-01.html">Member Name 1</a>
-        </p>
-        <p class="person-role">PhD Student</p>
-      </div>
-    </article>
-
-    <!-- 成员 2 -->
-    <article class="person-card">
-      <div class="person-photo">
-        <img src="images/member-02.jpg" alt="Member 2" />
-      </div>
-      <div class="person-info">
-        <p class="person-name">
-          <a href="people-member-02.html">Member Name 2</a>
-        </p>
-        <p class="person-role">Postdoctoral Fellow</p>
-      </div>
-    </article>
-
-    <!-- 成员 3 -->
-    <article class="person-card">
-      <div class="person-photo">
-        <img src="images/member-03.jpg" alt="Member 3" />
-      </div>
-      <div class="person-info">
-        <p class="person-name">
-          <a href="people-member-03.html">Member Name 3</a>
-        </p>
-        <p class="person-role">Master Student</p>
-      </div>
-    </article>
-
-    <!-- 成员 4 -->
-    <article class="person-card">
-      <div class="person-photo">
-        <img src="images/member-04.jpg" alt="Member 4" />
-      </div>
-      <div class="person-info">
-        <p class="person-name">
-          <a href="people-member-04.html">Member Name 4</a>
-        </p>
-        <p class="person-role">Undergraduate Researcher</p>
-      </div>
-    </article>
-  </div>
-      </section>
 
      <section class="content-section" id="publications">
 
