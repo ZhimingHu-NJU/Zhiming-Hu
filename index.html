@@ -774,11 +774,38 @@
 }
 
 /* 合照图片：完整铺满（你可以改成 contain） */
+/* 右侧整列不变 */
+.group-column {
+  background: rgba(2, 6, 23, 0.7);
+  border-left: 1px solid rgba(148,163,184,0.4);
+  padding: 32px 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 多张竖排 + 滚动条 */
+.group-photo-inner {
+  flex: 1;                         /* 占满右侧剩余高度 */
+  border-radius: 12px;
+  background: #020617;
+  padding-right: 4px;              /* 给滚动条留一点空隙 */
+  overflow-y: auto;                /* 关键：竖向滚动 */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 每一张合照 */
 .group-photo-inner img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;                    /* 不再撑满高度 */
+  display: block;
+  border-radius: 10px;
+  object-fit: cover;               /* 或者 contain，看你喜好 */
 }
+
 
   </style>
 </head>
@@ -994,16 +1021,15 @@
     </div>
 
     <!-- 右侧：团队合照 -->
-   <aside class="group-column">
-      <h3 class="people-subtitle">Group Photo</h3>
-      <div class="group-photo-inner">
-        <!-- 换成你的团队合照路径 -->
-        <img src="images/zhiming-hu.jpg" alt="SASM Lab group photo" />
-         <img src="images/zhiming-hu.jpg" alt="SASM Lab group photo" />
-         <img src="images/zhiming-hu.jpg" alt="SASM Lab group photo" />
-         <img src="images/zhiming-hu.jpg" alt="SASM Lab group photo" />
-      </div>
-    </aside>
+  <aside class="group-column">
+  <h3 class="people-subtitle">Group Photo</h3>
+  <div class="group-photo-inner">
+    <img src="images/group-01.jpg" alt="SASM Lab group photo 1" />
+    <img src="images/group-02.jpg" alt="SASM Lab group photo 2" />
+    <img src="images/group-03.jpg" alt="SASM Lab group photo 3" />
+    <img src="images/group-04.jpg" alt="SASM Lab group photo 4" />
+  </div>
+</aside>
   </div>
 </section>
 
