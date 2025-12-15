@@ -815,11 +815,24 @@
 .research-item {
   max-width: 900px;
 }
-
-.research-title {
-  font-size: 1.5rem;
-  margin-bottom: 16px;
+.section-subtitle {
+  text-align: center;
+  font-size: 1.6rem;        /* 明显变大 */
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 16px 0 64px;      /* 和下面 research 拉开 */
 }
+.research-title {
+  font-size: 1.05rem;      /* 明显小于 section */
+  font-weight: 500;
+  text-align: center;
+  margin-top: 20px;        /* 和图片的关系 */
+  margin-bottom: 0;
+  line-height: 1.4;
+  color: #ffffff;
+}
+
 
 .research-image {
   width: 92%;              /* 关键：不要 100% */
@@ -960,39 +973,41 @@
   <h2 class="section-title">Research</h2>
 
   <p class="section-subtitle">
-    From programmable soft actuators to self-sustained oscillators
+   From Active Soft Materials to Smart Soft Systems
   </p>
 
   <div class="research-grid">
       <!-- Research Direction 1 -->
     <div class="research-item">
-      <h3 class="research-title">
-        Light-Controlled Smart Actuation and Photonic Materials
-      </h3>
-
-      <img
+       <img
         src="images/research_photonic.jpg"
         alt="Light-controlled smart actuation and photonic materials"
         class="research-image"
       />
 
+      <h3 class="research-title">
+        Light-Controlled Smart Actuation and Photonic Materials
+      </h3>
+
+     
       <p class="research-description">
         We develop flexible photonic and light-responsive materials that enable
         programmable actuation and multi-modal sensing, providing materials-level
         control for soft robotic and adaptive systems.
       </p>
     </div>
- <!-- Research Direction 3 -->
+ <!-- Research Direction 2 -->
     <div class="research-item">
-      <h3 class="research-title">
-        Self-Sustained Oscillators and Bio-Inspired Soft Actuators
-      </h3>
-
+      
       <img
         src="images/research_oscillator.jpg"
         alt="Self-sustained oscillators and bio-inspired soft actuators"
         class="research-image"
       />
+
+      <h3 class="research-title">
+        Self-Sustained Oscillators and Bio-Inspired Soft Actuators
+      </h3>
 
       <p class="research-description">
         Our research explores self-sustained oscillatory systems and bio-inspired
@@ -1000,17 +1015,18 @@
         rhythmic actuation, and untethered soft machines.
       </p>
     </div>
-    <!-- Research Direction 2 -->
+    <!-- Research Direction 3 -->
     <div class="research-item">
-      <h3 class="research-title">
-        Bio-Inspired Biodegradable Distributed Environmental Sensors
-      </h3>
-
+      
       <img
         src="images/Bioinspired biodegradable distributed environmental.png"
         alt="Bio-inspired biodegradable distributed environmental sensors"
         class="research-image"
       />
+      <h3 class="research-title">
+        Bio-Inspired Biodegradable Distributed Environmental Sensors
+      </h3>
+
 
       <p class="research-description">
         Our research focuses on bio-inspired, biodegradable distributed sensor platforms
