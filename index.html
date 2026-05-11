@@ -879,8 +879,59 @@
   flex-shrink: 0;
   display: block;
 }
+/* ===== Hero 下方悬浮卡片 ===== */
+
+.hero-floating-card {
+    position: relative;
+
+    width: min(88%, 980px);
+
+    margin: -70px auto 40px auto;
+
+    z-index: 20;
+
+    padding: 32px 42px;
+
+    border-radius: 28px;
+
+    background: rgba(8, 14, 32, 0.72);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    border: 1px solid rgba(255,255,255,0.14);
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+
+    text-align: center;
+}
+
+.floating-title {
+    font-size: 28px;
+    font-weight: 700;
+
+    color: white;
+
+    margin-bottom: 14px;
+}
+
+.floating-text {
+    font-size: 18px;
+    line-height: 1.7;
+
+    color: rgba(255,255,255,0.82);
+
+    max-width: 760px;
+
+    margin: 0 auto;
+}
 
 
+
+
+    
 /* =========================
    MOBILE FIX
 ========================= */
@@ -1076,6 +1127,23 @@
         </div>
       </div>
 
+
+<!-- ===== 中间悬浮信息卡片 ===== -->
+
+<div class="hero-floating-card">
+    <div class="floating-title">
+        Smart Materials · Soft Robotics · Environmental Sensing
+    </div>
+
+    <div class="floating-text">
+        Developing programmable soft materials and bio-inspired systems
+        for actuation, self-sensing, and distributed environmental monitoring.
+    </div>
+</div>
+
+<section class="about-contact">
+
+      
       <!-- 底部布局：左 About，右 Contact -->
       <div class="home-bottom">
         <div class="home-card" id="home-about">
