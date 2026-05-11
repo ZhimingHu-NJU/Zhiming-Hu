@@ -884,11 +884,11 @@
 .hero-floating-card {
     position: relative;
 
-margin: 24px auto 48px auto;
+margin: 10px auto 18px auto;
 width: min(100%, 1120px);
     z-index: 20;
 
-    padding: 32px 42px;
+    padding: 26px 40px;
 
     border-radius: 28px;
 
@@ -907,12 +907,17 @@ width: min(100%, 1120px);
 }
 
 .floating-title {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: clamp(34px, 3vw, 54px);
+
+    font-weight: 750;
 
     color: white;
 
-    margin-bottom: 14px;
+    line-height: 1.15;
+
+    margin-bottom: 12px;
+
+    white-space: nowrap;   /* 强制不换行 */
 }
 
 .floating-text {
@@ -1125,7 +1130,7 @@ width: min(100%, 1120px);
 
 <div class="hero-floating-card">
     <div class="floating-title">
-        Smart Actuation &amp;<br />Sensing Materials Lab
+        Smart Actuation &amp;Sensing Materials Lab
     </div>
 
     <div class="floating-text">
