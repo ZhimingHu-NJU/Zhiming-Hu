@@ -854,7 +854,28 @@
   color: #d0d0d0;
 }
 
+    
+.research-media-list {
+  width: 100%;
+  height: 420px;
+  overflow-y: auto;
 
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding-right: 4px;
+}
+
+.research-media {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+  
+  
   </style>
 </head>
 <body>
@@ -978,33 +999,55 @@
   </p>
 
   <div class="research-grid">
-      <!-- Research Direction 1 -->
-    <div class="research-item">
-       <img
-        src="images/research_photonic.jpg"
-        alt="Light-controlled smart actuation and photonic materials"
-        class="research-image"
-      />
-
-      <h3 class="research-title">
-        Light-Controlled Smart Actuation and Photonic Materials
-      </h3>
-
      
+<!-- Research Direction 1 -->
+
+<div class="research-item">
+  
+<div class="research-media-list">
+
+  <img src="images/research1_1.jpg" class="research-media" />
+
+  <video class="research-media" autoplay muted loop playsinline>
+    <source src="videos/research1_1.mp4" type="video/mp4">
+  </video>
+
+  <img src="images/research1_2.jpg" class="research-media" />
+
+  <video class="research-media" autoplay muted loop playsinline>
+    <source src="videos/research1_2.mp4" type="video/mp4">
+  </video>
+
+</div>
+    
+  <h3 class="research-title">
+    Light-Controlled Smart Actuation and Photonic Materials
+  </h3>
+
       <p class="research-description">
         We develop flexible photonic and light-responsive materials that enable
         programmable actuation and multi-modal sensing, providing materials-level
         control for soft robotic and adaptive systems.
-      </p>
-    </div>
+  </p>
+
+</div>
+
+    
  <!-- Research Direction 2 -->
+
     <div class="research-item">
       
-      <img
-        src="images/research_oscillator.jpg"
-        alt="Self-sustained oscillators and bio-inspired soft actuators"
-        class="research-image"
-      />
+    <div class="research-media-list">
+
+  <img src="images/research2_1.jpg" class="research-media" />
+
+  <video class="research-media" autoplay muted loop playsinline>
+    <source src="videos/research2_1.mp4" type="video/mp4">
+  </video>
+
+  <img src="images/research2_2.jpg" class="research-media" />
+
+</div>
 
       <h3 class="research-title">
         Self-Sustained Oscillators and Bio-Inspired Soft Actuators
