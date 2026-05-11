@@ -1620,23 +1620,31 @@ width: min(100%, 1120px);
   <script>
     // ---------- 轮播逻辑 ----------
     const slides = document.querySelectorAll(".slide");
-    const dots = document.querySelectorAll(".hero-dot");
+const dots = document.querySelectorAll(".hero-dot");
+const tagGroups = document.querySelectorAll(".slide-tags");
     const prevBtn = document.querySelector(".hero-arrow.prev");
     const nextBtn = document.querySelector(".hero-arrow.next");
     let currentIndex = 0;
     let autoTimer = null;
     const AUTO_INTERVAL = 6000;
 
-    function showSlide(index) {
-      slides.forEach((s, i) => {
-        s.classList.toggle("active", i === index);
-      });
-      dots.forEach((d, i) => {
-        d.classList.toggle("active", i === index);
-      });
-      currentIndex = index;
-    }
+   function showSlide(index) {
+  slides.forEach((s, i) => {
+    s.classList.toggle("active", i === index);
+  });
 
+  dots.forEach((d, i) => {
+    d.classList.toggle("active", i === index);
+  });
+
+  tagGroups.forEach((tag, i) => {
+    tag.classList.toggle("active", i === index);
+  });
+
+  currentIndex = index;
+}
+
+    
     function nextSlide() {
       const nextIndex = (currentIndex + 1) % slides.length;
       showSlide(nextIndex);
