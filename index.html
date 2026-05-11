@@ -1132,37 +1132,61 @@ width: min(100%, 1120px);
 
   <main>
     <!-- Home：主图滚动 + 下方 About & Contact -->
-    <section class="hero-wrapper" id="hero-section">
-     <div class="hero-overlay">
-  <!-- 固定顶部文字，不随图片切换 -->
-  <div class="hero-topline">
-    <div class="hero-kicker">Nanjing University · Intelligent Materials</div>
+   <section class="hero-wrapper" id="hero-section">
 
-    <div class="hero-badge">
-      <span class="hero-badge-dot"></span>
-      Materials-level Intelligence · SASM Lab
+  <div class="hero-slider">
+    <div class="slides">
+      <div class="slide active">
+        <img src="images/research-1.png" alt="SASM Lab research image 1" />
+      </div>
+
+      <div class="slide">
+        <img src="images/research-4.png" alt="SASM Lab research image 2" />
+      </div>
+
+      <div class="slide">
+        <img src="images/Bioinspired biodegradable distributed environmental sensors.png" alt="SASM Lab research image 3" />
+      </div>
+    </div>
+
+    <div class="hero-overlay">
+      <div class="hero-topline">
+        <div class="hero-kicker">Nanjing University · Intelligent Materials</div>
+
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Materials-level Intelligence · SASM Lab
+        </div>
+      </div>
+
+      <div class="hero-tags slide-tags active" data-index="0">
+        <span class="hero-tag"><span class="hero-tag-dot"></span>Liquid-crystal elastomers</span>
+        <span class="hero-tag"><span class="hero-tag-dot"></span>Light-driven actuation</span>
+        <span class="hero-tag"><span class="hero-tag-dot"></span>Environmental sensing</span>
+      </div>
+
+      <div class="hero-tags slide-tags" data-index="1">
+        <span class="hero-tag"><span class="hero-tag-dot"></span>Bioinspired soft materials</span>
+        <span class="hero-tag"><span class="hero-tag-dot"></span>Programmable morphing</span>
+        <span class="hero-tag"><span class="hero-tag-dot"></span>Soft robotics</span>
+      </div>
+
+      <div class="hero-tags slide-tags" data-index="2">
+        <span class="hero-tag"><span class="hero-tag-dot"></span>Distributed sensing</span>
+        <span class="hero-tag"><span class="hero-tag-dot"></span>Chemiluminescent devices</span>
+        <span class="hero-tag"><span class="hero-tag-dot"></span>Environmental monitoring</span>
+      </div>
+    </div>
+
+    <button class="hero-arrow prev" aria-label="Previous slide">&#10094;</button>
+    <button class="hero-arrow next" aria-label="Next slide">&#10095;</button>
+
+    <div class="hero-dots">
+      <span class="hero-dot active" data-index="0"></span>
+      <span class="hero-dot" data-index="1"></span>
+      <span class="hero-dot" data-index="2"></span>
     </div>
   </div>
-
-  <!-- 每张图自己的底部关键词 -->
-  <div class="hero-tags slide-tags active" data-index="0">
-    <span class="hero-tag"><span class="hero-tag-dot"></span>Liquid-crystal elastomers</span>
-    <span class="hero-tag"><span class="hero-tag-dot"></span>Light-driven actuation</span>
-    <span class="hero-tag"><span class="hero-tag-dot"></span>Environmental sensing</span>
-  </div>
-
-  <div class="hero-tags slide-tags" data-index="1">
-    <span class="hero-tag"><span class="hero-tag-dot"></span>Bioinspired soft materials</span>
-    <span class="hero-tag"><span class="hero-tag-dot"></span>Programmable morphing</span>
-    <span class="hero-tag"><span class="hero-tag-dot"></span>Soft robotics</span>
-  </div>
-
-  <div class="hero-tags slide-tags" data-index="2">
-    <span class="hero-tag"><span class="hero-tag-dot"></span>Distributed sensing</span>
-    <span class="hero-tag"><span class="hero-tag-dot"></span>Chemiluminescent devices</span>
-    <span class="hero-tag"><span class="hero-tag-dot"></span>Environmental monitoring</span>
-  </div>
-</div>
 
 
 <!-- ===== 中间悬浮信息卡片 ===== -->
