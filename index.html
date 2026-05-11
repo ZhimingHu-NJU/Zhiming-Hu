@@ -881,137 +881,111 @@
 
 
 /* =========================
-   MOBILE RESPONSIVE
+   MOBILE FIX
 ========================= */
 
 @media screen and (max-width: 768px) {
 
-  html, body {
-    overflow-x: hidden;
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
     width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
   }
 
   body {
-    padding: 0;
     margin: 0;
+    padding: 0;
   }
 
-  section {
+  section,
+  .section,
+  .container,
+  .content,
+  .research,
+  .people,
+  .publications {
+    width: 100% !important;
+    max-width: 100% !important;
     padding-left: 16px !important;
     padding-right: 16px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 
-  /* =========================
-     NAVBAR
-  ========================= */
-
-  .navbar {
-    padding: 12px 16px !important;
-    flex-wrap: wrap;
+  .nav,
+  .navbar,
+  header {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto;
   }
 
   .nav-links {
-    gap: 14px !important;
-    flex-wrap: wrap;
-  }
-
-  .nav-links a {
-    font-size: 0.9rem !important;
-  }
-
-  /* =========================
-     HERO
-  ========================= */
-
-  .hero-title,
-  h1 {
-    font-size: 2rem !important;
-    line-height: 1.2;
-  }
-
-  .hero-subtitle {
-    font-size: 1rem !important;
-  }
-
-  /* =========================
-     RESEARCH
-  ========================= */
-
-  .research-container {
     display: flex !important;
-    flex-direction: column !important;
-    gap: 32px;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
   }
 
-  .research-item {
-    width: 100% !important;
-  }
-
-  .research-media-list {
-    height: 260px !important;
-    overflow-y: auto;
-  }
-
-  .research-media {
-    height: 180px !important;
-    object-fit: contain;
-  }
-
-  .research-title {
-    font-size: 1.2rem !important;
-  }
-
-  .research-description {
-    font-size: 0.92rem !important;
-    line-height: 1.6;
-  }
-
-  /* =========================
-     PEOPLE
-  ========================= */
-
+  .research-container,
+  .research-grid,
   .people-grid,
   .team-grid,
-  .members-grid {
+  .members-grid,
+  .publication-list,
+  .publications-grid {
     display: flex !important;
     flex-direction: column !important;
-    gap: 24px;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
+  .research-item,
   .person-card,
   .member-card,
-  .team-member {
-    width: 100% !important;
-  }
-
-  /* =========================
-     PUBLICATIONS
-  ========================= */
-
+  .team-member,
   .publication-item,
   .publication-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 16px;
   }
-
-  .publication-image {
-    width: 100% !important;
-    height: auto !important;
-  }
-
-  .publication-content {
-    width: 100% !important;
-  }
-
-  /* =========================
-     IMAGES
-  ========================= */
 
   img,
   video {
-    max-width: 100%;
-    height: auto;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .research-media-list {
+    width: 100% !important;
+    height: 240px !important;
+    overflow-y: auto !important;
+  }
+
+  .research-media {
+    width: 100% !important;
+    height: 160px !important;
+    object-fit: contain !important;
+  }
+
+  .publication-image,
+  .publication-img {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .publication-content,
+  .publication-info {
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
 }
