@@ -878,7 +878,113 @@
   flex-shrink: 0;
   display: block;
 }
-  
+
+
+
+/* =========================
+   Mobile Responsive Design
+========================= */
+
+@media (max-width: 768px) {
+
+  /* Overall layout */
+  body {
+    overflow-x: hidden;
+  }
+
+  section {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* Titles */
+  h1 {
+    font-size: 2rem !important;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.6rem !important;
+  }
+
+  h3 {
+    font-size: 1.2rem !important;
+  }
+
+  p {
+    font-size: 0.95rem !important;
+    line-height: 1.6;
+  }
+
+  /* Hero section */
+  .hero-title {
+    font-size: 2.2rem !important;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem !important;
+  }
+
+  /* Navigation */
+  .navbar {
+    padding: 12px 20px !important;
+  }
+
+  /* Research section */
+  .research-container {
+    grid-template-columns: 1fr !important;
+    gap: 32px;
+  }
+
+  .research-item {
+    width: 100%;
+  }
+
+  .research-media-list {
+    height: 240px;
+    gap: 10px;
+  }
+
+  .research-media {
+    height: 160px;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+  }
+
+  .research-title {
+    font-size: 1.15rem !important;
+    margin-top: 16px;
+  }
+
+  .research-description {
+    font-size: 0.9rem !important;
+    line-height: 1.5;
+  }
+
+  /* Publication cards */
+  .publication-item {
+    flex-direction: column !important;
+  }
+
+  /* Buttons */
+  button,
+  .button {
+    width: 100%;
+  }
+
+  /* Images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+}
+
+
+    
   </style>
 </head>
 <body>
