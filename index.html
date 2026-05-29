@@ -1112,32 +1112,67 @@ width: min(100%, 1120px);
 
   
 
-}.recruitment-notice {
+/* 招生公告外层框 */
+.recruitment-notice {
+  /* 与上方 Nanjing University 之间的距离 */
   margin-top: 28px;
-  padding: 14px 18px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.04);
+
+  /* 框内部留白：上下 12px，左右 16px */
+  padding: 12px 16px;
+
+  /* 圆角大小 */
+  border-radius: 14px;
+
+  /* 半透明背景颜色 */
+  background: rgba(255, 255, 255, 0.035);
+
+  /* 边框颜色和粗细 */
   border: 1px solid rgba(120, 150, 255, 0.35);
+
+  /* 限制公告框最大宽度 */
+  max-width: 680px;
 }
 
+/* Open Positions 小标题 */
 .notice-label {
+  /* 让小标题单独占一行 */
   display: block;
-  margin-bottom: 6px;
-  color: #9aa6c2;
-  font-size: 0.9rem;
+
+  /* 小标题和下面中文标题之间的距离 */
+  margin-bottom: 5px;
+
+  /* 小标题颜色 */
+  color: #9ca3af;
+
+  /* 小标题字体大小 */
+  font-size: 0.85rem;
+
+  /* 小标题字体粗细 */
   font-weight: 600;
 }
 
+/* 招生公告中的链接文字 */
 .recruitment-notice a {
-  color: #ffffff;
-  font-size: 1.02rem;
-  font-weight: 700;
-  line-height: 1.5;
+  /* 中文标题颜色 */
+  color: #f9fafb;
+
+  /* 中文标题字体大小 */
+  font-size: 0.98rem;
+
+  /* 中文标题字体粗细 */
+  font-weight: 650;
+
+  /* 中文标题换行后的行距 */
+  line-height: 1.45;
+
+  /* 去掉链接默认下划线 */
   text-decoration: none;
 }
 
+/* 鼠标放在招生标题上时的效果 */
 .recruitment-notice a:hover {
-  color: #9db7ff;
+  /* 鼠标悬停时文字变成绿色 */
+  color: #22c55e;
 }
 
     
@@ -1297,12 +1332,18 @@ Science Advances, 2023, 9, eadh3350.
             <p>School of Advanced Manufacturing Engineering,</p>
             <p>Nanjing University (Suzhou Campus)</p>
 
-             <div class="recruitment-notice">
+            <!-- 招生公告区域开始 -->
+  <div class="recruitment-notice">
+    <!-- 招生公告的小标题 -->
     <span class="notice-label">Open Positions</span>
+
+    <!-- 招生公告链接：点击后在新窗口打开 files 文件夹中的 recruitment.pdf -->
     <a href="PDFs/招生2026.pdf" target="_blank">
       智能驱动与感知材料实验室诚招硕士/博士/博士后/科研助理
     </a>
   </div>
+  <!-- 招生公告区域结束 -->
+
 </div>         
       </div>
     </section>
