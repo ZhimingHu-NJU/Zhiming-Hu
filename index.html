@@ -1112,69 +1112,57 @@ width: min(100%, 1120px);
 
   
 
-/* 招生公告外层框 */
+/* 招生公告外层区域 */
 .recruitment-notice {
-  /* 与上方 Nanjing University 之间的距离 */
-  margin-top: 28px;
+  /* 与上方 Nanjing University 之间的距离，数值越大距离越远 */
+  margin-top: 38px;
 
-  /* 框内部留白：上下 12px，左右 16px */
-  padding: 12px 16px;
-
-  /* 圆角大小 */
-  border-radius: 14px;
-
-  /* 半透明背景颜色 */
-  background: rgba(255, 255, 255, 0.035);
-
-  /* 边框颜色和粗细 */
-  border: 1px solid rgba(120, 150, 255, 0.35);
-
-  /* 限制公告框最大宽度 */
-  max-width: 680px;
+  /* 如果不想要外框，可以保持下面几行不写背景和边框 */
 }
 
 /* Open Positions 小标题 */
 .notice-label {
-  /* 让小标题单独占一行 */
+  /* 让 Open Positions 单独占一行 */
   display: block;
 
-  /* 小标题和下面中文标题之间的距离 */
-  margin-bottom: 5px;
+  /* Open Positions 和下面中文标题之间的距离 */
+  margin-bottom: 10px;
 
-  /* 小标题颜色 */
+  /* Open Positions 的颜色 */
   color: #9ca3af;
 
-  /* 小标题字体大小 */
-  font-size: 0.85rem;
+  /* Open Positions 的字体大小，调大一点 */
+  font-size: 1.08rem;
 
-  /* 小标题字体粗细 */
-  font-weight: 600;
+  /* Open Positions 字体加粗 */
+  font-weight: 700;
 }
 
-/* 招生公告中的链接文字 */
+/* 中文招生标题链接 */
 .recruitment-notice a {
+  /* 让中文标题也单独成块显示 */
+  display: block;
+
   /* 中文标题颜色 */
   color: #f9fafb;
 
   /* 中文标题字体大小 */
-  font-size: 0.98rem;
+  font-size: 1.05rem;
 
   /* 中文标题字体粗细 */
-  font-weight: 650;
+  font-weight: 700;
 
   /* 中文标题换行后的行距 */
   line-height: 1.45;
 
-  /* 去掉链接默认下划线 */
+  /* 去掉链接下划线 */
   text-decoration: none;
 }
 
-/* 鼠标放在招生标题上时的效果 */
+/* 鼠标放上去时的颜色 */
 .recruitment-notice a:hover {
-  /* 鼠标悬停时文字变成绿色 */
   color: #22c55e;
 }
-
     
   </style>
 </head>
