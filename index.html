@@ -1001,6 +1001,19 @@ width: min(100%, 1120px);
   letter-spacing: 0.03em;
 }
     
+
+/* 网站底部实时访客数量：设置为很小、低调的一行文字 */
+.visitor-counter-footer {
+  padding: 0.8rem 1rem 1.2rem;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.visitor-counter-footer span {
+  color: var(--primary);
+}
+
 /* =========================
    MOBILE FIX
 ========================= */
@@ -1718,6 +1731,15 @@ Science Advances, 2023, 9, eadh3350.
  </section>
     </div>
   </main>
+
+
+  <!-- 网站底部实时访客数量栏目：下面这一行通过不蒜子统计服务实时显示本站访客数量 -->
+  <footer class="visitor-counter-footer" aria-label="Website visitor counter">
+    Total visitors: <span id="busuanzi_value_site_uv">Loading</span> · Total visits: <span id="busuanzi_value_site_pv">Loading</span>
+  </footer>
+
+  <!-- 实时访客数量脚本：负责填充上方 busuanzi_value_site_uv / busuanzi_value_site_pv 两个数字 -->
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
   <script>
     // ---------- 轮播逻辑 ----------
