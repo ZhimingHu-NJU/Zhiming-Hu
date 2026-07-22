@@ -1,1871 +1,2343 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title> SASM｜Smart Actuation &amp; Sensing Materials Lab</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ============================================================
+       基础信息：后期修改实验室名称、简介或网址时，优先修改这里
+       ============================================================ -->
+  <title>SASM Lab | Smart Actuation &amp; Sensing Materials Lab</title>
+  <meta
+    name="description"
+    content="The Smart Actuation & Sensing Materials Lab at Nanjing University develops programmable soft actuators, self-sensing systems, and bio-inspired environmental microdevices."
+>
+  <meta
+    name="keywords"
+    content="smart materials, soft actuators, liquid crystal elastomers, self-oscillation, environmental sensors, Nanjing University"
+>
+  <meta name="author" content="Zhiming Hu">
+  <meta name="theme-color" content="#07111f">
+  <link rel="canonical" href="https://zhiminghu-nju.github.io/Zhiming-Hu/">
+
+  <!-- 社交媒体分享信息；og:image 使用现有图片，不改变原资源路径 -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SASM Lab | Nanjing University">
+  <meta
+    property="og:description"
+    content="Exploring materials-level intelligence through programmable soft actuators, self-sensing systems, and bio-inspired environmental microdevices."
+>
+  <meta property="og:url" content="https://zhiminghu-nju.github.io/Zhiming-Hu/">
+  <meta
+    property="og:image"
+    content="https://zhiminghu-nju.github.io/Zhiming-Hu/images/research-1.png"
+>
+
+  <!-- 首屏图片预加载：仅预加载第一张，避免四张轮播图同时抢占带宽 -->
+  <link rel="preload" as="image" href="images/research-1.png">
+
   <style>
+    /* ============================================================
+       01. 全局设计变量
+       后期统一更换颜色、宽度、圆角时，只需修改本区域
+       ============================================================ */
     :root {
-      --primary: #e5e7eb;
-      --accent: #22c55e;
-      --bg: #000000;
-      --text: #f9fafb;
-      --muted: #9ca3af;
-      --card: #020617;
-      --radius-lg: 18px;
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.9);
+      --bg: #050a12;
+      --bg-soft: #08111f;
+      --surface: #0b1727;
+      --surface-light: #102033;
+      --text: #f4f7fb;
+      --text-soft: #c5d0dc;
+      --muted: #8ea0b4;
+      --line: rgba(164, 186, 210, 0.18);
+      --primary: #68d7c3;
+      --primary-strong: #35bda5;
+      --secondary: #70a8ff;
+      --warning: #f6c76b;
+      --max-width: 1180px;
+      --header-height: 74px;
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+      --transition: 180ms ease;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--header-height) + 20px);
+    }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg);
+      margin: 0;
+      overflow-x: hidden;
       color: var(--text);
-      line-height: 1.5;
+      background:
+        radial-gradient(circle at 82% 3%, rgba(59, 130, 246, 0.12), transparent 28rem),
+        radial-gradient(circle at 10% 20%, rgba(53, 189, 165, 0.08), transparent 24rem),
+        var(--bg);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img,
+    video {
+      display: block;
+      max-width: 100%;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
     }
 
     a {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
-    /* 顶部导航栏（黑色背景 + 白字） */
-    header {
+    button {
+      font: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(104, 215, 195, 0.75);
+      outline-offset: 4px;
+    }
+
+    ::selection {
+      color: #04100d;
+      background: var(--primary);
+    }
+
+    .container {
+      width: min(calc(100% - 40px), var(--max-width));
+      margin-inline: auto;
+    }
+
+    .skip-link {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 50;
-      backdrop-filter: blur(16px);
-      background: rgba(0, 0, 0, 0.9);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+      top: 10px;
+      left: 10px;
+      z-index: 999;
+      padding: 10px 14px;
+      color: #04100d;
+      background: var(--primary);
+      border-radius: 10px;
+      transform: translateY(-160%);
+      transition: transform var(--transition);
     }
 
-    .nav-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0.7rem 1.5rem;
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       02. 顶部导航
+       导航改为真实锚点，支持刷新、复制链接和浏览器前进/后退
+       ============================================================ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      min-height: var(--header-height);
+      background: rgba(5, 10, 18, 0.84);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .nav-shell {
+      min-height: var(--header-height);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 24px;
     }
 
-    .logo-group {
-      display: flex;
+    .brand {
+      display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
+      flex: 0 0 auto;
+      gap: 11px;
     }
 
-    .logo-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #4f46e5, #0ea5e9);
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.7);
+    .brand-mark {
       position: relative;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
       overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 28%, #9ff3e4 0 9%, transparent 10%),
+        conic-gradient(from 210deg, var(--secondary), var(--primary), #3b82f6, var(--secondary));
+      box-shadow: 0 0 28px rgba(104, 215, 195, 0.22);
     }
 
-    .logo-mark::after {
-      content: "";
+    .brand-mark::after {
       position: absolute;
-      inset: 7px;
-      border-radius: 999px;
-      border: 2px solid rgba(248, 250, 252, 0.8);
-      opacity: 0.9;
+      inset: 8px;
+      content: "";
+      border: 1.5px solid rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
     }
 
-    .logo-text-main {
-      font-weight: 700;
+    .brand-copy {
+      line-height: 1.18;
+    }
+
+    .brand-name {
+      display: block;
       font-size: 1rem;
-      letter-spacing: 0.03em;
-      color: var(--primary);
+      font-weight: 760;
+      letter-spacing: 0.04em;
     }
 
-    .logo-text-sub {
-      font-size: 0.72rem;
+    .brand-subtitle {
+      display: block;
+      margin-top: 4px;
       color: var(--muted);
+      font-size: 0.71rem;
+      letter-spacing: 0.015em;
     }
 
-    nav ul {
+    .site-nav ul {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
       list-style: none;
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      font-size: 0.9rem;
     }
 
-    nav a {
-      padding: 0.2rem 0;
+    .site-nav a {
       position: relative;
-      color: #e5e7eb;
+      display: block;
+      padding: 9px 10px;
+      color: var(--text-soft);
+      font-size: 0.88rem;
+      font-weight: 620;
+      transition: color var(--transition), background var(--transition);
+      border-radius: 10px;
     }
 
-    nav a::after {
-      content: "";
+    .site-nav a:hover,
+    .site-nav a.active {
+      color: var(--text);
+      background: rgba(104, 215, 195, 0.08);
+    }
+
+    .site-nav a.active::after {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -0.35rem;
+      right: 10px;
+      bottom: 3px;
+      left: 10px;
       height: 2px;
+      content: "";
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
       border-radius: 999px;
-      background: linear-gradient(90deg, #2563eb, #22c55e);
-      transform-origin: center;
-      transform: scaleX(0);
-      transition: transform 0.2s ease-out;
     }
 
-    nav a:hover::after,
-    nav a.active::after {
-      transform: scaleX(1);
+    .menu-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      color: var(--text);
+      cursor: pointer;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
     }
 
-    /* 主体 */
+    .menu-toggle span,
+    .menu-toggle::before,
+    .menu-toggle::after {
+      display: block;
+      width: 19px;
+      height: 2px;
+      margin: 4px auto;
+      content: "";
+      background: currentColor;
+      border-radius: 999px;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+
+    .menu-toggle[aria-expanded="true"] span {
+      opacity: 0;
+    }
+
+    .menu-toggle[aria-expanded="true"]::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .menu-toggle[aria-expanded="true"]::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    /* ============================================================
+       03. 通用栏目样式
+       ============================================================ */
     main {
-      padding-top: 70px;
+      overflow: clip;
     }
 
-    /* Home：轮播 + 底部两个块 */
-    .hero-wrapper {
-      min-height: calc(100vh - 70px);
-      display: flex;
-      flex-direction: column;
+    .section {
+      position: relative;
+      padding: 104px 0;
+      scroll-margin-top: calc(var(--header-height) + 12px);
+    }
+
+    .section + .section {
+      border-top: 1px solid rgba(164, 186, 210, 0.09);
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 44px;
+    }
+
+    .section-heading.centered {
+      margin-right: auto;
+      margin-left: auto;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
       align-items: center;
-      justify-content: flex-start;
-      padding: 1.5rem;
-      gap: 1.8rem;
+      gap: 9px;
+      margin: 0 0 10px;
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 760;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 22px;
+      height: 1px;
+      content: "";
+      background: currentColor;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(2rem, 4.2vw, 3.35rem);
+      font-weight: 760;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+    }
+
+    .section-intro {
+      max-width: 700px;
+      margin: 18px 0 0;
+      color: var(--text-soft);
+      font-size: 1.06rem;
+    }
+
+    .centered .section-intro {
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 10px 17px;
+      color: #03110e;
+      font-size: 0.9rem;
+      font-weight: 760;
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: 12px;
+      transition: transform var(--transition), background var(--transition), border-color var(--transition);
+    }
+
+    .button:hover {
+      background: #8be6d6;
+      transform: translateY(-2px);
+    }
+
+    .button.secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--line);
+    }
+
+    .button.secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(104, 215, 195, 0.45);
+    }
+
+    /* ============================================================
+       04. 首页首屏与轮播
+       ============================================================ */
+    .hero {
+      padding: 42px 0 96px;
+      scroll-margin-top: var(--header-height);
+    }
+
+    .hero-copy {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+      align-items: end;
+      gap: 46px;
+      padding: 56px 0 38px;
+    }
+
+    .hero-kicker {
+      margin: 0 0 15px;
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 760;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 840px;
+      margin: 0;
+      font-size: clamp(2.6rem, 6.6vw, 5.9rem);
+      font-weight: 780;
+      letter-spacing: -0.055em;
+      line-height: 0.96;
+    }
+
+    .hero h1 span {
+      display: block;
+      color: var(--text-soft);
+      font-size: 0.52em;
+      font-weight: 620;
+      letter-spacing: -0.03em;
+      line-height: 1.14;
+      margin-top: 14px;
+    }
+
+    .hero-summary {
+      margin: 0 0 24px;
+      color: var(--text-soft);
+      font-size: 1.04rem;
     }
 
     .hero-slider {
       position: relative;
-      width: 100%;
-      max-width: 1120px;
-      height: min(60vh, 520px);
-      border-radius: 26px;
       overflow: hidden;
-      background: radial-gradient(circle at 0% 0%, #0f172a, #020617);
-      box-shadow: var(--shadow-soft);
+      aspect-ratio: 14 / 5;
+      min-height: 360px;
+      background: #02060b;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      isolation: isolate;
     }
 
-    .slides {
-      width: 100%;
-      height: 100%;
-      position: relative;
-    }
-
+    .slides,
     .slide {
       position: absolute;
       inset: 0;
+    }
+
+    .slide {
+      visibility: hidden;
       opacity: 0;
-      transition: opacity 0.6s ease-in-out;
+      transition: opacity 650ms ease, visibility 650ms ease;
     }
 
     .slide.active {
+      visibility: visible;
       opacity: 1;
     }
 
     .slide img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       object-position: center;
-      filter: saturate(1.1);
-      transform: scale(1.02);
     }
 
-    .hero-overlay {
+    .slide::after {
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(0, 0, 0, 0.7),
-        rgba(15, 23, 42, 0.35),
-        rgba(0, 0, 0, 0.8)
-      );
+      content: "";
+      background:
+        linear-gradient(180deg, rgba(2, 6, 11, 0.12) 26%, rgba(2, 6, 11, 0.9) 100%),
+        linear-gradient(90deg, rgba(2, 6, 11, 0.42), transparent 45%);
+    }
+
+    .slide-caption {
+      position: absolute;
+      right: 76px;
+      bottom: 30px;
+      left: 76px;
+      z-index: 2;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .slide-title {
+      max-width: 620px;
+      margin: 0;
+      font-size: clamp(1.35rem, 2.8vw, 2.45rem);
+      font-weight: 720;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+    }
+
+    .slide-meta {
+      flex: 0 0 auto;
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 0.84rem;
+      text-align: right;
+    }
+
+    .slide-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 13px;
+      margin-bottom: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 9px;
+      color: #dce7f3;
+      font-size: 0.72rem;
+      background: rgba(3, 10, 18, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+    }
+
+    .tag::before {
+      width: 5px;
+      height: 5px;
+      content: "";
+      background: var(--primary);
+      border-radius: 50%;
+    }
+
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 5;
+      display: grid;
+      width: 44px;
+      height: 44px;
+      color: var(--text);
+      cursor: pointer;
+      background: rgba(5, 10, 18, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 50%;
+      place-items: center;
+      transform: translateY(-50%);
+      backdrop-filter: blur(10px);
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    .slider-arrow:hover {
+      background: rgba(16, 32, 51, 0.95);
+      transform: translateY(-50%) scale(1.04);
+    }
+
+    .slider-arrow.prev {
+      left: 17px;
+    }
+
+    .slider-arrow.next {
+      right: 17px;
+    }
+
+    .slider-dots {
+      position: absolute;
+      top: 20px;
+      right: 22px;
+      z-index: 5;
+      display: flex;
+      gap: 7px;
+      padding: 8px;
+      background: rgba(3, 10, 18, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+    }
+
+    .slider-dot {
+      width: 9px;
+      height: 9px;
+      padding: 0;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.38);
+      border: 0;
+      border-radius: 50%;
+      transition: width var(--transition), background var(--transition);
+    }
+
+    .slider-dot.active {
+      width: 25px;
+      background: var(--primary);
+      border-radius: 999px;
+    }
+
+    .hero-facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: 18px;
+      margin-bottom: 0;
+      padding: 0;
+      overflow: hidden;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      list-style: none;
+    }
+
+    .hero-fact {
+      min-height: 112px;
+      padding: 22px 24px;
+      background: rgba(11, 23, 39, 0.92);
+    }
+
+    .hero-fact strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 1rem;
+    }
+
+    .hero-fact span {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    /* ============================================================
+       05. About 与 Contact 摘要
+       ============================================================ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(310px, 0.65fr);
+      gap: 30px;
+    }
+
+    .panel {
+      padding: clamp(26px, 4vw, 44px);
+      background: linear-gradient(145deg, rgba(16, 32, 51, 0.9), rgba(8, 17, 31, 0.94));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.16);
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin: 0 0 14px;
+      line-height: 1.2;
+    }
+
+    .panel h2 {
+      font-size: clamp(1.65rem, 3vw, 2.45rem);
+      letter-spacing: -0.025em;
+    }
+
+    .panel h3 {
+      font-size: 1.25rem;
+    }
+
+    .panel p {
+      margin: 0;
+      color: var(--text-soft);
+    }
+
+    .panel p + p {
+      margin-top: 14px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 14px;
+      margin: 22px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .contact-list li {
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .contact-label {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 720;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .text-link {
+      color: var(--primary);
+      text-decoration: underline;
+      text-decoration-color: rgba(104, 215, 195, 0.34);
+      text-underline-offset: 4px;
+    }
+
+    .text-link:hover {
+      text-decoration-color: currentColor;
+    }
+
+    /* ============================================================
+       06. Research
+       每个方向采用“文字 + 媒体”的结构，后期复制 research-card 即可扩展
+       ============================================================ */
+    .research-list {
+      display: grid;
+      gap: 30px;
+    }
+
+    .research-card {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+      min-height: 420px;
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+    }
+
+    .research-card:nth-child(even) {
+      grid-template-columns: minmax(0, 1.28fr) minmax(280px, 0.72fr);
+    }
+
+    .research-card:nth-child(even) .research-copy {
+      order: 2;
+    }
+
+    .research-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(28px, 5vw, 52px);
+    }
+
+    .research-index {
+      margin: 0 0 18px;
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .research-title {
+      margin: 0;
+      font-size: clamp(1.55rem, 3vw, 2.35rem);
+      letter-spacing: -0.035em;
+      line-height: 1.12;
+    }
+
+    .research-description {
+      margin: 18px 0 0;
+      color: var(--text-soft);
+    }
+
+    .research-media-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      min-width: 0;
+      background: var(--line);
+    }
+
+    .research-media-grid.one-item {
+      grid-template-columns: 1fr;
+    }
+
+    .research-media-grid.three-items > :first-child {
+      grid-column: 1 / -1;
+    }
+
+    .research-media {
+      width: 100%;
+      height: 100%;
+      min-height: 210px;
+      object-fit: cover;
+      background: #02060b;
+    }
+
+    video.research-media {
+      object-fit: contain;
+    }
+
+    /* ============================================================
+       07. People
+       当前成员尚未完全录入，先展示 PI、招募信息和团队照片
+       ============================================================ */
+    .people-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 30px;
+    }
+
+    .pi-card {
+      display: grid;
+      grid-template-columns: minmax(190px, 0.75fr) minmax(0, 1.25fr);
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+    }
+
+    .pi-photo {
+      width: 100%;
+      height: 100%;
+      min-height: 410px;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .pi-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .pi-copy h3 {
+      margin: 0;
+      font-size: 1.85rem;
+      letter-spacing: -0.025em;
+    }
+
+    .pi-role {
+      margin: 7px 0 0;
+      color: var(--primary);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .pi-affiliation {
+      margin: 15px 0 0;
+      color: var(--text-soft);
+      font-size: 0.9rem;
+    }
+
+    .people-side {
+      display: grid;
+      gap: 30px;
+    }
+
+    .recruit-card {
+      padding: 30px;
+      background:
+        radial-gradient(circle at 100% 0, rgba(104, 215, 195, 0.12), transparent 18rem),
+        var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+    }
+
+    .recruit-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.35rem;
+    }
+
+    .recruit-card p {
+      margin: 0 0 20px;
+      color: var(--text-soft);
+    }
+
+    .photo-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .photo-strip img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+    }
+
+    /* 预留成员列表样式：添加成员时取消 HTML 中模板的注释即可 */
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .member-card {
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+    }
+
+    .member-card img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+    }
+
+    .member-card-copy {
+      padding: 18px;
+    }
+
+    .member-card h3,
+    .member-card p {
+      margin: 0;
+    }
+
+    .member-card p {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    /* ============================================================
+       08. Publications
+       ============================================================ */
+    .publication-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .publication-card {
+      display: grid;
+      grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+      gap: 30px;
+      align-items: center;
+      padding: 24px;
+      background: rgba(11, 23, 39, 0.78);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      transition: border-color var(--transition), transform var(--transition), background var(--transition);
+    }
+
+    .publication-card:hover {
+      background: rgba(16, 32, 51, 0.82);
+      border-color: rgba(104, 215, 195, 0.34);
+      transform: translateY(-2px);
+    }
+
+    .publication-image-wrap {
+      display: grid;
+      min-height: 190px;
+      padding: 12px;
+      overflow: hidden;
+      background: #ffffff;
+      border-radius: var(--radius-sm);
+      place-items: center;
+    }
+
+    .publication-image-wrap img {
+      width: 100%;
+      max-height: 205px;
+      object-fit: contain;
+    }
+
+    .publication-meta {
+      margin: 0 0 8px;
+      color: var(--primary);
+      font-size: 0.76rem;
+      font-weight: 760;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .publication-title {
+      margin: 0;
+      font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+      letter-spacing: -0.02em;
+      line-height: 1.22;
+    }
+
+    .publication-authors,
+    .publication-venue {
+      margin: 10px 0 0;
+      color: var(--text-soft);
+      font-size: 0.92rem;
+    }
+
+    .publication-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 16px;
+    }
+
+    .publication-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 11px;
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 720;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+    }
+
+    .publication-links a:hover {
+      color: #03110e;
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .additional-publications {
+      margin-top: 42px;
+      padding: clamp(24px, 4vw, 38px);
+      background: rgba(8, 17, 31, 0.7);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+    }
+
+    .additional-publications h3 {
+      margin: 0 0 18px;
+      font-size: 1.35rem;
+    }
+
+    .additional-publications ol {
+      display: grid;
+      gap: 14px;
+      margin: 0;
+      padding-left: 1.4rem;
+    }
+
+    .additional-publications li {
+      padding-left: 7px;
+      color: var(--text-soft);
+    }
+
+    /* ============================================================
+       09. News 与 Contact
+       ============================================================ */
+    .timeline {
+      max-width: 850px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 125px minmax(0, 1fr);
+      gap: 22px;
+      padding: 24px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .timeline-date {
+      color: var(--primary);
+      font-size: 0.82rem;
+      font-weight: 760;
+      letter-spacing: 0.04em;
+    }
+
+    .timeline-copy {
+      margin: 0;
+      color: var(--text-soft);
+    }
+
+    .contact-section {
+      padding-bottom: 84px;
+    }
+
+    .contact-banner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+      gap: 44px;
+      padding: clamp(30px, 6vw, 62px);
+      background:
+        radial-gradient(circle at 92% 15%, rgba(112, 168, 255, 0.2), transparent 18rem),
+        radial-gradient(circle at 10% 100%, rgba(104, 215, 195, 0.13), transparent 22rem),
+        var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-banner h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    .contact-banner p {
+      margin: 18px 0 0;
+      color: var(--text-soft);
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    /* ============================================================
+       10. 页脚
+       ============================================================ */
+    .site-footer {
+      padding: 26px 0 34px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 3rem 3.2rem;
-      color: var(--text);
+      gap: 20px;
     }
 
-    .hero-text {
-      max-width: 460px;
+    .visitor-counter span {
+      color: var(--text-soft);
     }
 
-    .hero-kicker {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      opacity: 0.85;
-      margin-bottom: 0.6rem;
+    .noscript-message {
+      margin: 0;
+      padding: 12px;
+      color: var(--text-soft);
+      text-align: center;
+      background: var(--bg-soft);
     }
 
-    .hero-title {
-      font-size: 2.2rem;
-      font-weight: 750;
-      letter-spacing: 0.04em;
-      line-height: 1.1;
-      margin-bottom: 0.6rem;
-    }
-
-    .hero-subtitle {
-      font-size: 0.95rem;
-      opacity: 0.92;
-      margin-bottom: 1.2rem;
-    }
-
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-
-    .hero-tag {
-      font-size: 0.72rem;
-      padding: 0.25rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      backdrop-filter: blur(6px);
-      background: rgba(15, 23, 42, 0.6);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .hero-tag-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #22c55e;
-    }
-
-    .hero-badge {
-      position: absolute;
-      right: 2.8rem;
-      top: 3.2rem;
-      padding: 0.55rem 0.9rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      font-size: 0.78rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-    }
-
-    .hero-badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #a5b4fc, #4f46e5);
-      box-shadow: 0 0 10px rgba(129, 140, 248, 0.8);
-    }
-
-    /* 轮播切换按钮 */
-    .hero-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      background: rgba(15, 23, 42, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.2rem;
-      color: #e5e7eb;
-      z-index: 10;
-      backdrop-filter: blur(8px);
-      transition: all 0.15s ease-out;
-    }
-
-    .hero-arrow:hover {
-      background: rgba(15, 23, 42, 0.95);
-      transform: translateY(-50%) translateX(1px);
-    }
-
-    .hero-arrow.prev {
-      left: 1.1rem;
-    }
-
-    .hero-arrow.next {
-      right: 1.1rem;
-    }
-
-    /* 轮播小圆点 */
-    .hero-dots {
-      position: absolute;
-      bottom: 1.4rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 0.5rem;
-      padding: 0.35rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(148, 163, 184, 0.8);
-    }
-
-    .hero-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: rgba(226, 232, 240, 0.9);
-      cursor: pointer;
-      transition: all 0.2s ease-out;
-      position: relative;
-    }
-
-    .hero-dot::after {
-      content: "";
-      position: absolute;
-      inset: -4px;
-      border-radius: inherit;
-      border: 1px solid transparent;
-      transition: border-color 0.2s ease-out;
-    }
-
-    .hero-dot.active {
-      background: #22c55e;
-      transform: scale(1.25);
-    }
-
-    .hero-dot.active::after {
-      border-color: rgba(52, 211, 153, 0.6);
-    }
-
-    /* Home 底部两块：About + Contact */
-    .home-bottom {
-      width: 100%;
-      max-width: 1120px;
-      display: flex;
-      gap: 1.5rem;
-      align-items: stretch;
-    }
-
-    .home-card {
-      flex: 1;
-      background: var(--card);
-      border-radius: 20px;
-      padding: 1.6rem 1.8rem;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.8);
-    }
-
-    /* 左边 About 稍微宽一些 */
-    #home-about {
-      flex: 1.8;
-    }
-
-    .home-card-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-      color: var(--primary);
-    }
-
-    .home-card-sub {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 0.9rem;
-    }
-
-    .home-card-body {
-      font-size: 0.9rem;
-      color: var(--text);
-    }
-
-    .home-card-body p + p {
-      margin-top: 0.6rem;
-    }
-
-    /* 其他内容页（Research / People / Publications / News） */
-    .content-wrapper {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 2.5rem 1.5rem 3rem;
-      display: none;
-    }
-
-    .content-section {
-      display: none;
-      margin-bottom: 2.5rem;
-      padding: 1.8rem 2rem;
-      border-radius: var(--radius-lg);
-      background: var(--card);
-      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-    }
-
-    .content-section.active {
-      display: block;
-    }
-
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin-bottom: 0.6rem;
-      color: var(--primary);
-    }
-
-    .section-subtitle {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 1.2rem;
-    }
-
-    .section-body {
-      font-size: 0.92rem;
-      color: var(--text);
-    }
-
-    .section-body p + p {
-      margin-top: 0.7rem;
-    }
-
-    /* 响应式 */
-    @media (max-width: 900px) {
-      .hero-overlay {
-        padding: 2rem 1.8rem;
-        flex-direction: column;
-        justify-content: flex-end;
-        gap: 1.3rem;
+    /* ============================================================
+       11. 响应式：平板
+       ============================================================ */
+    @media (max-width: 980px) {
+      :root {
+        --header-height: 68px;
       }
 
-      .home-bottom {
-        flex-direction: column;
-      }
-
-      #home-about {
-        flex: 1;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .nav-inner {
-        padding-inline: 1rem;
-      }
-
-      nav ul {
-        gap: 0.7rem;
-        font-size: 0.78rem;
-      }
-
-      .hero-title {
-        font-size: 1.7rem;
-      }
-
-      .hero-subtitle {
-        font-size: 0.88rem;
-      }
-
-      .hero-arrow {
+      .brand-subtitle {
         display: none;
       }
 
-      .content-section {
-        padding: 1.4rem 1.2rem;
+      .site-nav a {
+        padding-inline: 8px;
+        font-size: 0.82rem;
+      }
+
+      .hero-copy,
+      .about-grid,
+      .people-grid,
+      .contact-banner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        gap: 24px;
+      }
+
+      .hero-summary {
+        max-width: 720px;
+      }
+
+      .research-card,
+      .research-card:nth-child(even) {
+        grid-template-columns: 1fr;
+      }
+
+      .research-card:nth-child(even) .research-copy {
+        order: initial;
+      }
+
+      .research-media-grid {
+        min-height: 440px;
       }
     }
 
-    @media (max-width: 480px) {
-      .logo-text-sub {
+    /* ============================================================
+       12. 响应式：手机
+       ============================================================ */
+    @media (max-width: 760px) {
+      .container {
+        width: min(calc(100% - 28px), var(--max-width));
+      }
+
+      .section {
+        padding: 76px 0;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .site-nav {
+        position: absolute;
+        top: calc(100% + 1px);
+        right: 14px;
+        left: 14px;
         display: none;
+        padding: 10px;
+        background: rgba(8, 17, 31, 0.98);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .site-nav.open {
+        display: block;
+      }
+
+      .site-nav ul {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+      }
+
+      .site-nav a {
+        padding: 11px 12px;
+        font-size: 0.9rem;
+      }
+
+      .hero {
+        padding-top: 20px;
+        padding-bottom: 72px;
+      }
+
+      .hero-copy {
+        padding: 38px 0 30px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.45rem, 14vw, 4.2rem);
+      }
+
+      .hero-slider {
+        aspect-ratio: auto;
+        min-height: 510px;
+        border-radius: 20px;
+      }
+
+      .slide img {
+        object-position: center;
+      }
+
+      .slide-caption {
+        right: 22px;
+        bottom: 27px;
+        left: 22px;
+        display: block;
+      }
+
+      .slide-title {
+        max-width: 100%;
+      }
+
+      .slide-meta {
+        margin-top: 15px;
+        text-align: left;
+      }
+
+      .slider-arrow {
+        top: auto;
+        bottom: 115px;
+        width: 39px;
+        height: 39px;
+        transform: none;
+      }
+
+      .slider-arrow:hover {
+        transform: scale(1.04);
+      }
+
+      .hero-facts {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-fact {
+        min-height: auto;
+      }
+
+      .research-media-grid,
+      .research-media-grid.three-items {
+        display: flex;
+        min-height: 0;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+      }
+
+      .research-media {
+        width: 88%;
+        min-width: 88%;
+        height: 270px;
+        min-height: 270px;
+        scroll-snap-align: start;
+      }
+
+      .pi-card {
+        grid-template-columns: 1fr;
+      }
+
+      .pi-photo {
+        max-height: 520px;
+      }
+
+      .photo-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-strip img {
+        aspect-ratio: 16 / 10;
+      }
+
+      .publication-card {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .publication-image-wrap {
+        min-height: 170px;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
       }
     }
-    #publications li {
-    line-height: 1.6;  /* 行间距，可调到 1.7 / 1.8 */
-    margin-bottom: 8px; /* 每条之间再拉开一点距离 */
-}
 
-#publications p {
-    line-height: 1.6;
-}
-.pub-item {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 40px;
-  border-bottom: 1px solid #555;
-  padding-bottom: 30px;
-}
-
-.pub-image img {
-  width: 260px;
-  height: auto;
-  border-radius: 6px;
-}
-
-.pub-content {
-  flex: 1;
-  color: #eee;
-}
-
-.pub-meta {
-  font-size: 0.9rem;
-  color: #aaa;
-  margin-bottom: 6px;
-}
-
-.pub-title {
-  font-size: 1.4rem;
-  margin: 6px 0 12px;
-  line-height: 1.35;
-}
-
-.pub-authors {
-  font-size: 1rem;
-  margin-bottom: 6px;
-}
-
-.pub-venue {
-  font-size: 1rem;
-  margin-bottom: 10px;
-}
-
-.pub-links a {
-  color: #6EB6FF;
-  margin-right: 10px;
-}
-
-.pub-award {
-  margin-top: 8px;
-  color: gold;
-  font-weight: bold;
-}
-    .pub-item {
-  display: flex;
-  gap: 24px;
-  align-items: center;      /* 垂直居中关键 */
-  padding: 30px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.pub-image img {
-  max-height: 200px;        /* 保持统一比例 */
-  width: auto;
-  object-fit: contain;      /* 避免被拉伸 */
-  border-radius: 6px;       /* 更美观 */
-}
-.pub-image img {
-  width: 320px;        /* 统一宽度 */
-  height: auto;        /* 保持比例自动缩放 */
-  object-fit: contain; /* 防止裁切 */
-  display: block;
-}
-    /* 统一左侧图片区域的宽度 */
-.pub-item {
-  display: flex;
-  align-items: center;      /* 垂直居中 */
-  gap: 24px;
-}
-
-/* 固定左侧图片“容器”的宽度 */
-.pub-image {
-  flex: 0 0 320px;          /* 左侧列固定 320px 宽 */
-  max-width: 320px;
-}
-
-/* 图片自己始终铺满这个 320px 宽度，等比例缩放 */
-.pub-image img {
-  width: 100%;              /* 填满容器 */
-  height: auto;             /* 保持比例 */
-  object-fit: contain;      /* 不裁剪 */
-  display: block;
-}
-/* People Section */
-.people-section {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 80px 24px 120px;
-}
-
-.people-section img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.section-title {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 32px;
-}
-
-.people-subtitle {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 40px 0 24px;
-}
-
-/* Director 布局：左边大头像，右边文字 */
-.person-card.director {
-  display: grid;
-  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
-  gap: 32px;
-  align-items: flex-start;
-  margin-bottom: 40px;
-}
-
-.person-card.director .person-photo {
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  background: #111;
-}
-
-/* Members 的网格 */
-.people-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 40px 32px;
-}
-
-.person-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.person-card .person-photo {
-  aspect-ratio: 3 / 4; /* 统一头像比例 */
-  overflow: hidden;
-  background: #111;
-  margin-bottom: 12px;
-}
-
-.person-info {
-  font-size: 14px;
-}
-
-.person-started {
-  font-size: 12px;
-  opacity: 0.7;
-  margin-bottom: 8px;
-}
-
-.person-name {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.person-name a {
-  color: #fff;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-  padding-bottom: 2px;
-}
-
-.person-name a:hover {
-  border-bottom-color: #fff;
-}
-
-.person-role {
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-/* 小屏幕下 director 变成上下排列 */
-@media (max-width: 768px) {
-  .person-card.director {
-    grid-template-columns: 1fr;
-    max-width: 420px;
-  }
-}
-/* 整体左右两列布局：左 PI+成员，右团队合照 */
-.people-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 2.5fr) minmax(260px, 1fr); /* 左约 2/3，右约 1/3 */
-  gap: 32px;
-  align-items: flex-start;
-}
-
-/* 左侧整体 */
-.people-left {
-  display: flex;
-  flex-direction: column;
-}
-
-/* PI 行：左照片 + 右信息卡片 */
-.pi-row {
-  display: grid;
-  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
-  gap: 28px;
-  align-items: center;
-  margin-bottom: 32px;
-}
-
-.pi-photo {
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  background: #111;
-  border-radius: 14px;
-}
-
-.pi-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* 右侧 PI 信息卡片 */
-.pi-info-box {
-  background: #020617;
-  border-radius: 16px;
-  padding: 16px 20px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
-  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.85);
-}
-
-.pi-name {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 6px 0;
-}
-
-.pi-name a {
-  color: #fff;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-  padding-bottom: 2px;
-}
-
-.pi-name a:hover {
-  border-bottom-color: #fff;
-}
-
-.members-title {
-  margin-top: 8px;
-}
-
-/* 右侧团队合照区域 */
-/* 右侧整列区域 */
-.group-column {
-  background: rgba(2, 6, 23, 0.7);
-  border-left: 1px solid rgba(148,163,184,0.4);
-  padding: 32px 24px;
-  border-radius: 0; /* 不要卡片样式 */
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* 右侧合照标题 */
-.group-column .people-subtitle {
-  margin-top: 0;
-}
-
-/* 合照图片容器：自动撑满 */
-.group-photo-inner {
-  flex: 1; /* 自动填满右侧整列剩余空间 */
-  border-radius: 12px;
-  overflow: hidden;
-  background: #020617;
-}
-
-/* 合照图片：完整铺满（你可以改成 contain） */
-/* 右侧整列不变 */
-.group-column {
-  background: rgba(2, 6, 23, 0.7);
-  border-left: 1px solid rgba(148,163,184,0.4);
-  padding: 32px 24px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* 多张竖排 + 滚动条 */
-.group-photo-inner {
-  flex: 1;                         /* 占满右侧剩余高度 */
-  border-radius: 12px;
-  background: #020617;
-  padding-right: 4px;              /* 给滚动条留一点空隙 */
-  overflow-y: auto;                /* 关键：竖向滚动 */
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* 每一张合照 */
-.group-photo-inner img {
-  width: 100%;
-  height: auto;                    /* 不再撑满高度 */
-  display: block;
-  border-radius: 10px;
-  object-fit: cover;               /* 或者 contain，看你喜好 */
-}
-.research-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 60px;
-  margin-top: 40px;
-}
-
-.research-item {
-  max-width: 900px;
-}
-.section-subtitle {
-  text-align: center;
-  font-size: 1.4rem;        /* 明显变大 */
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.88);
-  margin: 12px 0 24px;      /* 和下面 research 拉开 */
-}
-    
-.research-title {
-  font-size: 1.2rem;      /* 明显小于 section */
-  font-weight: 500;
-  text-align: left;
-  margin-top: 20px;        /* 和图片的关系 */
-  margin-bottom: 28px;
-  line-height: 1.4;
-  color: #ffffff;
-}
-
-
-.research-image {
-  width: 92%;              /* 关键：不要 100% */
-  max-width: 980px;        /* 防止大屏太宽 */
-  margin: 24px auto 0;     /* 居中 */
-  border-radius: 16px;
-  display: block;
-}
-
-  border-radius: 16px;
-  margin-bottom: 16px;
-}
-
-.research-description {
-  margin-top: 0;    /* 原来一般是 16–20px，这里明显拉开 */
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #d0d0d0;
-}
-
-    
-.research-media-list {
-  width: 100%;
-  height: 420px;        /* 固定显示窗口 */
-  overflow-y: auto;     /* 恢复上下滑动 */
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  padding-right: 4px;
-}
-
-.research-media {
-  width: 100%;
-  height: 410px;        /* 单张图片/视频尺寸 */
-  object-fit: contain;  /* 完整显示，不裁切 */
-
-  border-radius: 16px;
-  background: #000;
-
-  flex-shrink: 0;
-  display: block;
-}
-/* ===== Hero 下方悬浮卡片 ===== */
-
-.hero-floating-card {
-    position: relative;
-
-margin: 4px auto 6px auto;
-width: min(100%, 1120px);
-    z-index: 20;
-
-    padding: 26px 40px;
-
-    border-radius: 28px;
-
-    background: rgba(8, 14, 32, 0.72);
-
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-
-    border: 1px solid rgba(255,255,255,0.14);
-
-    box-shadow:
-        0 10px 40px rgba(0,0,0,0.35),
-        inset 0 1px 0 rgba(255,255,255,0.08);
-
-    text-align: center;
-}
-
-.floating-title {
-    font-size: clamp(24px, 2.2vw, 42px);
-
-    font-weight: 750;
-
-    color: white;
-
-    line-height: 1.15;
-
-    margin-bottom: 12px;
-
-    white-space: nowrap;   /* 强制不换行 */
-}
-
-.floating-text {
-    font-size: 18px;
-    line-height: 1.7;
-
-    color: rgba(255,255,255,0.82);
-
-    max-width: 760px;
-
-    margin: 0 auto;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.hero-topline {
-  position: absolute;
-  top: 24px;
-  left: 72px;
-  right: 72px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-/* 底部关键词 */
-.hero-kicker {
-  margin: 0;
-  color: #f2f4ff;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  white-space: nowrap;
-  opacity: 0.95;
-}
-
-.hero-badge {
-  position: static;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  white-space: nowrap;
-}
-
-/* 底部关键词 */
-.slide-tags {
-  position: absolute;
-  left: 50%;
-  bottom: 58px;
-  transform: translateX(-50%);
-
-  display: none;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.slide-tags.active {
-  display: flex;
-}
-
-.slide-caption {
-  width: 100%;
-
-  margin-top: 14px;
-
-  text-align: center;
-
-  color: rgba(255,255,255,0.82);
-
-  font-size: 14px;
-
-  line-height: 1.5;
-
-  letter-spacing: 0.03em;
-}
-    
-
-/* 网站底部实时访客数量：设置为很小、低调的一行文字 */
-.visitor-counter-footer {
-  padding: 0.8rem 1rem 1.2rem;
-  text-align: center;
-  font-size: 0.78rem;
-  color: var(--muted);
-}
-
-.visitor-counter-footer span {
-  color: var(--primary);
-}
-
-/* =========================
-   MOBILE FIX
-========================= */
-
-@media screen and (max-width: 768px) {
-
-  * {
-    box-sizing: border-box;
-  }
-
-  html,
-  body {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden !important;
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  section,
-  .section,
-  .container,
-  .content,
-  .research,
-  .people,
-  .publications {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .nav,
-  .navbar,
-  header {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: auto;
-  }
-
-  .nav-links {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    white-space: nowrap !important;
-  }
-
-  .research-container,
-  .research-grid,
-  .people-grid,
-  .team-grid,
-  .members-grid,
-  .publication-list,
-  .publications-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .research-item,
-  .person-card,
-  .member-card,
-  .team-member,
-  .publication-item,
-  .publication-card {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  img,
-  video {
-    max-width: 100% !important;
-    height: auto !important;
-  }
-
-  .research-media-list {
-    width: 100% !important;
-    height: 240px !important;
-    overflow-y: auto !important;
-  }
-
-  .research-media {
-    width: 100% !important;
-    height: 160px !important;
-    object-fit: contain !important;
-  }
-
-  .publication-image,
-  .publication-img {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .publication-content,
-  .publication-info {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-
-  
-
-/* 招生公告外层区域 */
-.recruitment-notice {
-  /* 与上方 Nanjing University 之间的距离，数值越大距离越远 */
-  margin-top: 38px;
-
-  /* 如果不想要外框，可以保持下面几行不写背景和边框 */
-}
-
-/* Open Positions 小标题 */
-.notice-label {
-  /* 让 Open Positions 单独占一行 */
-  display: block;
-
-  /* Open Positions 和下面中文标题之间的距离 */
-  margin-bottom: 10px;
-
-  /* Open Positions 的颜色 */
-  color: #9ca3af;
-
-  /* Open Positions 的字体大小，调大一点 */
-  font-size: 1.08rem;
-
-  /* Open Positions 字体加粗 */
-  font-weight: 700;
-}
-
-/* 中文招生标题链接 */
-.recruitment-notice a {
-  /* 让中文标题也单独成块显示 */
-  display: block;
-
-  /* 中文标题颜色 */
-  color: #f9fafb;
-
-  /* 中文标题字体大小 */
-  font-size: 1.05rem;
-
-  /* 中文标题字体粗细 */
-  font-weight: 700;
-
-  /* 中文标题换行后的行距 */
-  line-height: 1.45;
-
-  /* 去掉链接下划线 */
-  text-decoration: none;
-}
-
-/* 鼠标放上去时的颜色 */
-.recruitment-notice a:hover {
-  color: #22c55e;
-}
-    
+    @media (max-width: 430px) {
+      .brand-copy {
+        max-width: 175px;
+      }
+
+      .brand-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .slide-tags {
+        gap: 5px;
+      }
+
+      .tag {
+        font-size: 0.66rem;
+      }
+
+      .button-row {
+        display: grid;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+
+    /* 尊重用户“减少动态效果”的系统设置 */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
   </style>
 </head>
-<body>
-  <header>
-    <div class="nav-inner">
-      <div class="logo-group">
-        <div class="logo-mark"></div>
-        <div>
-          <div class="logo-text-main">SASM Lab</div>
-          <div class="logo-text-sub">Smart Actuation &amp; Sensing Materials Lab</div>
-        </div>
-      </div>
-      <nav>
-  <ul>
-    <li><a href="#" class="nav-link active" data-target="home">Home</a></li>
-    <li><a href="#" class="nav-link" data-target="research">Research</a></li>
-    <li><a href="#" class="nav-link" data-target="people">People</a></li>
-    <li><a href="#" class="nav-link" data-target="publications">Publications</a></li>
-    <li><a href="#" class="nav-link" data-target="news">News</a></li>
-    <li><a href="#" class="nav-link" data-target="contact-home">Contact</a></li>
-  </ul>
-</nav>
 
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- ============================================================
+       顶部导航
+       新增栏目时：复制一个 li，并让 href 与目标 section 的 id 一致
+       ============================================================ -->
+  <header class="site-header">
+    <div class="container nav-shell">
+      <a class="brand" href="#home" aria-label="SASM Lab home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-copy">
+          <span class="brand-name">SASM Lab</span>
+          <span class="brand-subtitle">Smart Actuation &amp; Sensing Materials Lab</span>
+        </span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-navigation"
+        aria-label="Open navigation menu"
+      >
+        <span></span>
+      </button>
+
+      <nav class="site-nav" id="site-navigation" aria-label="Primary navigation">
+        <ul>
+          <li><a class="nav-link active" href="#home">Home</a></li>
+          <li><a class="nav-link" href="#about">About</a></li>
+          <li><a class="nav-link" href="#research">Research</a></li>
+          <li><a class="nav-link" href="#people">People</a></li>
+          <li><a class="nav-link" href="#publications">Publications</a></li>
+          <li><a class="nav-link" href="#news">News</a></li>
+          <li><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
-
-
-
-
-
-  
-
-  <main>
-    <!-- Home：主图滚动 + 下方 About & Contact -->
-   <section class="hero-wrapper" id="hero-section">
-
-  <div class="hero-slider">
-    <div class="slides">
-      <div class="slide active">
-        <img src="images/research-1.png" alt="SASM Lab research image 1" />
-      </div>
-
-      <div class="slide">
-        <img src="images/selfoscillation-5.jpg" alt="SASM Lab research image 2" />
-      </div>
-      
-      <div class="slide">
-        <img src="images/fiberassembly.jpg" alt="SASM Lab research image 2" />
-      </div>
-
-      <div class="slide">
-        <img src="images/environment sensor-2.jpg" alt="SASM Lab research image 3" />
-      </div>
-    </div>
-
-    <div class="hero-overlay">
-      <div class="hero-topline">
-        <div class="hero-kicker">Nanjing University · Intelligent Materials</div>
-
-        <div class="hero-badge">
-          <span class="hero-badge-dot"></span>
-          Materials-level Intelligence · SASM Lab
-        </div>
-      </div>
-
-      <div class="hero-tags slide-tags active" data-index="0">
-        <span class="hero-tag"><span class="hero-tag-dot"></span>Liquid-crystal polymer</span>
-        <span class="hero-tag"><span class="hero-tag-dot"></span>Optocapillarity</span>
-        <span class="hero-tag"><span class="hero-tag-dot"></span>Programmable assembly</span>
- <div class="slide-caption">
-    Nature Communications, 2020, 11, 5780.
-  </div> 
-      </div>
-
-      <div class="hero-tags slide-tags" data-index="1">
-        <span class="hero-tag"><span class="hero-tag-dot"></span>Lliquid Crystal Elastomer</span>
-        <span class="hero-tag"><span class="hero-tag-dot"></span>Self Oscillation</span>
-        <span class="hero-tag"><span class="hero-tag-dot"></span>Self-winding fiber actuator</span>
-<div class="slide-caption">
-   Nature Communications, 2021, 12, 3211.      
-      </div>        
-      </div>
-      
-  <div class="hero-tags slide-tags" data-index="2">
-        <span class="hero-tag"><span class="hero-tag-dot"></span>Lliquid Crystal Elastomer</span>
-        <span class="hero-tag"><span class="hero-tag-dot"></span>Tubular Soft Actuators</span>
-        <span class="hero-tag"><span class="hero-tag-dot"></span>LCE Fiber</span>
-<div class="slide-caption">
-Science Advances, 2023, 9, eadh3350.   
-      </div>
-    </div>
-
-      <div class="hero-tags slide-tags" data-index="3">
-        <span class="hero-tag"><span class="hero-tag-dot"></span>Distributed sensing</span>
-        <span class="hero-tag"><span class="hero-tag-dot"></span>Chemiluminescent devices</span>
-        <span class="hero-tag"><span class="hero-tag-dot"></span>Environmental monitoring</span>
-<div class="slide-caption">
-2026    
-      </div>
-    </div>
-</div> <!-- 关闭 hero-overlay -->
-    <button class="hero-arrow prev" aria-label="Previous slide">&#10094;</button>
-    <button class="hero-arrow next" aria-label="Next slide">&#10095;</button>
-
-    <div class="hero-dots">
-      <span class="hero-dot active" data-index="0"></span>
-      <span class="hero-dot" data-index="1"></span>
-      <span class="hero-dot" data-index="2"></span>
-      <span class="hero-dot" data-index="3"></span>
-    </div>
-  </div>
-
-
-<!-- ===== 中间悬浮信息卡片 ===== -->
-
-<div class="hero-floating-card">
-    <div class="floating-title">
-        Smart Actuation &amp; Sensing Materials Lab
-    </div>
-
-    <div class="floating-text">
-       Exploring materials-level intelligence through programmable soft actuators,
-              self-sensing systems, and bio-inspired environmental micro-devices.
-    </div>
-</div>
-
-<section class="about-contact">
-
-      
-      <!-- 底部布局：左 About，右 Contact -->
-      <div class="home-bottom">
-        <div class="home-card" id="home-about">
-          <div class="home-card-title">About SASM Lab</div>
-          <div class="home-card-sub">
-            Smart Actuation &amp; Sensing Materials Lab · Nanjing University
+  <main id="main-content">
+    <!-- ==========================================================
+         HOME / 首屏
+         ========================================================== -->
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-copy">
+          <div>
+            <p class="hero-kicker">Nanjing University · Intelligent Materials</p>
+            <h1 id="hero-title">
+              Materials-level Intelligence
+              <span>Smart Actuation &amp; Sensing Materials Lab</span>
+            </h1>
           </div>
-          <div class="home-card-body">
-            <p>
-              The SASM Lab focuses on materials-level intelligence, developing flexible smart materials and devices with integrated self-actuation, self-sensing, and environmental adaptability. Inspired by natural systems, we combine liquid-crystal polymer materials, soft-matter mechanics, and advanced fabrication strategies to create programmable, multimodal soft systems.    </p>
-            <p>
-              Our long-term vision is to establish scalable material platforms for soft robotics, bio-inspired actuation systems, and sustainable environmental and biological sensing, enabling intelligent materials to operate and adapt in complex real-world environments.
+
+          <div>
+            <p class="hero-summary">
+              Exploring materials-level intelligence through programmable soft actuators,
+              self-sensing systems, and bio-inspired environmental microdevices.
             </p>
+            <div class="button-row">
+              <a class="button" href="#research">Explore Research</a>
+              <a class="button secondary" href="#contact">Join the Lab</a>
+            </div>
           </div>
         </div>
 
-        <div class="home-card" id="home-contact">
-          <div class="home-card-title">Contact</div>
-          <div class="home-card-sub">
-            Join us &amp; get in touch
+        <!-- 轮播图：所有现有图片路径保持不变 -->
+        <section class="hero-slider" aria-roledescription="carousel" aria-label="Featured research">
+          <div class="slides" aria-live="polite">
+            <article class="slide active" data-slide="0" aria-hidden="false">
+              <img
+                src="images/research-1.png"
+                alt="Optocapillarity-driven assembly of liquid crystal polymer actuators"
+                width="1400"
+                height="400"
+                fetchpriority="high"
+>
+              <div class="slide-caption">
+                <div>
+                  <h2 class="slide-title">Programmable Assembly of Liquid Crystal Polymer Actuators</h2>
+                  <ul class="slide-tags">
+                    <li class="tag">Liquid-crystal polymer</li>
+                    <li class="tag">Optocapillarity</li>
+                    <li class="tag">Programmable assembly</li>
+                  </ul>
+                </div>
+                <p class="slide-meta">Nature Communications, 2020, 11, 5780.</p>
+              </div>
+            </article>
+
+            <article class="slide" data-slide="1" aria-hidden="true">
+              <img
+                src="images/selfoscillation-5.jpg"
+                alt="Phototunable self-oscillating liquid crystal elastomer system"
+                width="3762"
+                height="1081"
+                loading="lazy"
+                decoding="async"
+>
+              <div class="slide-caption">
+                <div>
+                  <h2 class="slide-title">Phototunable Self-Oscillating Systems</h2>
+                  <ul class="slide-tags">
+                    <li class="tag">Liquid crystal elastomer</li>
+                    <li class="tag">Self-oscillation</li>
+                    <li class="tag">Fiber actuator</li>
+                  </ul>
+                </div>
+                <p class="slide-meta">Nature Communications, 2021, 12, 3211.</p>
+              </div>
+            </article>
+
+            <article class="slide" data-slide="2" aria-hidden="true">
+              <img
+                src="images/fiberassembly.jpg"
+                alt="Bioinspired helical artificial fibrous muscle structured tubular soft actuator"
+                width="3698"
+                height="875"
+                loading="lazy"
+                decoding="async"
+>
+              <div class="slide-caption">
+                <div>
+                  <h2 class="slide-title">Bioinspired Tubular Soft Actuators</h2>
+                  <ul class="slide-tags">
+                    <li class="tag">Liquid crystal elastomer</li>
+                    <li class="tag">Tubular soft actuators</li>
+                    <li class="tag">LCE fiber</li>
+                  </ul>
+                </div>
+                <p class="slide-meta">Science Advances, 2023, 9, eadh3350.</p>
+              </div>
+            </article>
+
+            <article class="slide" data-slide="3" aria-hidden="true">
+              <img
+                src="images/environment sensor-2.jpg"
+                alt="Bio-inspired distributed environmental sensing devices"
+                width="1568"
+                height="494"
+                loading="lazy"
+                decoding="async"
+>
+              <div class="slide-caption">
+                <div>
+                  <h2 class="slide-title">Distributed Environmental Sensing</h2>
+                  <ul class="slide-tags">
+                    <li class="tag">Distributed sensing</li>
+                    <li class="tag">Chemiluminescent devices</li>
+                    <li class="tag">Environmental monitoring</li>
+                  </ul>
+                </div>
+                <p class="slide-meta">Bio-inspired sensing platforms · 2026</p>
+              </div>
+            </article>
           </div>
-          <div class="home-card-body">
-            <p>Email: zhiminghu@nju.edu.cn</p>
-            <p>School of Advanced Manufacturing Engineering,</p>
-            <p>Nanjing University (Suzhou Campus)</p>
 
-            <!-- 招生公告区域开始 -->
- <div class="recruitment-notice" style="margin-top: 30px;">
-    <!-- 招生公告的小标题 -->
-<span class="notice-label" style="display: block; margin-bottom: 10px; font-size: 1.12rem; font-weight: 700; color: #9ca3af;">
-    Open Positions
-  </span>
+          <button class="slider-arrow prev" type="button" aria-label="Previous slide">&#10094;</button>
+          <button class="slider-arrow next" type="button" aria-label="Next slide">&#10095;</button>
 
-    <!-- 招生公告链接：点击后在新窗口打开 files 文件夹中的 recruitment.pdf -->
-    <a href="PDFs/招生2026.pdf" target="_blank">
-      智能驱动与感知材料实验室诚招硕士/博士/博士后/科研助理
-    </a>
-  </div>
-  <!-- 招生公告区域结束 -->
+          <div class="slider-dots" role="group" aria-label="Choose a slide">
+            <button class="slider-dot active" type="button" data-index="0" aria-label="Show slide 1" aria-pressed="true"></button>
+            <button class="slider-dot" type="button" data-index="1" aria-label="Show slide 2" aria-pressed="false"></button>
+            <button class="slider-dot" type="button" data-index="2" aria-label="Show slide 3" aria-pressed="false"></button>
+            <button class="slider-dot" type="button" data-index="3" aria-label="Show slide 4" aria-pressed="false"></button>
+          </div>
+        </section>
 
-</div>         
+        <ul class="hero-facts">
+          <li class="hero-fact">
+            <strong>Smart Actuation</strong>
+            <span>Programmable deformation, multimodal response, and autonomous motion.</span>
+          </li>
+          <li class="hero-fact">
+            <strong>Integrated Sensing</strong>
+            <span>Material systems that perceive and respond to their environments.</span>
+          </li>
+          <li class="hero-fact">
+            <strong>Bio-Inspired Systems</strong>
+            <span>Soft devices designed for complex, real-world environments.</span>
+          </li>
+        </ul>
       </div>
     </section>
-      </section> <!-- 关闭 hero-wrapper / Home -->
 
-    <!-- 其他内容：通过 Research / People / Publications / News 进入 -->
-    <div class="content-wrapper" id="content-wrapper">
-      <section class="content-section" id="research">
-  <h2 class="section-title">Research</h2>
-
-  <p class="section-subtitle">
-   From Active Soft Materials to Smart Soft Systems
-  </p>
-
-  <div class="research-grid">
-     
-<!-- Research Direction 1 -->
-
-<div class="research-item">
-  
-<div class="research-media-list">
-
-  <img src="images/research-3.jpg" class="research-media" />
-
-  <video class="research-media" autoplay muted loop playsinline>
-    <source src="videos/artificial plants.mp4" type="video/mp4">
-  </video>
-<video class="research-media" autoplay muted loop playsinline>
-    <source src="videos/self winding.mp4" type="video/mp4">
-  </video>
-  
-</div>
-    
-  <h3 class="research-title">
-    Light-Controlled Smart Actuation and Photonic Materials
-  </h3>
-
-      <p class="research-description">
-        We develop flexible photonic and light-responsive materials that enable
-        programmable actuation and multi-modal sensing, providing materials-level
-        control for soft robotic and adaptive systems.
-  </p>
-
-</div>
-
-    
- <!-- Research Direction 2 -->
-
-    <div class="research-item">
-      
-    <div class="research-media-list">
-
-  <img src="images/research-4.png" class="research-media" />
-
-  <video class="research-media" autoplay muted loop playsinline>
-    <source src="videos/self oscillation-3.mp4" type="video/mp4">
-  </video>
-  <video class="research-media" autoplay muted loop playsinline>
-    <source src="videos/self oscillation -2.mp4" type="video/mp4">
-  </video>
-</div>
-
-      <h3 class="research-title">
-        Self-Sustained Oscillators and Bio-Inspired Soft Actuators
-      </h3>
-
-      <p class="research-description">
-        Our research explores self-sustained oscillatory systems and bio-inspired
-        helical soft actuators, revealing new mechanisms for autonomous motion,
-        rhythmic actuation, and untethered soft machines.
-      </p>
-    </div>
-    <!-- Research Direction 3 -->
-
-    <div class="research-item">
-      
-    <div class="research-media-list">
-
-  <img src="images/environment sensor-1.jpg" class="research-media" />
-
-</div>
-      <h3 class="research-title">
-        Bio-Inspired Biodegradable Distributed Environmental Sensors
-      </h3>
-
-
-      <p class="research-description">
-        Our research focuses on bio-inspired, biodegradable distributed sensor platforms
-        that transduce environmental signals into optical or mechanical responses,
-        enabling large-area, low-impact environmental monitoring.
-      </p>
-    </div>
-
-  </div>
-</section>
-
- 
-     <!-- People Section -->
-<section id="people" class="content-section people-section">
-  <h2 class="section-title">People</h2>
-
-  <div class="people-layout">
-    <!-- 左侧：PI + 成员 -->
-    <div class="people-left">
-      <!-- PI 行：左照片 + 右信息卡片 -->
-      <div class="pi-row">
-        <div class="pi-photo">
-          <img src="images/zhiming-hu.jpg" alt="Zhiming Hu" />
+    <!-- ==========================================================
+         ABOUT
+         ========================================================== -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">About</p>
+          <h2 class="section-title" id="about-title">From active soft materials to intelligent systems</h2>
         </div>
 
-        <div class="pi-info-box">
-          <p class="person-started">Started · Jan 1, 2026</p>
-          <p class="pi-name">
-            <a href="people-zhiming-hu.html">Zhiming Hu</a>
+        <div class="about-grid">
+          <article class="panel">
+            <h2>About SASM Lab</h2>
+            <p>
+              The SASM Lab focuses on materials-level intelligence, developing flexible smart
+              materials and devices with integrated self-actuation, self-sensing, and environmental
+              adaptability. Inspired by natural systems, we combine liquid-crystal polymer materials,
+              soft-matter mechanics, and advanced fabrication strategies to create programmable,
+              multimodal soft systems.
+            </p>
+            <p>
+              Our long-term vision is to establish scalable material platforms for soft robotics,
+              bio-inspired actuation systems, and sustainable environmental and biological sensing,
+              enabling intelligent materials to operate and adapt in complex real-world environments.
+            </p>
+          </article>
+
+          <aside class="panel" aria-labelledby="quick-contact-title">
+            <h3 id="quick-contact-title">At a glance</h3>
+            <ul class="contact-list">
+              <li>
+                <span class="contact-label">Institution</span>
+                Nanjing University
+              </li>
+              <li>
+                <span class="contact-label">School</span>
+                School of Advanced Manufacturing Engineering
+              </li>
+              <li>
+                <span class="contact-label">Location</span>
+                Suzhou Campus
+              </li>
+              <li>
+                <span class="contact-label">Email</span>
+                <a class="text-link" href="mailto:zhiminghu@nju.edu.cn">zhiminghu@nju.edu.cn</a>
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         RESEARCH
+         视频路径保持不变；preload="none" 可避免首页一次性加载约 73 MB 视频
+         ========================================================== -->
+    <section class="section" id="research" aria-labelledby="research-title">
+      <div class="container">
+        <div class="section-heading centered">
+          <p class="eyebrow">Research</p>
+          <h2 class="section-title" id="research-title">From active soft materials to smart soft systems</h2>
+          <p class="section-intro">
+            We connect material design, mechanics, fabrication, and device engineering to create
+            adaptive soft systems with programmable motion and sensing.
           </p>
-          <p class="person-role">Lab Director</p>
-          <p class="person-role">Assistant Professor</p>
+        </div>
+
+        <div class="research-list">
+          <!-- 研究方向 1：复制整个 article 可新增研究方向 -->
+          <article class="research-card">
+            <div class="research-copy">
+              <p class="research-index">RESEARCH 01</p>
+              <h3 class="research-title">Light-Controlled Smart Actuation and Photonic Materials</h3>
+              <p class="research-description">
+                We develop flexible photonic and light-responsive materials that enable programmable
+                actuation and multimodal sensing, providing materials-level control for soft robotic
+                and adaptive systems.
+              </p>
+            </div>
+
+            <div class="research-media-grid three-items" role="group" aria-label="Media for research direction 1">
+              <img
+                class="research-media"
+                src="images/research-3.jpg"
+                alt="Light-controlled smart actuation research overview"
+                loading="lazy"
+                decoding="async"
+>
+              <video
+                class="research-media"
+                controls
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="images/research-3.jpg"
+                aria-label="Artificial plant actuator demonstration"
+              >
+                <source src="videos/artificial plants.mp4" type="video/mp4">
+                Your browser does not support the video element.
+              </video>
+              <video
+                class="research-media"
+                controls
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="images/research-3.jpg"
+                aria-label="Self-winding fiber actuator demonstration"
+              >
+                <source src="videos/self winding.mp4" type="video/mp4">
+                Your browser does not support the video element.
+              </video>
+            </div>
+          </article>
+
+          <!-- 研究方向 2 -->
+          <article class="research-card">
+            <div class="research-copy">
+              <p class="research-index">RESEARCH 02</p>
+              <h3 class="research-title">Self-Sustained Oscillators and Bio-Inspired Soft Actuators</h3>
+              <p class="research-description">
+                Our research explores self-sustained oscillatory systems and bio-inspired helical
+                soft actuators, revealing new mechanisms for autonomous motion, rhythmic actuation,
+                and untethered soft machines.
+              </p>
+            </div>
+
+            <div class="research-media-grid three-items" role="group" aria-label="Media for research direction 2">
+              <img
+                class="research-media"
+                src="images/research-4.png"
+                alt="Self-sustained oscillators and bio-inspired soft actuators overview"
+                loading="lazy"
+                decoding="async"
+>
+              <video
+                class="research-media"
+                controls
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="images/research-4.png"
+                aria-label="Self-oscillation demonstration 1"
+              >
+                <source src="videos/self oscillation-3.mp4" type="video/mp4">
+                Your browser does not support the video element.
+              </video>
+              <video
+                class="research-media"
+                controls
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="images/research-4.png"
+                aria-label="Self-oscillation demonstration 2"
+              >
+                <source src="videos/self oscillation -2.mp4" type="video/mp4">
+                Your browser does not support the video element.
+              </video>
+            </div>
+          </article>
+
+          <!-- 研究方向 3 -->
+          <article class="research-card">
+            <div class="research-copy">
+              <p class="research-index">RESEARCH 03</p>
+              <h3 class="research-title">Bio-Inspired Biodegradable Distributed Environmental Sensors</h3>
+              <p class="research-description">
+                Our research focuses on bio-inspired, biodegradable distributed sensor platforms
+                that transduce environmental signals into optical or mechanical responses, enabling
+                large-area, low-impact environmental monitoring.
+              </p>
+            </div>
+
+            <div class="research-media-grid one-item" role="group" aria-label="Media for research direction 3">
+              <img
+                class="research-media"
+                src="images/environment sensor-1.jpg"
+                alt="Bio-inspired biodegradable environmental sensor platform"
+                loading="lazy"
+                decoding="async"
+>
+            </div>
+          </article>
         </div>
       </div>
+    </section>
 
-      <!-- 成员 -->
-      <h3 class="people-subtitle members-title">Current Members</h3>
-      <div class="people-grid">
-        <!-- 成员 1 -->
-        <article class="person-card">
-          <div class="person-photo">
-            <img src="images/images-1.jpeg" alt="Member 1" />
-          </div>
-          <div class="person-info">
-            <p class="person-name">
-              <a href="people-member-01.html">Member Name 1</a>
-            </p>
-            <p class="person-role">PhD Student</p>
-          </div>
-        </article>
+    <!-- ==========================================================
+         PEOPLE
+         ========================================================== -->
+    <section class="section" id="people" aria-labelledby="people-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">People</p>
+          <h2 class="section-title" id="people-title">People behind the materials</h2>
+          <p class="section-intro">
+            We are building an interdisciplinary team spanning smart polymers, soft matter,
+            mechanics, advanced manufacturing, and sensing systems.
+          </p>
+        </div>
 
-        <!-- 成员 2 -->
-        <article class="person-card">
-          <div class="person-photo">
-            <img src="images/images-2.jpeg" alt="Member 2" />
-          </div>
-          <div class="person-info">
-            <p class="person-name">
-              <a href="people-member-02.html">Member Name 2</a>
-            </p>
-            <p class="person-role">Postdoctoral Fellow</p>
-          </div>
-        </article>
+        <div class="people-grid">
+          <article class="pi-card">
+            <img
+              class="pi-photo"
+              src="images/zhiming-hu.jpg"
+              alt="Portrait of Zhiming Hu"
+              loading="lazy"
+              decoding="async"
+>
+            <div class="pi-copy">
+              <p class="research-index">PRINCIPAL INVESTIGATOR</p>
+              <!-- 若个人详情页创建完成，可改为：
+              <h3><a href="people-zhiming-hu.html">Zhiming Hu</a></h3>
+              -->
+              <h3>Zhiming Hu</h3>
+              <p class="pi-role">Lab Director · Assistant Professor</p>
+              <p class="pi-affiliation">
+                School of Advanced Manufacturing Engineering<br>
+                Nanjing University
+              </p>
+            </div>
+          </article>
 
-        <!-- 成员 3 -->
-        <article class="person-card">
-          <div class="person-photo">
-            <img src="images/images-1.jpeg" alt="Member 3" />
-          </div>
-          <div class="person-info">
-            <p class="person-name">
-              <a href="people-member-03.html">Member Name 3</a>
-            </p>
-            <p class="person-role">Master Student</p>
-          </div>
-        </article>
+          <div class="people-side">
+            <article class="recruit-card">
+              <p class="research-index">OPEN POSITIONS</p>
+              <h3>Join the SASM Lab</h3>
+              <p>
+                We welcome motivated students and researchers interested in smart materials,
+                soft robotics, bio-inspired systems, and environmental sensing.
+              </p>
+              <!-- 招生 PDF 路径保持原样 -->
+              <a
+                class="button"
+                href="PDFs/招生2026.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View 2026 Recruitment Information
+              </a>
+            </article>
 
-        <!-- 成员 4（可选，多一个也没问题） -->
-        <article class="person-card">
-          <div class="person-photo">
-            <img src="images/images-2.jpeg" alt="Member 4" />
+            <div class="photo-strip" role="group" aria-label="Group photos">
+              <img src="images/photo-7.jpg" alt="SASM Lab group moment 1" loading="lazy" decoding="async">
+              <img src="images/photo-6.jpg" alt="SASM Lab group moment 2" loading="lazy" decoding="async">
+              <img src="images/photo-5.jpg" alt="SASM Lab group moment 3" loading="lazy" decoding="async">
+            </div>
           </div>
-          <div class="person-info">
-            <p class="person-name">
-              <a href="people-member-04.html">Member Name 4</a>
-            </p>
-            <p class="person-role">Undergraduate Researcher</p>
-          </div>
-        </article>
+        </div>
+
+        <!-- ======================================================
+             当前成员扩展模板（暂不显示）
+             使用方法：
+             1. 删除下方注释符号；
+             2. 替换照片、姓名、身份和个人页面链接；
+             3. 继续复制 article 可添加更多成员。
+
+        <div class="member-grid" aria-label="Current lab members">
+          <article class="member-card">
+            <img src="images/images-1.jpeg" alt="Member name" loading="lazy">
+            <div class="member-card-copy">
+              <h3><a href="people-member-01.html">Member Name 1</a></h3>
+              <p>PhD Student · Joined 2026</p>
+            </div>
+          </article>
+          <article class="member-card">
+            <img src="images/images-2.jpeg" alt="Member name" loading="lazy">
+            <div class="member-card-copy">
+              <h3><a href="people-member-02.html">Member Name 2</a></h3>
+              <p>Postdoctoral Fellow · Joined 2026</p>
+            </div>
+          </article>
+          <article class="member-card">
+            <img src="images/images-1.jpeg" alt="Member name" loading="lazy">
+            <div class="member-card-copy">
+              <h3><a href="people-member-03.html">Member Name 3</a></h3>
+              <p>Master Student · Joined 2026</p>
+            </div>
+          </article>
+          <article class="member-card">
+            <img src="images/images-2.jpeg" alt="Member name" loading="lazy">
+            <div class="member-card-copy">
+              <h3><a href="people-member-04.html">Member Name 4</a></h3>
+              <p>Undergraduate Researcher · Joined 2026</p>
+            </div>
+          </article>
+        </div>
+             ====================================================== -->
       </div>
-    </div>
+    </section>
 
-    <!-- 右侧：团队合照 -->
-  <aside class="group-column">
-  <h3 class="people-subtitle">Group Photo</h3>
-  <div class="group-photo-inner">
-  <img src="images/photo-7.jpg" alt="SASM Lab group photo 1" />
-<img src="images/photo-6.jpg" alt="SASM Lab group photo 2" />
-<img src="images/photo-5.jpg" alt="SASM Lab group photo 3" />
+    <!-- ==========================================================
+         PUBLICATIONS
+         图片、PDF、DOI 与 Google Scholar 链接均保持原路径
+         ========================================================== -->
+    <section class="section" id="publications" aria-labelledby="publications-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Publications</p>
+          <h2 class="section-title" id="publications-title">Selected publications</h2>
+          <p class="section-intro">
+            Representative work in smart actuation, self-oscillating systems, and distributed sensors.
+            More publications are available on
+            <a
+              class="text-link"
+              href="https://scholar.google.com/citations?user=30HmzQcAAAAJ"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Google Scholar</a>.
+          </p>
+        </div>
 
-  </div>
-</aside>
-  </div>
-</section>
+        <div class="publication-list">
+          <!-- 论文 1：2026 Nature Communications -->
+          <article class="publication-card">
+            <div class="publication-image-wrap">
+              <img
+                src="images/1768497519932.jpeg"
+                alt="Graphical summary of biodegradable Lagrangian sensors"
+                loading="lazy"
+                decoding="async"
+>
+            </div>
+            <div>
+              <p class="publication-meta">2026 · Lagrangian sensors · Environmental monitoring</p>
+              <h3 class="publication-title">
+                Distributed Multitudes of Bio-Inspired, Biodegradable Lagrangian Sensors for Environmental Sustainability
+              </h3>
+              <p class="publication-authors">
+                Chanho Park, <strong>Zhiming Hu</strong>, Kan Li, Jin-Tae Kim*, John A. Rogers*
+              </p>
+              <p class="publication-venue"><strong><em>Nature Communications</em></strong>, 2026, 17, 601.</p>
+              <div class="publication-links">
+                <a href="PDFs/ncommsens.pdf" target="_blank" rel="noopener noreferrer">PDF</a>
+                <a href="https://www.nature.com/articles/s41467-026-68369-5" target="_blank" rel="noopener noreferrer">DOI</a>
+              </div>
+            </div>
+          </article>
 
+          <!-- 论文 2：2023 Science Advances -->
+          <article class="publication-card">
+            <div class="publication-image-wrap">
+              <img
+                src="images/science advance 2023.png"
+                alt="Graphical summary of tubular soft actuators"
+                loading="lazy"
+                decoding="async"
+>
+            </div>
+            <div>
+              <p class="publication-meta">2023 · Soft actuators · Liquid crystal elastomers</p>
+              <h3 class="publication-title">
+                Bioinspired Helical-Artificial Fibrous Muscle Structured Tubular Soft Actuators
+              </h3>
+              <p class="publication-authors">
+                <strong>Zhiming Hu</strong>, Yanlin Zhang, Hanqing Jiang*, Jiu-an Lv*
+              </p>
+              <p class="publication-venue"><strong><em>Science Advances</em></strong>, 2023, 9, eadh3350.</p>
+              <div class="publication-links">
+                <a href="PDFs/1. Bioinspired helical-artificial fibrous muscle structured tubular soft actuators..pdf" target="_blank" rel="noopener noreferrer">PDF</a>
+                <a href="https://www.science.org/doi/10.1126/sciadv.adh3350" target="_blank" rel="noopener noreferrer">DOI</a>
+              </div>
+            </div>
+          </article>
 
-     <section class="content-section" id="publications">
+          <!-- 论文 3：2022 Applied Materials Today -->
+          <article class="publication-card">
+            <div class="publication-image-wrap">
+              <img
+                src="images/APM 2022.png"
+                alt="Graphical summary of self-winding liquid crystal elastomer fiber actuators"
+                loading="lazy"
+                decoding="async"
+>
+            </div>
+            <div>
+              <p class="publication-meta">2022 · Artificial muscles · Liquid crystal elastomers</p>
+              <h3 class="publication-title">
+                Self-Winding Liquid Crystal Elastomer Fiber Actuators with High Degree of Freedom and Tunable Actuation
+              </h3>
+              <p class="publication-authors">
+                <strong>Zhiming Hu</strong>, Yunlong Li, Tonghui Zhao, Jiu-an Lv*
+              </p>
+              <p class="publication-venue"><strong><em>Applied Materials Today</em></strong>, 2022, 27, 101449.</p>
+              <div class="publication-links">
+                <a href="PDFs/2. Self-winding liquid crystal elastomer fiber actuators with high degree of freedom and tunable actuation.pdf" target="_blank" rel="noopener noreferrer">PDF</a>
+                <a href="https://www.sciencedirect.com/science/article/abs/pii/S2352940722000889" target="_blank" rel="noopener noreferrer">DOI</a>
+              </div>
+            </div>
+          </article>
 
-  <!-- 这一块是标题，单独占一整行 -->
-  <h2 class="section-title">Publications</h2>
-  <p class="section-subtitle">
-    More publications available on
-    <a href="https://scholar.google.com/citations?user=30HmzQcAAAAJ" target="_blank">
-      Google Scholar
-    </a>
-  </p>
+          <!-- 论文 4：2021 Nature Communications -->
+          <article class="publication-card">
+            <div class="publication-image-wrap">
+              <img
+                src="images/nature_communications_2021.jpg"
+                alt="Graphical summary of a phototunable self-oscillating system"
+                loading="lazy"
+                decoding="async"
+>
+            </div>
+            <div>
+              <p class="publication-meta">2021 · Soft actuators · Self-oscillating systems</p>
+              <h3 class="publication-title">
+                Phototunable Self-Oscillating System Driven by a Self-Winding Fiber Actuator
+              </h3>
+              <p class="publication-authors"><strong>Zhiming Hu</strong>, Yunlong Li, Jiu-an Lv*</p>
+              <p class="publication-venue"><strong><em>Nature Communications</em></strong>, 2021, 12, 3211.</p>
+              <div class="publication-links">
+                <a href="PDFs/3.  Phototunable self-oscillating system driven by a self-winding fiber actuator..pdf" target="_blank" rel="noopener noreferrer">PDF</a>
+                <a href="https://www.nature.com/articles/s41467-021-23562-6" target="_blank" rel="noopener noreferrer">DOI</a>
+              </div>
+            </div>
+          </article>
 
-  <!-- 这一块才是横向排版的 card -->
-<!-- 第五篇卡片：Nature Communications 2026 -->
-<div class="pub-item">
-  <div class="pub-image">
-    <img src="images/1768497519932.jpeg" alt="publication image">
-  </div>
-  <div class="pub-content">
-    <div class="pub-meta">
-      2026 • 	Lagrangian sensors, Environmental monitoring
-    </div>
+          <!-- 论文 5：2020 Nature Communications -->
+          <article class="publication-card">
+            <div class="publication-image-wrap">
+              <img
+                src="images/nature communications 2020.png"
+                alt="Graphical summary of optocapillarity-driven actuator assembly"
+                loading="lazy"
+                decoding="async"
+>
+            </div>
+            <div>
+              <p class="publication-meta">2020 · Optocapillarity · Liquid crystal polymer actuators</p>
+              <h3 class="publication-title">
+                Optocapillarity-Driven Assembly and Reconfiguration of Liquid Crystal Polymer Actuators
+              </h3>
+              <p class="publication-authors">
+                <strong>Zhiming Hu#</strong>, Wei Fang#, Qunyang Li, Xi-Qiao Feng*, Jiu-an Lv*
+              </p>
+              <p class="publication-venue">
+                <strong><em>Nature Communications</em></strong>, 2020, 11, 5780.
+                <span>(# These authors contributed equally.)</span>
+              </p>
+              <div class="publication-links">
+                <a href="PDFs/4. Optocapillaritydriven assembly and reconfiguration of liquid crystal polymer actuators.pdf" target="_blank" rel="noopener noreferrer">PDF</a>
+                <a href="https://www.nature.com/articles/s41467-020-19522-1" target="_blank" rel="noopener noreferrer">DOI</a>
+              </div>
+            </div>
+          </article>
+        </div>
 
-    <h3 class="pub-title">
-      Distributed multitudes of bio-inspired, biodegradable Lagrangian sensors for environmental sustainability.
-    </h3>
-
-    <p class="pub-authors">
-      Chanho Park, <strong>Zhiming Hu</strong>, Kan Li , Jin-Tae Kim*, John A Rogers*
-    </p>
-
-    <p class="pub-venue">
-      <strong><em>Nature Communications</em></strong>, 2026, 17, 601.
-    </p>
-
-    <p class="pub-links">
-      <a href="PDFs/ncommsens.pdf" target="_blank">PDF</a> |
-      <a href="https://www.nature.com/articles/s41467-026-68369-5" target="_blank">DOI</a>
-    </p>
-  </div>
-</div>
-     <!-- 第四篇卡片：-->  
-  <div class="pub-item">
-    <div class="pub-image">
-      <img src="images/science advance 2023.png" alt="publication image">
-    </div>
-
-    <div class="pub-content">
-      <div class="pub-meta">
-        2023 • Soft Actuators, Liquid Crystal Elastomers
+        <div class="additional-publications">
+          <h3>Additional publications</h3>
+          <ol>
+            <li>
+              Ruitong Song, Yangyang Fan, Wenhao Hou, <strong>Zhiming Hu</strong>, Banghan Liu,
+              Kai Liu, and Jiu-an Lv*. Electro-Driven Fibrous Soft Actuators towards Flapping-Wing
+              Control for Insect-Scale Robots. <strong><em>Materials Horizons</em></strong>, 2026, 13, 2257.
+            </li>
+            <li>
+              Hui Chen#, <strong>Zhiming Hu#</strong>, Huan Wang, Longzhu Liu, Pengjie Chao,
+              Jianfei Qu, Wei Chen, Anhua Liu, and Feng He*. A Chlorinated π-Conjugated Polymer
+              Donor for Efficient Organic Solar Cells. <strong><em>Joule</em></strong>, 2018, 2, 1623–1634.
+              (# These authors contributed equally.)
+              <a class="text-link" href="PDFs/5. A Chlorinated π-Conjugated Polymer Donor for Efficient Organic Solar Cells.pdf" target="_blank" rel="noopener noreferrer">PDF</a>
+            </li>
+            <li>
+              <strong>Zhiming Hu</strong>, Hui Chen, Jianfei Qu, Xiaowei Zhong, Pengjie Chao,
+              Mo Xie, Wei Lu, Anhua Liu*, Leilei Tian, Yu-An Su, Wei Chen*, and Feng He*.
+              Design and Synthesis of Chlorinated Benzothiadiazole-Based Polymers for Efficient
+              Solar Energy Conversion. <strong><em>ACS Energy Letters</em></strong>, 2017, 2, 753–758.
+              <a class="text-link" href="PDFs/zhong-et-al-2017-design-and-synthesis-of-chlorinated-benzothiadiazole-based-polymers-for-efficient-solar-energy.pdf" target="_blank" rel="noopener noreferrer">PDF</a>
+            </li>
+            <li>
+              <strong>Zhiming Hu</strong>, Hui Chen, Xiaowei Zhong, Jianfei Qu, Wei Chen,
+              Anhua Liu*, and Feng He*. Design and Synthesis of Halogen Atom Substituted
+              Benzothiadiazole-Based Donor Polymers for Efficient Solar Energy Conversion.
+              <strong><em>Acta Polymerica Sinica</em></strong>, 2018(02), 273–283.
+            </li>
+            <li>
+              Xiaochen Yang, Weiqiang Zhao, Jiayao Ma, <strong>Zhiming Hu</strong>, Xinmeng Liu,
+              Lei Fu, Chuhan Xu, Jiuan Lv, Lei Zhang*, and Yan Chen*. Threefold Möbius Machine.
+              <strong><em>Advanced Functional Materials</em></strong>, 2025, 2420815.
+            </li>
+            <li>
+              Yong Wang, Yunlong Li, Jiao Geng, <strong>Zhiming Hu</strong>, Fengjiang Liu,
+              Liping Shi, Jiu-an Lv*, and Min Qiu*. Femtosecond-Laser-Direct-Writing Microscale
+              Soft Actuators with Controllable Shape Morphing.
+              <strong><em>Advanced Materials Technologies</em></strong>, 2023, 2300967.
+            </li>
+            <li>
+              Tonghui Zhao, Wei Fang, Yangyang Fan, <strong>Zhiming Hu</strong>, Han Wu,
+              Xi-Qiao Feng*, and Jiu-an Lv*. Phototactic Miniature Soft Robots with Terrain
+              Adaptability. <strong><em>Advanced Materials Technologies</em></strong>, 2022, 2101660.
+            </li>
+            <li>
+              Tonghui Zhao, Wenchao Dou, <strong>Zhiming Hu</strong>, Wenhao Hou, Yirui Sun,
+              and Jiu-an Lv*. Reconfigurable Soft Actuators with Multiple-Stimuli Responses.
+              <strong><em>Macromolecular Rapid Communications</em></strong>, 2020, 41, 2000313.
+            </li>
+            <li>
+              Jiao Wang, Hao Zhou, Yangyang Fan, Wenhao Hou, Tonghui Zhao, <strong>Zhiming Hu</strong>,
+              Enzhen Shi, and Jiuan Lv. Adaptive Nanotube Networks Enabling Omnidirectionally
+              Deformable Electro-Driven Liquid Crystal Elastomers towards Artificial Muscles.
+              <strong><em>Materials Horizons</em></strong>, 2024, 11, 1877–1888.
+            </li>
+            <li>
+              Chong Gu, Changqing Guo, Xichao Dong, <strong>Zhiming Hu</strong>, Pengfei Wu,
+              Zhiming Su, Yingxi Lu, Binbin Xu, Zhaoju Yu, and Anhua Liu. Core-Shell Structured
+              Iron-Containing Ceramic Nanoparticles: Facile Fabrication and Excellent Electromagnetic
+              Absorption Properties. <strong><em>Journal of the American Ceramic Society</em></strong>,
+              2019, 102, 7098–7107.
+            </li>
+          </ol>
+        </div>
       </div>
+    </section>
 
-      <h3 class="pub-title">
-        Bioinspired Helical-Artificial Fibrous Muscle Structured Tubular Soft Actuators
-      </h3>
+    <!-- ==========================================================
+         NEWS
+         新增新闻时复制一个 li.timeline-item，并按“新到旧”排序
+         ========================================================== -->
+    <section class="section" id="news" aria-labelledby="news-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">News</p>
+          <h2 class="section-title" id="news-title">Lab updates &amp; opportunities</h2>
+        </div>
 
-      <p class="pub-authors">
-        <strong>Zhiming Hu</strong>, Yanlin Zhang, Hanqing Jiang*, Jiu-an Lv*
-      </p>
+        <ul class="timeline">
+          <li class="timeline-item">
+            <time class="timeline-date" datetime="2025-12-10">2025-12-10</time>
+            <p class="timeline-copy">
+              Dr. Zhiming Hu joined the School of Advanced Manufacturing Engineering at
+              Nanjing University and founded the Smart Actuation &amp; Sensing Materials Lab.
+            </p>
+          </li>
 
-      <p class="pub-venue">
-        <strong><em>Science Advances</em></strong>, 2023, 9, eadh3350.
-      </p>
+          <!-- 新闻扩展模板：
+          <li class="timeline-item">
+            <time class="timeline-date" datetime="2026-01-01">2026-01-01</time>
+            <p class="timeline-copy">Write the new lab update here.</p>
+          </li>
+          -->
+        </ul>
+      </div>
+    </section>
 
-      <p class="pub-links">
-        <a href="PDFs/1. Bioinspired helical-artificial fibrous muscle structured tubular soft actuators..pdf">PDF</a> |
-        <a href="https://www.science.org/doi/10.1126/sciadv.adh3350" target="_blank">DOI</a>
-      </p>
-    </div>
-  </div>
-        <!-- 这一块才是横向排版的 card -->
-       
-<!-- 第三篇卡片：-->
-<div class="pub-item">
-  <div class="pub-image">
-    <img src="images/APM 2022.png" alt="publication image">
-  </div>
-  <div class="pub-content">
-    <div class="pub-meta">
-      2022 • Artificial muscles, Liquid Crystal Elastomers
-    </div>
+    <!-- ==========================================================
+         CONTACT
+         ========================================================== -->
+    <section class="section contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact-banner">
+          <div>
+            <p class="eyebrow">Contact</p>
+            <h2 id="contact-title">Let’s build intelligent materials together.</h2>
+            <p>
+              We welcome students, postdoctoral researchers, research assistants, and collaborators
+              interested in smart actuation, integrated sensing, and bio-inspired soft systems.
+            </p>
+          </div>
 
-    <h3 class="pub-title">
-      Self-winding Liquid Crystal Elastomer Fiber Actuators with High Degree of Freedom and Tunable Actuation
-    </h3>
-
-    <p class="pub-authors">
-      <strong>Zhiming Hu</strong>, Yunlong Li, Tonghui Zhao, Jiu-an Lv*
-    </p>
-
-    <p class="pub-venue">
-      <strong><em>Applied Materials Today</em></strong>, 2022, 27, 101449.
-    </p>
-
-    <p class="pub-links">
-      <a href="PDFs/2. Self-winding liquid crystal elastomer fiber actuators with high degree of freedom and tunable actuation.pdf">PDF</a> |
-      <a href="https://www.sciencedirect.com/science/article/abs/pii/S2352940722000889" target="_blank">DOI</a>
-    </p>
-  </div>
-</div>
-       
-<!-- 第二篇卡片：Nature Communications 2021 -->
-<div class="pub-item">
-  <div class="pub-image">
-    <img src="images/nature_communications_2021.jpg" alt="publication image">
-  </div>
-
-  <div class="pub-content">
-    <div class="pub-meta">
-      2021 • Soft Actuators, Self-Oscillating Systems
-    </div>
-
-    <h3 class="pub-title">
-      Phototunable Self-Oscillating System Driven by a Self-Winding Fiber Actuator
-    </h3>
-
-    <p class="pub-authors">
-      <strong>Zhiming Hu</strong>, Yunlong Li, Jiu-an Lv*
-    </p>
-
-    <p class="pub-venue">
-      <strong><em>Nature Communications</em></strong>, 2021, 12, 3211.
-    </p>
-
-    <p class="pub-links">
-      <a href="PDFs/3.  Phototunable self-oscillating system driven by a self-winding fiber actuator..pdf">PDF</a> |
-      <a href="https://www.nature.com/articles/s41467-021-23562-6" target="_blank">DOI</a>
-    </p>
-  </div>
-</div>
-<!-- 第一篇卡片：Nature Communications 2020 -->
-<div class="pub-item">
-  <div class="pub-image">
-    <img src="images/nature communications 2020.png" alt="publication image">
-  </div>
-
-  <div class="pub-content">
-    <div class="pub-meta">
-      2020 • Optocapillarity, Liquid Crystal Polymer Actuators
-    </div>
-
-    <h3 class="pub-title">
-      Optocapillarity-Driven Assembly and Reconfiguration of Liquid Crystal Polymer Actuators
-    </h3>
-
-    <p class="pub-authors">
-      <strong>Zhiming Hu#</strong>, Wei Fang#, Qunyang Li, Xi-Qiao Feng*, Jiu-an Lv*
-    </p>
-
-    <p class="pub-venue">
-      <strong><em>Nature Communications</em></strong>, 2020, 11, 5780.  
-      <span style="opacity:0.8; font-size:0.9em;">(# These authors contributed equally)</span>
-    </p>
-
-    <p class="pub-links">
-      <a href="PDFs/4. Optocapillaritydriven assembly and reconfiguration of liquid crystal polymer actuators.pdf">PDF</a> |
-      <a href="https://www.nature.com/articles/s41467-020-19522-1" target="_blank">DOI</a>
-    </p>
-  </div>
-</div>
-
-       <div class="section-body">
-    <ul>
-      <li>Ruitong Song, Yangyang Fan, Wenhao Hou, <strong>Zhiming Hu</strong>, Banghan Liu, Kai Liu and Jiu-an Lv*. Electro-driven Fibrous Soft Actuators towards Flapping-wing Control for Insect-scale Robots. Materials Horizons.</em></strong>, ,2026, 13, 2257. </li>
-      <li>Hui Chen#, <strong>Zhiming Hu#</strong>, Huan Wang, Longzhu Liu, Pengjie Chao, Jianfei Qu, Wei Chen, Anhua Liu, Feng He*. A Chlorinated π-Conjugated Polymer Donor for Efficient Organic Solar Cells. Joule</em></strong>, 2018, 2, 1623–1634. (# These authors contributed equally).   <a href="PDFs/5. A Chlorinated π-Conjugated Polymer Donor for Efficient Organic Solar Cells.pdf" target="_blank" style="color:#4da3ff;">PDF</a> </li>     
-      <li><strong>Zhiming Hu</strong>, Hui Chen, Jianfei Qu, Xiaowei Zhong, Pengjie Chao, Mo Xie, Wei Lu, Anhua Liu*, Leilei Tian, Yu-An Su, Wei Chen*, Feng He*. Design and synthesis of chlorinated benzothiadiazole-based polymers for eﬃcient solar energy conversion. ACS Energy Lett. </em></strong>, 2017, 2, 753-758.  20170310. <a href="PDFs/zhong-et-al-2017-design-and-synthesis-of-chlorinated-benzothiadiazole-based-polymers-for-efficient-solar-energy.pdf" target="_blank" style="color:#4da3ff;">PDF</a> </li>
-      <li><strong>Zhiming Hu</strong>, Hui Chen, Xiaowei Zhong, Jianfei Qu, Wei Chen, Anhua Liu*, Feng He*. Design and synthesis of halogen atom substituted benzothiadiazole-based donor polymers for efficient solar energy conversion, Acta Polymerica Sinica</em></strong>, 2018(02):273-283.</li>
-      <li>Xiaochen Yang, Weiqiang Zhao, Jiayao Ma, <strong>Zhiming Hu</strong>, Xinmeng Liu, Lei Fu, Chuhan Xu, Jiuan Lv, Lei Zhang*, Yan Chen*. Threefold möbius machine. Adv. Funct. Mater. 2025, 2420815.</li>
-      <li>Yong Wang, Yunlong Li, Jiao Geng, <strong>Zhiming Hu</strong>, Fengjiang Liu, Liping Shi, Jiu-an Lv*, Min Qiu*. Femtosecond-Laser-Direct-Writing micro-scale soft actuators with controllable shape morphing. Adv. Mater. Technol</em></strong>. 2023, 2300967.</li>
-      <li>Tonghui Zhao, Wei Fang, Yangyang Fan, <strong>Zhiming Hu</strong>, Han Wu, Xi-Qiao Feng*, Jiu-an Lv*. Phototactic miniature soft robots with terrain adaptability. Adv. Mater. Technol</em></strong>. 2022, 2101660.</li>
-      <li>Tonghui Zhao, Wenchao Dou, <strong>Zhiming Hu</strong>, Wenhao Hou, Yirui Sun and Jiu-an Lv*. Reconfigurable soft actuators with multiple-stimuli responses. Macromolecular Rapid Communications</em></strong>, 2020, 41, 2000313.</li>
-      <li>Jiao Wang, Hao Zhou, Yangyang Fan, Wenhao Hou, Tonghui Zhao, <strong>Zhiming Hu</strong>, Enzhen Shi, Jiuan Lv. Adaptive nanotube networks enabling omnidirectionally deformable electro-driven liquid crystal elastomers towards artificial muscles. Materials Horizons</em></strong>. 2024, 11, 1877-1888.</li>
-      <li>Chong Gu, Changqing Guo, Xichao Dong, <strong>Zhiming Hu</strong>, Pengfei Wu, Zhiming Su, Yingxi Lu, Binbin Xu, Zhaoju Yu, Anhua Liu. Core‐shell structured iron‐containing ceramic nanoparticles: Facile fabrication and excellent electromagnetic absorption properties. Journal of the American Ceramic Society</em></strong>. 2019,102, 7098-7107.</li>
-    </ul>
-</div>
-
-
-      </section>
-
-      <section class="content-section" id="news">
-        <h2 class="section-title">News</h2>
-        <p class="section-subtitle">
-          Lab updates &amp; opportunities
-        </p>
-        <div class="section-body">
- <p><strong>2025-12-10</strong> · Dr. Zhiming Hu has joined Nanjing University’s Institute of Functional Materials and Intelligent Manufacturing and founded the Smart Actuation & Sensing Materials Lab.</p>
-
-  <!-- 新添加的内容 -->
-         
- 
-</div>
- </section>
-    </div>
+          <div class="contact-actions">
+            <a class="button" href="mailto:zhiminghu@nju.edu.cn">zhiminghu@nju.edu.cn</a>
+            <a
+              class="button secondary"
+              href="PDFs/招生2026.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Recruitment Information
+            </a>
+            <p>
+              School of Advanced Manufacturing Engineering<br>
+              Nanjing University (Suzhou Campus)
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-
-  <!-- 网站底部实时访客数量栏目：下面这一行通过不蒜子统计服务实时显示本站访客数量 -->
-  <footer class="visitor-counter-footer" aria-label="Website visitor counter">
-    Total visitors: <span id="busuanzi_value_site_uv">Loading</span> · Total visits: <span id="busuanzi_value_site_pv">Loading</span>
+  <!-- ============================================================
+       页脚与访问统计
+       不蒜子统计链接保持不变；若服务不可用，页面其他部分不受影响
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="current-year">2026</span> SASM Lab · Nanjing University</p>
+      <p class="visitor-counter">
+        Total visitors: <span id="busuanzi_value_site_uv">—</span>
+        · Total visits: <span id="busuanzi_value_site_pv">—</span>
+      </p>
+    </div>
   </footer>
 
-  <!-- 实时访客数量脚本：负责填充上方 busuanzi_value_site_uv / busuanzi_value_site_pv 两个数字 -->
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
   <script>
-    // ---------- 轮播逻辑 ----------
-    const slides = document.querySelectorAll(".slide");
-const dots = document.querySelectorAll(".hero-dot");
-const tagGroups = document.querySelectorAll(".slide-tags");
-    const prevBtn = document.querySelector(".hero-arrow.prev");
-    const nextBtn = document.querySelector(".hero-arrow.next");
-    let currentIndex = 0;
-    let autoTimer = null;
-    const AUTO_INTERVAL = 6000;
+    "use strict";
 
-   function showSlide(index) {
-  slides.forEach((s, i) => {
-    s.classList.toggle("active", i === index);
-  });
+    /* ============================================================
+       01. 手机导航菜单
+       ============================================================ */
+    const menuToggle = document.querySelector(".menu-toggle");
+    const siteNav = document.querySelector(".site-nav");
+    const navLinks = [...document.querySelectorAll(".nav-link")];
 
-  dots.forEach((d, i) => {
-    d.classList.toggle("active", i === index);
-  });
-
-  tagGroups.forEach((tag, i) => {
-    tag.classList.toggle("active", i === index);
-  });
-
-  currentIndex = index;
-}
-
-    
-    function nextSlide() {
-      const nextIndex = (currentIndex + 1) % slides.length;
-      showSlide(nextIndex);
+    function closeMenu() {
+      siteNav.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.setAttribute("aria-label", "Open navigation menu");
     }
 
-    function prevSlide() {
-      const prevIndex =
-        (currentIndex - 1 + slides.length) % slides.length;
-      showSlide(prevIndex);
+    menuToggle.addEventListener("click", () => {
+      const willOpen = !siteNav.classList.contains("open");
+      siteNav.classList.toggle("open", willOpen);
+      menuToggle.setAttribute("aria-expanded", String(willOpen));
+      menuToggle.setAttribute(
+        "aria-label",
+        willOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+    });
+
+    navLinks.forEach((link) => link.addEventListener("click", closeMenu));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    /* ============================================================
+       02. 当前栏目高亮
+       IntersectionObserver 比滚动事件更轻量
+       ============================================================ */
+    const observedSections = navLinks
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    function setActiveNavigation(sectionId) {
+      navLinks.forEach((link) => {
+        const isActive = link.getAttribute("href") === `#${sectionId}`;
+        link.classList.toggle("active", isActive);
+        if (isActive) {
+          link.setAttribute("aria-current", "page");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
     }
 
-    function startAutoPlay() {
-      stopAutoPlay();
-      autoTimer = setInterval(nextSlide, AUTO_INTERVAL);
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visibleEntry) setActiveNavigation(visibleEntry.target.id);
+      },
+      {
+        rootMargin: "-22% 0px -62% 0px",
+        threshold: [0, 0.1, 0.25, 0.5]
+      }
+    );
+
+    observedSections.forEach((section) => sectionObserver.observe(section));
+
+    /* ============================================================
+       03. 首屏轮播
+       - 支持按钮与圆点切换
+       - 鼠标悬停、键盘聚焦、页面隐藏时暂停
+       - 系统设置“减少动态效果”时不自动播放
+       ============================================================ */
+    const slider = document.querySelector(".hero-slider");
+    const slides = [...document.querySelectorAll(".slide")];
+    const dots = [...document.querySelectorAll(".slider-dot")];
+    const previousButton = document.querySelector(".slider-arrow.prev");
+    const nextButton = document.querySelector(".slider-arrow.next");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const autoplayInterval = 6500;
+    let currentSlide = 0;
+    let autoplayTimer = null;
+
+    function showSlide(index) {
+      const normalizedIndex = (index + slides.length) % slides.length;
+
+      slides.forEach((slide, slideIndex) => {
+        const isActive = slideIndex === normalizedIndex;
+        slide.classList.toggle("active", isActive);
+        slide.setAttribute("aria-hidden", String(!isActive));
+      });
+
+      dots.forEach((dot, dotIndex) => {
+        const isActive = dotIndex === normalizedIndex;
+        dot.classList.toggle("active", isActive);
+        dot.setAttribute("aria-pressed", String(isActive));
+      });
+
+      currentSlide = normalizedIndex;
     }
 
-    function stopAutoPlay() {
-      if (autoTimer) {
-        clearInterval(autoTimer);
-        autoTimer = null;
+    function stopAutoplay() {
+      if (autoplayTimer) {
+        window.clearInterval(autoplayTimer);
+        autoplayTimer = null;
       }
     }
 
-    if (nextBtn && prevBtn) {
-      nextBtn.addEventListener("click", () => {
-        nextSlide();
-        startAutoPlay();
-      });
-
-      prevBtn.addEventListener("click", () => {
-        prevSlide();
-        startAutoPlay();
-      });
+    function startAutoplay() {
+      stopAutoplay();
+      if (!reduceMotion && !document.hidden) {
+        autoplayTimer = window.setInterval(() => showSlide(currentSlide + 1), autoplayInterval);
+      }
     }
+
+    previousButton.addEventListener("click", () => {
+      showSlide(currentSlide - 1);
+      startAutoplay();
+    });
+
+    nextButton.addEventListener("click", () => {
+      showSlide(currentSlide + 1);
+      startAutoplay();
+    });
 
     dots.forEach((dot) => {
       dot.addEventListener("click", () => {
-        const idx = Number(dot.dataset.index);
-        showSlide(idx);
-        startAutoPlay();
+        showSlide(Number(dot.dataset.index));
+        startAutoplay();
       });
     });
 
-    const heroSlider = document.querySelector(".hero-slider");
-    heroSlider.addEventListener("mouseenter", stopAutoPlay);
-    heroSlider.addEventListener("mouseleave", startAutoPlay);
+    slider.addEventListener("mouseenter", stopAutoplay);
+    slider.addEventListener("mouseleave", startAutoplay);
+    slider.addEventListener("focusin", stopAutoplay);
+    slider.addEventListener("focusout", startAutoplay);
 
-    startAutoPlay();
-
-    // ---------- 导航与内容切换 ----------
-    const navLinks = document.querySelectorAll(".nav-link");
-    const heroSection = document.getElementById("hero-section");
-    const contentWrapper = document.getElementById("content-wrapper");
-    const contentSections = document.querySelectorAll(".content-section");
-    const homeAbout = document.getElementById("home-about");
-    const homeContact = document.getElementById("home-contact");
-
-    function switchToHome() {
-      heroSection.style.display = "flex";
-      contentWrapper.style.display = "none";
-      contentSections.forEach((sec) => sec.classList.remove("active"));
-    }
-
-    function switchToSection(id) {
-      heroSection.style.display = "none";
-      contentWrapper.style.display = "block";
-      contentSections.forEach((sec) => {
-        sec.classList.toggle("active", sec.id === id);
-      });
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    navLinks.forEach((link) => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const target = link.dataset.target;
-
-        // 更新导航高亮
-        navLinks.forEach((l) => l.classList.remove("active"));
-        link.classList.add("active");
-
-        if (target === "home") {
-          switchToHome();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        } else if (target === "about-home") {
-          switchToHome();
-          homeAbout.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else if (target === "contact-home") {
-          switchToHome();
-          homeContact.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else {
-          // Research / People / Publications / News
-          switchToSection(target);
-        }
-      });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stopAutoplay();
+      else startAutoplay();
     });
+
+    startAutoplay();
+
+    /* ============================================================
+       04. 视频管理
+       离开可视区域时自动暂停，避免后台持续播放和占用资源
+       ============================================================ */
+    const researchVideos = document.querySelectorAll("video.research-media");
+    const videoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && !entry.target.paused) entry.target.pause();
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    researchVideos.forEach((video) => videoObserver.observe(video));
+
+    /* 页脚年份自动更新 */
+    document.getElementById("current-year").textContent = new Date().getFullYear();
   </script>
+
+  <noscript>
+    <p class="noscript-message">
+      JavaScript is disabled. All page content remains available, but the carousel and mobile menu
+      controls will not be interactive.
+    </p>
+  </noscript>
 </body>
 </html>
-
