@@ -848,36 +848,41 @@
 
     /* ============================================================
        07. People
-       当前成员尚未完全录入，先展示 PI、招募信息和团队照片
+       上下层级：PI 单独置顶，下方为筛选、成员与团队信息
        ============================================================ */
-    .people-grid {
+    .people-stage {
       display: grid;
-      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-      gap: 30px;
+      justify-items: center;
+      text-align: center;
     }
 
     .pi-card {
+      width: min(100%, 560px);
       display: grid;
-      grid-template-columns: minmax(190px, 0.75fr) minmax(0, 1.25fr);
-      overflow: hidden;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
+      justify-items: center;
+    }
+
+    .pi-photo-frame {
+      position: relative;
+      width: clamp(220px, 29vw, 330px);
+      aspect-ratio: 1.12 / 1;
+      padding: 2px;
+      background: linear-gradient(145deg, rgba(104, 215, 195, 0.85), rgba(78, 142, 231, 0.3));
+      clip-path: polygon(50% 0, 94% 24%, 94% 76%, 50% 100%, 6% 76%, 6% 24%);
+      filter: drop-shadow(0 18px 40px rgba(31, 188, 202, 0.15));
     }
 
     .pi-photo {
       width: 100%;
       height: 100%;
-      min-height: 410px;
       object-fit: cover;
-      object-position: center top;
+      object-position: center 18%;
+      clip-path: inherit;
+      filter: saturate(0.72) contrast(1.04);
     }
 
     .pi-copy {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 30px;
+      padding: 24px 20px 0;
     }
 
     .pi-copy h3 {
@@ -894,14 +899,49 @@
     }
 
     .pi-affiliation {
-      margin: 15px 0 0;
+      margin: 12px 0 0;
       color: var(--text-soft);
       font-size: 0.9rem;
     }
 
-    .people-side {
+    .people-filter {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 52px 0 34px;
+    }
+
+    .people-filter button {
+      min-width: 132px;
+      padding: 10px 20px;
+      color: var(--text-soft);
+      font: inherit;
+      font-size: 0.76rem;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .people-filter button:hover,
+    .people-filter button:focus-visible,
+    .people-filter button.is-active {
+      color: #031017;
+      background: var(--primary);
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    .people-lower {
       display: grid;
-      gap: 30px;
+      grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+      gap: 24px;
+      align-items: stretch;
     }
 
     .recruit-card {
@@ -936,12 +976,32 @@
       border-radius: var(--radius-sm);
     }
 
+    .team-gallery {
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+    }
+
+    .team-gallery-title {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
     /* 预留成员列表样式：添加成员时取消 HTML 中模板的注释即可 */
     .member-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
       gap: 20px;
       margin-top: 30px;
+    }
+
+    .member-card[hidden] {
+      display: none;
     }
 
     .member-card {
@@ -1119,7 +1179,10 @@
     }
 
     .contact-section {
+      grid-column: 1 / -1;
+      margin-top: 42px;
       padding-bottom: 84px;
+      scroll-margin-top: calc(var(--header-height) + 20px);
     }
 
     .contact-banner {
@@ -1203,7 +1266,7 @@
 
       .hero > .container,
       .about-grid,
-      .people-grid,
+      .people-lower,
       .contact-banner {
         grid-template-columns: 1fr;
       }
@@ -1352,20 +1415,12 @@
         scroll-snap-align: start;
       }
 
-      .pi-card {
-        grid-template-columns: 1fr;
-      }
-
-      .pi-photo {
-        max-height: 520px;
-      }
-
       .photo-strip {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
       }
 
       .photo-strip img {
-        aspect-ratio: 16 / 10;
+        aspect-ratio: 4 / 3;
       }
 
       .publication-card {
@@ -1470,7 +1525,8 @@
           <li><a class="nav-link" href="#people">People</a></li>
           <li><a class="nav-link" href="#publications">Publications</a></li>
           <li><a class="nav-link" href="#news">News</a></li>
-          <li><a class="nav-link" href="#contact">Contact</a></li>
+          <!-- Contact 已并入首页下方；保留导航入口，点击后定位至首页联系区域 -->
+          <li><a class="nav-link" href="#home-contact">Contact</a></li>
         </ul>
       </nav>
     </div>
@@ -1498,7 +1554,7 @@
             </p>
             <div class="button-row">
               <a class="button" href="#research">Explore Research</a>
-              <a class="button secondary" href="#contact">Join the Lab</a>
+              <a class="button secondary" href="#home-contact">Join the Lab</a>
             </div>
           </div>
         </div>
@@ -1619,6 +1675,39 @@
             <span>Soft devices designed for complex, real-world environments.</span>
           </li>
         </ul>
+
+        <!-- ======================================================
+             CONTACT / 首页下方联系栏
+             联系方式与招生文件路径保持不变；后续可直接修改本区域文字
+             ====================================================== -->
+        <section class="contact-section" id="home-contact" aria-labelledby="contact-title">
+          <div class="contact-banner">
+            <div>
+              <p class="eyebrow">Contact</p>
+              <h2 id="contact-title">Let’s build intelligent materials together.</h2>
+              <p>
+                We welcome students, postdoctoral researchers, research assistants, and collaborators
+                interested in smart actuation, integrated sensing, and bio-inspired soft systems.
+              </p>
+            </div>
+
+            <div class="contact-actions">
+              <a class="button" href="mailto:zhiminghu@nju.edu.cn">zhiminghu@nju.edu.cn</a>
+              <a
+                class="button secondary"
+                href="PDFs/招生2026.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Recruitment Information
+              </a>
+              <p>
+                School of Advanced Manufacturing Engineering<br>
+                Nanjing University (Suzhou Campus)
+              </p>
+            </div>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -1828,15 +1917,18 @@
           </p>
         </div>
 
-        <div class="people-grid">
+        <!-- 上层：PI 独立展示。更换负责人时只需修改本卡片内容与照片路径。 -->
+        <div class="people-stage">
           <article class="pi-card">
-            <img
-              class="pi-photo"
-              src="images/zhiming-hu.jpg"
-              alt="Portrait of Zhiming Hu"
-              loading="lazy"
-              decoding="async"
->
+            <div class="pi-photo-frame">
+              <img
+                class="pi-photo"
+                src="images/zhiming-hu.jpg"
+                alt="Portrait of Zhiming Hu"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
             <div class="pi-copy">
               <p class="research-index">PRINCIPAL INVESTIGATOR</p>
               <!-- 若个人详情页创建完成，可改为：
@@ -1850,26 +1942,38 @@
               </p>
             </div>
           </article>
+        </div>
 
-          <div class="people-side">
-            <article class="recruit-card">
-              <p class="research-index">OPEN POSITIONS</p>
-              <h3>Join the SASM Lab</h3>
-              <p>
-                We welcome motivated students and researchers interested in smart materials,
-                soft robotics, bio-inspired systems, and environmental sensing.
-              </p>
-              <!-- 招生 PDF 路径保持原样 -->
-              <a
-                class="button"
-                href="PDFs/招生2026.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View 2026 Recruitment Information
-              </a>
-            </article>
+        <!-- 中层：成员类型筛选。新增类别时复制 button，并设置对应 data-filter。 -->
+        <div class="people-filter" role="group" aria-label="Filter lab members">
+          <button class="is-active" type="button" data-people-filter="all" aria-pressed="true">Show all</button>
+          <button type="button" data-people-filter="postdoc" aria-pressed="false">Postdocs</button>
+          <button type="button" data-people-filter="student" aria-pressed="false">Students</button>
+          <button type="button" data-people-filter="staff" aria-pressed="false">Research staff</button>
+        </div>
 
+        <!-- 下层：当前成员尚未完整录入，暂以招生信息与团队照片承接版面。 -->
+        <div class="people-lower">
+          <article class="recruit-card">
+            <p class="research-index">OPEN POSITIONS</p>
+            <h3>Join the SASM Lab</h3>
+            <p>
+              We welcome motivated students and researchers interested in smart materials,
+              soft robotics, bio-inspired systems, and environmental sensing.
+            </p>
+            <!-- 招生 PDF 路径保持原样 -->
+            <a
+              class="button"
+              href="PDFs/招生2026.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View 2026 Recruitment Information
+            </a>
+          </article>
+
+          <div class="team-gallery">
+            <p class="team-gallery-title">Lab life</p>
             <div class="photo-strip" role="group" aria-label="Group photos">
               <img src="images/photo-7.jpg" alt="SASM Lab group moment 1" loading="lazy" decoding="async">
               <img src="images/photo-6.jpg" alt="SASM Lab group moment 2" loading="lazy" decoding="async">
@@ -1886,28 +1990,28 @@
              3. 继续复制 article 可添加更多成员。
 
         <div class="member-grid" aria-label="Current lab members">
-          <article class="member-card">
+          <article class="member-card" data-people-category="student">
             <img src="images/images-1.jpeg" alt="Member name" loading="lazy">
             <div class="member-card-copy">
               <h3><a href="people-member-01.html">Member Name 1</a></h3>
               <p>PhD Student · Joined 2026</p>
             </div>
           </article>
-          <article class="member-card">
+          <article class="member-card" data-people-category="postdoc">
             <img src="images/images-2.jpeg" alt="Member name" loading="lazy">
             <div class="member-card-copy">
               <h3><a href="people-member-02.html">Member Name 2</a></h3>
               <p>Postdoctoral Fellow · Joined 2026</p>
             </div>
           </article>
-          <article class="member-card">
+          <article class="member-card" data-people-category="student">
             <img src="images/images-1.jpeg" alt="Member name" loading="lazy">
             <div class="member-card-copy">
               <h3><a href="people-member-03.html">Member Name 3</a></h3>
               <p>Master Student · Joined 2026</p>
             </div>
           </article>
-          <article class="member-card">
+          <article class="member-card" data-people-category="staff">
             <img src="images/images-2.jpeg" alt="Member name" loading="lazy">
             <div class="member-card-copy">
               <h3><a href="people-member-04.html">Member Name 4</a></h3>
@@ -2170,39 +2274,6 @@
       </div>
     </section>
 
-    <!-- ==========================================================
-         CONTACT
-         ========================================================== -->
-    <section class="section contact-section page-panel" id="contact" aria-labelledby="contact-title">
-      <div class="container">
-        <div class="contact-banner">
-          <div>
-            <p class="eyebrow">Contact</p>
-            <h2 id="contact-title">Let’s build intelligent materials together.</h2>
-            <p>
-              We welcome students, postdoctoral researchers, research assistants, and collaborators
-              interested in smart actuation, integrated sensing, and bio-inspired soft systems.
-            </p>
-          </div>
-
-          <div class="contact-actions">
-            <a class="button" href="mailto:zhiminghu@nju.edu.cn">zhiminghu@nju.edu.cn</a>
-            <a
-              class="button secondary"
-              href="PDFs/招生2026.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Recruitment Information
-            </a>
-            <p>
-              School of Advanced Manufacturing Engineering<br>
-              Nanjing University (Suzhou Campus)
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <!-- ============================================================
@@ -2324,13 +2395,76 @@
       });
     });
 
-    window.addEventListener("popstate", () => showSection(getSectionIdFromHash()));
+    /* Contact 位于首页内部：从任意栏目点击时，先显示首页，再定位到联系栏。 */
+    const homeContactLinks = [...document.querySelectorAll('a[href="#home-contact"]')];
+
+    function showHomeContact(options = {}) {
+      const { addToHistory = false } = options;
+      showSection("home");
+
+      if (addToHistory && window.location.hash !== "#home-contact") {
+        window.history.pushState({ sectionId: "home-contact" }, "", "#home-contact");
+      }
+
+      navLinks.forEach((link) => {
+        const isContact = link.getAttribute("href") === "#home-contact";
+        link.classList.toggle("active", isContact);
+        if (isContact) link.setAttribute("aria-current", "page");
+        else link.removeAttribute("aria-current");
+      });
+
+      window.requestAnimationFrame(() => {
+        document.getElementById("home-contact")?.scrollIntoView({
+          behavior: reduceMotionPreference ? "auto" : "smooth",
+          block: "start"
+        });
+      });
+    }
+
+    homeContactLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        showHomeContact({ addToHistory: true });
+        closeMenu();
+      });
+    });
+
+    window.addEventListener("popstate", () => {
+      if (window.location.hash === "#home-contact") showHomeContact();
+      else showSection(getSectionIdFromHash());
+    });
 
     /* 根据首次打开的网址决定初始栏目，例如 index.html#publications */
-    showSection(getSectionIdFromHash());
+    if (window.location.hash === "#home-contact") showHomeContact();
+    else showSection(getSectionIdFromHash());
 
     /* ============================================================
-       03. 首屏轮播
+       03. People 成员筛选
+       成员卡片需设置 data-people-category="postdoc/student/staff"。
+       在尚未录入成员卡片时，按钮仍保留为后续扩展入口。
+       ============================================================ */
+    const peopleFilterButtons = [...document.querySelectorAll("[data-people-filter]")];
+    const peopleMemberCards = [...document.querySelectorAll("[data-people-category]")];
+
+    peopleFilterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const selectedCategory = button.dataset.peopleFilter;
+
+        peopleFilterButtons.forEach((filterButton) => {
+          const isActive = filterButton === button;
+          filterButton.classList.toggle("is-active", isActive);
+          filterButton.setAttribute("aria-pressed", String(isActive));
+        });
+
+        peopleMemberCards.forEach((card) => {
+          card.hidden = selectedCategory !== "all"
+            && card.dataset.peopleCategory !== selectedCategory;
+        });
+      });
+    });
+
+    /* ============================================================
+       04. 首屏轮播
        - 支持按钮与圆点切换
        - 鼠标悬停、键盘聚焦、页面隐藏时暂停
        - 系统设置“减少动态效果”时不自动播放
