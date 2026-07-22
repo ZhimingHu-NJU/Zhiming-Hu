@@ -1070,11 +1070,12 @@
     }
 
     /* 预留成员列表样式：添加成员时取消 HTML 中模板的注释即可 */
-    .member-grid {
+   .member-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      grid-template-columns: repeat(auto-fill, 220px);
+      justify-content: center;
       gap: 20px;
-      margin-top: 30px;
+      margin: 0;
     }
 
     .member-card[hidden] {
@@ -1082,6 +1083,10 @@
     }
 
     .member-card {
+      width: 220px;
+      height: 360px;
+      display: grid;
+      grid-template-rows: 245px minmax(0, 1fr);
       overflow: hidden;
       background: var(--surface);
       border: 1px solid var(--line);
@@ -1090,12 +1095,12 @@
 
     .member-card img {
       width: 100%;
-      aspect-ratio: 4 / 5;
+      height: 245px;
       object-fit: cover;
     }
 
     .member-card-copy {
-      padding: 18px;
+      padding: 16px;
     }
 
     .member-card h3,
