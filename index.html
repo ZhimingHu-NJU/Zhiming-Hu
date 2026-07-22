@@ -501,12 +501,12 @@
       position: relative;
       overflow: hidden;
       /*
-        16:10 比原来的 4:3 更适合现有横向科研图片，并显著降低首屏图片高度。
-        不设置固定 min-height，防止图片在中等尺寸屏幕上显得过大。
+        右侧成果卡片改为紧凑的固定高度，不再依赖大比例黑色画布。
+        卡片内部依次为“标题—图片—关键词与出处”，避免文字覆盖科研图片。
       */
-      aspect-ratio: 16 / 10;
+      height: clamp(340px, 30vw, 370px);
+      aspect-ratio: auto;
       min-height: 0;
-      max-height: 400px;
       background: #02060b;
       border: 1px solid var(--line);
       border-radius: 24px;
@@ -521,6 +521,8 @@
     }
 
     .slide {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
       visibility: hidden;
       opacity: 0;
       transition: opacity 650ms ease, visibility 650ms ease;
@@ -531,72 +533,85 @@
       opacity: 1;
     }
 
-    .slide img {
+    .slide-visual {
+      min-height: 0;
+      overflow: hidden;
+      background: #dfe3e7;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .slide-visual img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       object-position: center;
     }
 
-    .slide::after {
-      position: absolute;
-      inset: 0;
-      content: "";
-      background:
-        linear-gradient(180deg, rgba(2, 6, 11, 0.12) 26%, rgba(2, 6, 11, 0.9) 100%),
-        linear-gradient(90deg, rgba(2, 6, 11, 0.42), transparent 45%);
+    .slide-header {
+      display: flex;
+      min-height: 68px;
+      align-items: center;
+      padding: 15px 118px 14px 26px;
+      background: linear-gradient(135deg, rgba(8, 17, 31, 0.98), rgba(3, 9, 17, 0.98));
     }
 
-    .slide-caption {
-      position: absolute;
-      right: 76px;
-      bottom: 30px;
-      left: 76px;
-      z-index: 2;
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 28px;
+    .slide-footer {
+      display: grid;
+      min-height: 82px;
+      align-content: center;
+      gap: 8px;
+      padding: 12px 26px 13px;
+      background: linear-gradient(135deg, rgba(3, 9, 17, 0.98), rgba(8, 17, 31, 0.98));
     }
 
     .slide-title {
-      max-width: 520px;
+      max-width: 100%;
       margin: 0;
-      font-size: clamp(1.12rem, 1.65vw, 1.5rem);
+      font-size: clamp(1.05rem, 1.35vw, 1.22rem);
       font-weight: 720;
-      letter-spacing: -0.025em;
-      line-height: 1.16;
+      letter-spacing: -0.018em;
+      line-height: 1.22;
     }
 
     .slide-meta {
-      flex: 0 0 auto;
       margin: 0;
       color: var(--text-soft);
-      font-size: 0.78rem;
+      font-size: 0.72rem;
+      line-height: 1.35;
       text-align: right;
+      white-space: nowrap;
     }
 
     .slide-tags {
       display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 13px;
-      margin-bottom: 0;
+      min-width: 0;
+      flex-wrap: nowrap;
+      gap: 6px;
+      margin: 0;
       padding: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
       list-style: none;
+    }
+
+    .slide-tags::-webkit-scrollbar {
+      display: none;
     }
 
     .tag {
       display: inline-flex;
+      flex: 0 0 auto;
       align-items: center;
-      gap: 7px;
-      padding: 5px 9px;
+      gap: 6px;
+      padding: 5px 8px;
       color: #dce7f3;
-      font-size: 0.72rem;
-      background: rgba(3, 10, 18, 0.6);
+      font-size: 0.66rem;
+      line-height: 1.25;
+      white-space: nowrap;
+      background: rgba(9, 20, 34, 0.78);
       border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 999px;
-      backdrop-filter: blur(8px);
     }
 
     .tag::before {
@@ -609,7 +624,7 @@
 
     .slider-arrow {
       position: absolute;
-      top: 50%;
+      top: 51%;
       z-index: 5;
       display: grid;
       width: 44px;
@@ -640,8 +655,8 @@
 
     .slider-dots {
       position: absolute;
-      top: 20px;
-      right: 22px;
+      top: 17px;
+      right: 20px;
       z-index: 5;
       display: flex;
       gap: 7px;
@@ -1420,41 +1435,41 @@
       }
 
       .hero-slider {
-        aspect-ratio: auto;
-        min-height: 360px;
+        height: 348px;
+        min-height: 0;
         border-radius: 20px;
       }
 
-      .slide img {
-        object-position: center;
+      .slide-header {
+        min-height: 64px;
+        padding: 13px 96px 12px 20px;
       }
 
-      .slide-caption {
-        right: 22px;
-        bottom: 27px;
-        left: 22px;
-        display: block;
+      .slide-footer {
+        min-height: 92px;
+        gap: 9px;
+        padding: 11px 20px 13px;
       }
 
       .slide-title {
         max-width: 100%;
+        font-size: 1rem;
       }
 
       .slide-meta {
-        margin-top: 15px;
         text-align: left;
       }
 
       .slider-arrow {
-        top: auto;
-        bottom: 115px;
+        top: 49%;
+        bottom: auto;
         width: 39px;
         height: 39px;
-        transform: none;
+        transform: translateY(-50%);
       }
 
       .slider-arrow:hover {
-        transform: scale(1.04);
+        transform: translateY(-50%) scale(1.04);
       }
 
       .hero-facts {
@@ -1633,88 +1648,96 @@
         <section class="hero-slider" aria-roledescription="carousel" aria-label="Featured research">
           <div class="slides" aria-live="polite">
             <article class="slide active" data-slide="0" aria-hidden="false">
-              <img
-                src="images/research-1.png"
-                alt="Optocapillarity-driven assembly of liquid crystal polymer actuators"
-                width="1400"
-                height="400"
-                fetchpriority="high"
+              <div class="slide-header">
+                <h2 class="slide-title">Programmable Assembly of Liquid Crystal Polymer Actuators</h2>
+              </div>
+              <div class="slide-visual">
+                <img
+                  src="images/research-1.png"
+                  alt="Optocapillarity-driven assembly of liquid crystal polymer actuators"
+                  width="1400"
+                  height="400"
+                  fetchpriority="high"
 >
-              <div class="slide-caption">
-                <div>
-                  <h2 class="slide-title">Programmable Assembly of Liquid Crystal Polymer Actuators</h2>
-                  <ul class="slide-tags">
-                    <li class="tag">Liquid-crystal polymer</li>
-                    <li class="tag">Optocapillarity</li>
-                    <li class="tag">Programmable assembly</li>
-                  </ul>
-                </div>
+              </div>
+              <div class="slide-footer">
+                <ul class="slide-tags">
+                  <li class="tag">Liquid-crystal polymer</li>
+                  <li class="tag">Optocapillarity</li>
+                  <li class="tag">Programmable assembly</li>
+                </ul>
                 <p class="slide-meta">Nature Communications, 2020, 11, 5780.</p>
               </div>
             </article>
 
             <article class="slide" data-slide="1" aria-hidden="true">
-              <img
-                src="images/selfoscillation-5.jpg"
-                alt="Phototunable self-oscillating liquid crystal elastomer system"
-                width="3762"
-                height="1081"
-                loading="lazy"
-                decoding="async"
+              <div class="slide-header">
+                <h2 class="slide-title">Phototunable Self-Oscillating Systems</h2>
+              </div>
+              <div class="slide-visual">
+                <img
+                  src="images/selfoscillation-5.jpg"
+                  alt="Phototunable self-oscillating liquid crystal elastomer system"
+                  width="3762"
+                  height="1081"
+                  loading="lazy"
+                  decoding="async"
 >
-              <div class="slide-caption">
-                <div>
-                  <h2 class="slide-title">Phototunable Self-Oscillating Systems</h2>
-                  <ul class="slide-tags">
-                    <li class="tag">Liquid crystal elastomer</li>
-                    <li class="tag">Self-oscillation</li>
-                    <li class="tag">Fiber actuator</li>
-                  </ul>
-                </div>
+              </div>
+              <div class="slide-footer">
+                <ul class="slide-tags">
+                  <li class="tag">Liquid crystal elastomer</li>
+                  <li class="tag">Self-oscillation</li>
+                  <li class="tag">Fiber actuator</li>
+                </ul>
                 <p class="slide-meta">Nature Communications, 2021, 12, 3211.</p>
               </div>
             </article>
 
             <article class="slide" data-slide="2" aria-hidden="true">
-              <img
-                src="images/fiberassembly.jpg"
-                alt="Bioinspired helical artificial fibrous muscle structured tubular soft actuator"
-                width="3698"
-                height="875"
-                loading="lazy"
-                decoding="async"
+              <div class="slide-header">
+                <h2 class="slide-title">Bioinspired Tubular Soft Actuators</h2>
+              </div>
+              <div class="slide-visual">
+                <img
+                  src="images/fiberassembly.jpg"
+                  alt="Bioinspired helical artificial fibrous muscle structured tubular soft actuator"
+                  width="3698"
+                  height="875"
+                  loading="lazy"
+                  decoding="async"
 >
-              <div class="slide-caption">
-                <div>
-                  <h2 class="slide-title">Bioinspired Tubular Soft Actuators</h2>
-                  <ul class="slide-tags">
-                    <li class="tag">Liquid crystal elastomer</li>
-                    <li class="tag">Tubular soft actuators</li>
-                    <li class="tag">LCE fiber</li>
-                  </ul>
-                </div>
+              </div>
+              <div class="slide-footer">
+                <ul class="slide-tags">
+                  <li class="tag">Liquid crystal elastomer</li>
+                  <li class="tag">Tubular soft actuators</li>
+                  <li class="tag">LCE fiber</li>
+                </ul>
                 <p class="slide-meta">Science Advances, 2023, 9, eadh3350.</p>
               </div>
             </article>
 
             <article class="slide" data-slide="3" aria-hidden="true">
-              <img
-                src="images/environment sensor-2.jpg"
-                alt="Bio-inspired distributed environmental sensing devices"
-                width="1568"
-                height="494"
-                loading="lazy"
-                decoding="async"
+              <div class="slide-header">
+                <h2 class="slide-title">Distributed Environmental Sensing</h2>
+              </div>
+              <div class="slide-visual">
+                <img
+                  src="images/environment sensor-2.jpg"
+                  alt="Bio-inspired distributed environmental sensing devices"
+                  width="1568"
+                  height="494"
+                  loading="lazy"
+                  decoding="async"
 >
-              <div class="slide-caption">
-                <div>
-                  <h2 class="slide-title">Distributed Environmental Sensing</h2>
-                  <ul class="slide-tags">
-                    <li class="tag">Distributed sensing</li>
-                    <li class="tag">Chemiluminescent devices</li>
-                    <li class="tag">Environmental monitoring</li>
-                  </ul>
-                </div>
+              </div>
+              <div class="slide-footer">
+                <ul class="slide-tags">
+                  <li class="tag">Distributed sensing</li>
+                  <li class="tag">Chemiluminescent devices</li>
+                  <li class="tag">Environmental monitoring</li>
+                </ul>
                 <p class="slide-meta">Bio-inspired sensing platforms · 2026</p>
               </div>
             </article>
