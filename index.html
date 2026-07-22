@@ -821,6 +821,7 @@
     .research-media-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: minmax(230px, 1.15fr) minmax(190px, 0.85fr);
       gap: 1px;
       min-width: 0;
       background: var(--line);
@@ -828,6 +829,7 @@
 
     .research-media-grid.one-item {
       grid-template-columns: 1fr;
+      grid-template-rows: minmax(420px, 1fr);
     }
 
     .research-media-grid.three-items > :first-child {
@@ -837,13 +839,16 @@
     .research-media {
       width: 100%;
       height: 100%;
-      min-height: 210px;
+      min-width: 0;
+      min-height: 0;
       object-fit: cover;
+      object-position: center;
       background: #02060b;
     }
 
     video.research-media {
-      object-fit: contain;
+      /* 统一使用铺满式裁切，避免不同视频比例产生大面积黑边和布局跳动。 */
+      object-fit: cover;
     }
 
     /* ============================================================
@@ -1765,7 +1770,7 @@
 
     <!-- ==========================================================
          RESEARCH
-         视频路径保持不变；preload="none" 可避免首页一次性加载约 73 MB 视频
+         视频路径保持不变；仅在打开 Research 栏目后加载并自动静音播放
          ========================================================== -->
     <section class="section page-panel" id="research" aria-labelledby="research-title">
       <div class="container">
@@ -1805,6 +1810,7 @@
                 muted
                 loop
                 playsinline
+                autoplay
                 preload="none"
                 poster="images/research-3.jpg"
                 aria-label="Artificial plant actuator demonstration"
@@ -1818,6 +1824,7 @@
                 muted
                 loop
                 playsinline
+                autoplay
                 preload="none"
                 poster="images/research-3.jpg"
                 aria-label="Self-winding fiber actuator demonstration"
@@ -1854,6 +1861,7 @@
                 muted
                 loop
                 playsinline
+                autoplay
                 preload="none"
                 poster="images/research-4.png"
                 aria-label="Self-oscillation demonstration 1"
@@ -1867,6 +1875,7 @@
                 muted
                 loop
                 playsinline
+                autoplay
                 preload="none"
                 poster="images/research-4.png"
                 aria-label="Self-oscillation demonstration 2"
@@ -2369,6 +2378,15 @@
         }
       });
 
+      /* Research 被打开时自动播放；静音是浏览器允许自动播放的必要条件。 */
+      if (targetSection.id === "research" && !document.hidden) {
+        targetSection.querySelectorAll("video.research-media").forEach((video) => {
+          video.muted = true;
+          const playRequest = video.play();
+          if (playRequest !== undefined) playRequest.catch(() => {});
+        });
+      }
+
       setActiveNavigation(targetSection.id);
 
       const activeNavText = navLinks.find(
@@ -2541,20 +2559,23 @@
     startAutoplay();
 
     /* ============================================================
-       04. 视频管理
-       离开可视区域时自动暂停，避免后台持续播放和占用资源
+       05. Research 视频管理
+       打开 Research 时自动静音播放；切换栏目或隐藏浏览器标签时暂停
        ============================================================ */
     const researchVideos = document.querySelectorAll("video.research-media");
-    const videoObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting && !entry.target.paused) entry.target.pause();
-        });
-      },
-      { threshold: 0.1 }
-    );
 
-    researchVideos.forEach((video) => videoObserver.observe(video));
+    document.addEventListener("visibilitychange", () => {
+      const researchIsActive = document.getElementById("research")?.classList.contains("active-section");
+
+      researchVideos.forEach((video) => {
+        if (document.hidden || !researchIsActive) {
+          video.pause();
+        } else {
+          const playRequest = video.play();
+          if (playRequest !== undefined) playRequest.catch(() => {});
+        }
+      });
+    });
 
     /* 页脚年份自动更新 */
     document.getElementById("current-year").textContent = new Date().getFullYear();
