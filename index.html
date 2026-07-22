@@ -426,7 +426,7 @@
        ============================================================ */
     .hero {
       min-height: calc(100svh - var(--header-height) - 88px);
-      padding: 24px 0 58px;
+      padding: 30px 0 58px;
       scroll-margin-top: var(--header-height);
     }
 
@@ -436,16 +436,21 @@
     */
     .hero > .container {
       display: grid;
-      grid-template-columns: minmax(360px, 0.78fr) minmax(520px, 1.22fr);
-      gap: 48px;
+      /*
+        首页两栏采用接近 46:54 的比例，避免右侧图片过度挤压左侧文字。
+        如后期需要进一步调整，只修改下方两个 fr 数值即可。
+      */
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+      gap: clamp(32px, 3.5vw, 46px);
       align-items: center;
     }
 
     .hero-copy {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 22px;
-      padding: 42px 0;
+      align-content: center;
+      gap: 20px;
+      padding: 30px 0;
     }
 
     .hero-kicker {
@@ -458,12 +463,13 @@
     }
 
     .hero h1 {
-      max-width: 840px;
+      max-width: 590px;
       margin: 0;
-      font-size: clamp(2.25rem, 4.4vw, 4rem);
-      font-weight: 780;
-      letter-spacing: -0.045em;
-      line-height: 1;
+      /* 桌面端最高约 52px；保持醒目，但不再压过右侧成果图。 */
+      font-size: clamp(2.2rem, 3.25vw, 3.3rem);
+      font-weight: 760;
+      letter-spacing: -0.04em;
+      line-height: 1.04;
     }
 
     .hero-highlight {
@@ -476,28 +482,34 @@
     .hero h1 span {
       display: block;
       color: var(--text-soft);
-      font-size: 0.52em;
+      font-size: 0.46em;
       font-weight: 620;
-      letter-spacing: -0.03em;
-      line-height: 1.14;
-      margin-top: 14px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-top: 13px;
     }
 
     .hero-summary {
-      max-width: 520px;
-      margin: 0 0 22px;
+      max-width: 500px;
+      margin: 0 0 18px;
       color: var(--text-soft);
-      font-size: 0.98rem;
+      font-size: 0.94rem;
+      line-height: 1.62;
     }
 
     .hero-slider {
       position: relative;
       overflow: hidden;
-      aspect-ratio: 4 / 3;
-      min-height: 430px;
+      /*
+        16:10 比原来的 4:3 更适合现有横向科研图片，并显著降低首屏图片高度。
+        不设置固定 min-height，防止图片在中等尺寸屏幕上显得过大。
+      */
+      aspect-ratio: 16 / 10;
+      min-height: 0;
+      max-height: 400px;
       background: #02060b;
       border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
+      border-radius: 24px;
       box-shadow: var(--shadow);
       isolation: isolate;
     }
@@ -548,19 +560,19 @@
     }
 
     .slide-title {
-      max-width: 620px;
+      max-width: 520px;
       margin: 0;
-      font-size: clamp(1.22rem, 2.15vw, 1.9rem);
+      font-size: clamp(1.12rem, 1.65vw, 1.5rem);
       font-weight: 720;
       letter-spacing: -0.025em;
-      line-height: 1.1;
+      line-height: 1.16;
     }
 
     .slide-meta {
       flex: 0 0 auto;
       margin: 0;
       color: var(--text-soft);
-      font-size: 0.84rem;
+      font-size: 0.78rem;
       text-align: right;
     }
 
@@ -662,7 +674,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      margin-top: 18px;
+      margin-top: 8px;
       margin-bottom: 0;
       padding: 0;
       overflow: hidden;
@@ -673,8 +685,8 @@
     }
 
     .hero-fact {
-      min-height: 112px;
-      padding: 22px 24px;
+      min-height: 102px;
+      padding: 20px 22px;
       background: rgba(11, 23, 39, 0.92);
     }
 
@@ -766,7 +778,7 @@
 
     /* ============================================================
        06. Research
-       每个方向采用“文字 + 媒体”的结构，后期复制 research-card 即可扩展
+       每个方向采用“文字 + 代表图片”的结构，后期复制 research-card 即可扩展
        ============================================================ */
     .research-list {
       display: grid;
@@ -832,10 +844,6 @@
       grid-template-rows: minmax(420px, 1fr);
     }
 
-    .research-media-grid.three-items > :first-child {
-      grid-column: 1 / -1;
-    }
-
     .research-media {
       width: 100%;
       height: 100%;
@@ -846,13 +854,62 @@
       background: #02060b;
     }
 
-    video.research-media {
-      /* 统一使用铺满式裁切，避免不同视频比例产生大面积黑边和布局跳动。 */
+    /* ============================================================
+       07. Videos
+       视频从 Research 中独立出来，集中展示材料和器件的动态效果
+       ============================================================ */
+    .video-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .video-card {
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.16);
+    }
+
+    .video-frame {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #02060b;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .video-frame video {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
+      object-position: center;
+      background: #02060b;
+    }
+
+    .video-copy {
+      padding: 21px 23px 24px;
+    }
+
+    .video-copy .research-index {
+      margin-bottom: 10px;
+    }
+
+    .video-copy h3 {
+      margin: 0;
+      font-size: 1.12rem;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    .video-copy p:last-child {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
     }
 
     /* ============================================================
-       07. People
+       08. People
        上下层级：PI 单独置顶，下方为筛选、成员与团队信息
        ============================================================ */
     .people-stage {
@@ -1038,7 +1095,7 @@
     }
 
     /* ============================================================
-       08. Publications
+       09. Publications
        ============================================================ */
     .publication-list {
       display: grid;
@@ -1154,7 +1211,7 @@
     }
 
     /* ============================================================
-       09. News 与 Contact
+       10. News 与 Contact
        ============================================================ */
     .timeline {
       max-width: 850px;
@@ -1224,7 +1281,7 @@
     }
 
     /* ============================================================
-       10. 页脚
+       11. 页脚
        ============================================================ */
     .site-footer {
       padding: 26px 0 34px;
@@ -1253,7 +1310,7 @@
     }
 
     /* ============================================================
-       11. 响应式：平板
+       12. 响应式：平板
        ============================================================ */
     @media (max-width: 980px) {
       :root {
@@ -1278,7 +1335,7 @@
 
       .hero-copy {
         gap: 24px;
-        padding-bottom: 0;
+        padding: 24px 0 0;
       }
 
       .hero-summary {
@@ -1297,10 +1354,14 @@
       .research-media-grid {
         min-height: 440px;
       }
+
+      .video-gallery {
+        gap: 18px;
+      }
     }
 
     /* ============================================================
-       12. 响应式：手机
+       13. 响应式：手机
        ============================================================ */
     @media (max-width: 760px) {
       .container {
@@ -1355,12 +1416,12 @@
       }
 
       .hero h1 {
-        font-size: clamp(2.1rem, 10.5vw, 3.2rem);
+        font-size: clamp(2rem, 9.2vw, 2.75rem);
       }
 
       .hero-slider {
         aspect-ratio: auto;
-        min-height: 440px;
+        min-height: 360px;
         border-radius: 20px;
       }
 
@@ -1404,20 +1465,23 @@
         min-height: auto;
       }
 
-      .research-media-grid,
-      .research-media-grid.three-items {
-        display: flex;
+      .research-media-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 260px;
         min-height: 0;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        overflow: hidden;
       }
 
       .research-media {
-        width: 88%;
-        min-width: 88%;
-        height: 270px;
-        min-height: 270px;
-        scroll-snap-align: start;
+        width: 100%;
+        min-width: 0;
+        height: 260px;
+        min-height: 260px;
+      }
+
+      .video-gallery {
+        grid-template-columns: 1fr;
       }
 
       .photo-strip {
@@ -1527,6 +1591,7 @@
           <li><a class="nav-link active" href="#home">Home</a></li>
           <li><a class="nav-link" href="#about">About</a></li>
           <li><a class="nav-link" href="#research">Research</a></li>
+          <li><a class="nav-link" href="#videos">Videos</a></li>
           <li><a class="nav-link" href="#people">People</a></li>
           <li><a class="nav-link" href="#publications">Publications</a></li>
           <li><a class="nav-link" href="#news">News</a></li>
@@ -1770,7 +1835,7 @@
 
     <!-- ==========================================================
          RESEARCH
-         视频路径保持不变；仅在打开 Research 栏目后加载并自动静音播放
+         本栏目仅保留研究方向文字和代表图片；动态演示统一放入 Videos
          ========================================================== -->
     <section class="section page-panel" id="research" aria-labelledby="research-title">
       <div class="container">
@@ -1796,7 +1861,7 @@
               </p>
             </div>
 
-            <div class="research-media-grid three-items" role="group" aria-label="Media for research direction 1">
+            <div class="research-media-grid one-item" role="group" aria-label="Representative image for research direction 1">
               <img
                 class="research-media"
                 src="images/research-3.jpg"
@@ -1804,34 +1869,6 @@
                 loading="lazy"
                 decoding="async"
 >
-              <video
-                class="research-media"
-                controls
-                muted
-                loop
-                playsinline
-                autoplay
-                preload="none"
-                poster="images/research-3.jpg"
-                aria-label="Artificial plant actuator demonstration"
-              >
-                <source src="videos/artificial plants.mp4" type="video/mp4">
-                Your browser does not support the video element.
-              </video>
-              <video
-                class="research-media"
-                controls
-                muted
-                loop
-                playsinline
-                autoplay
-                preload="none"
-                poster="images/research-3.jpg"
-                aria-label="Self-winding fiber actuator demonstration"
-              >
-                <source src="videos/self winding.mp4" type="video/mp4">
-                Your browser does not support the video element.
-              </video>
             </div>
           </article>
 
@@ -1847,7 +1884,7 @@
               </p>
             </div>
 
-            <div class="research-media-grid three-items" role="group" aria-label="Media for research direction 2">
+            <div class="research-media-grid one-item" role="group" aria-label="Representative image for research direction 2">
               <img
                 class="research-media"
                 src="images/research-4.png"
@@ -1855,34 +1892,6 @@
                 loading="lazy"
                 decoding="async"
 >
-              <video
-                class="research-media"
-                controls
-                muted
-                loop
-                playsinline
-                autoplay
-                preload="none"
-                poster="images/research-4.png"
-                aria-label="Self-oscillation demonstration 1"
-              >
-                <source src="videos/self oscillation-3.mp4" type="video/mp4">
-                Your browser does not support the video element.
-              </video>
-              <video
-                class="research-media"
-                controls
-                muted
-                loop
-                playsinline
-                autoplay
-                preload="none"
-                poster="images/research-4.png"
-                aria-label="Self-oscillation demonstration 2"
-              >
-                <source src="videos/self oscillation -2.mp4" type="video/mp4">
-                Your browser does not support the video element.
-              </video>
             </div>
           </article>
 
@@ -1898,7 +1907,7 @@
               </p>
             </div>
 
-            <div class="research-media-grid one-item" role="group" aria-label="Media for research direction 3">
+            <div class="research-media-grid one-item" role="group" aria-label="Representative image for research direction 3">
               <img
                 class="research-media"
                 src="images/environment sensor-1.jpg"
@@ -1906,6 +1915,118 @@
                 loading="lazy"
                 decoding="async"
 >
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         VIDEOS
+         新增视频时：复制一个 video-card，并替换视频、封面、标题和说明
+         视频只在打开本栏目时自动静音播放；离开栏目后自动暂停
+         ========================================================== -->
+    <section class="section page-panel" id="videos" aria-labelledby="videos-title">
+      <div class="container">
+        <div class="section-heading centered">
+          <p class="eyebrow">Videos</p>
+          <h2 class="section-title" id="videos-title">Materials in motion</h2>
+          <p class="section-intro">
+            A collection of dynamic demonstrations showing how smart materials transform,
+            oscillate, and interact with their surroundings.
+          </p>
+        </div>
+
+        <div class="video-gallery">
+          <!-- 视频 1 -->
+          <article class="video-card">
+            <div class="video-frame">
+              <video
+                controls
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="images/research-3.jpg"
+                aria-label="Bio-inspired artificial plant actuator demonstration"
+              >
+                <source src="videos/artificial plants.mp4" type="video/mp4">
+                Your browser does not support the video element.
+              </video>
+            </div>
+            <div class="video-copy">
+              <p class="research-index">VIDEO 01</p>
+              <h3>Bio-Inspired Artificial Plant Actuators</h3>
+              <p>Light-responsive soft materials create programmable plant-like motion.</p>
+            </div>
+          </article>
+
+          <!-- 视频 2 -->
+          <article class="video-card">
+            <div class="video-frame">
+              <video
+                controls
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="images/research-3.jpg"
+                aria-label="Self-winding fiber actuator demonstration"
+              >
+                <source src="videos/self winding.mp4" type="video/mp4">
+                Your browser does not support the video element.
+              </video>
+            </div>
+            <div class="video-copy">
+              <p class="research-index">VIDEO 02</p>
+              <h3>Self-Winding Fiber Actuators</h3>
+              <p>Programmed fibers autonomously wind into functional three-dimensional forms.</p>
+            </div>
+          </article>
+
+          <!-- 视频 3 -->
+          <article class="video-card">
+            <div class="video-frame">
+              <video
+                controls
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="images/research-4.png"
+                aria-label="Light-driven self-oscillation demonstration"
+              >
+                <source src="videos/self oscillation-3.mp4" type="video/mp4">
+                Your browser does not support the video element.
+              </video>
+            </div>
+            <div class="video-copy">
+              <p class="research-index">VIDEO 03</p>
+              <h3>Light-Driven Self-Oscillation</h3>
+              <p>Steady illumination generates sustained rhythmic motion without periodic control.</p>
+            </div>
+          </article>
+
+          <!-- 视频 4 -->
+          <article class="video-card">
+            <div class="video-frame">
+              <video
+                controls
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="images/research-4.png"
+                aria-label="Phototunable oscillatory motion demonstration"
+              >
+                <source src="videos/self oscillation -2.mp4" type="video/mp4">
+                Your browser does not support the video element.
+              </video>
+            </div>
+            <div class="video-copy">
+              <p class="research-index">VIDEO 04</p>
+              <h3>Phototunable Oscillatory Motion</h3>
+              <p>Optical conditions regulate the mode and dynamics of autonomous soft motion.</p>
             </div>
           </article>
         </div>
@@ -2378,9 +2499,9 @@
         }
       });
 
-      /* Research 被打开时自动播放；静音是浏览器允许自动播放的必要条件。 */
-      if (targetSection.id === "research" && !document.hidden) {
-        targetSection.querySelectorAll("video.research-media").forEach((video) => {
+      /* Videos 被打开时自动播放；静音是浏览器允许自动播放的必要条件。 */
+      if (targetSection.id === "videos" && !document.hidden && !reduceMotionPreference) {
+        targetSection.querySelectorAll(".video-frame video").forEach((video) => {
           video.muted = true;
           const playRequest = video.play();
           if (playRequest !== undefined) playRequest.catch(() => {});
@@ -2559,18 +2680,19 @@
     startAutoplay();
 
     /* ============================================================
-       05. Research 视频管理
-       打开 Research 时自动静音播放；切换栏目或隐藏浏览器标签时暂停
+       05. Videos 播放管理
+       打开 Videos 时自动静音播放；切换栏目或隐藏浏览器标签时暂停
        ============================================================ */
-    const researchVideos = document.querySelectorAll("video.research-media");
+    const galleryVideos = document.querySelectorAll(".video-frame video");
 
     document.addEventListener("visibilitychange", () => {
-      const researchIsActive = document.getElementById("research")?.classList.contains("active-section");
+      const videosAreActive = document.getElementById("videos")?.classList.contains("active-section");
 
-      researchVideos.forEach((video) => {
-        if (document.hidden || !researchIsActive) {
+      galleryVideos.forEach((video) => {
+        if (document.hidden || !videosAreActive || reduceMotionPreference) {
           video.pause();
         } else {
+          video.muted = true;
           const playRequest = video.play();
           if (playRequest !== undefined) playRequest.catch(() => {});
         }
