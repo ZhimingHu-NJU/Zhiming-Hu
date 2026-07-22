@@ -36,6 +36,12 @@
   <!-- 首屏图片预加载：仅预加载第一张，避免四张轮播图同时抢占带宽 -->
   <link rel="preload" as="image" href="images/research-1.png">
 
+  <!--
+    提前标记 JavaScript 可用状态，避免页面载入时短暂显示全部栏目。
+    如果浏览器禁用 JavaScript，所有内容仍会按普通长页面完整显示。
+  -->
+  <script>document.documentElement.classList.add("js");</script>
+
   <style>
     /* ============================================================
        01. 全局设计变量
@@ -55,7 +61,7 @@
       --secondary: #70a8ff;
       --warning: #f6c76b;
       --max-width: 1180px;
-      --header-height: 74px;
+      --header-height: 68px;
       --radius-sm: 12px;
       --radius-md: 20px;
       --radius-lg: 28px;
@@ -85,8 +91,8 @@
       font-family:
         Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-      font-size: 16px;
-      line-height: 1.65;
+      font-size: 15px;
+      line-height: 1.58;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
     }
@@ -201,9 +207,10 @@
 
     .brand-name {
       display: block;
-      font-size: 1rem;
-      font-weight: 760;
-      letter-spacing: 0.04em;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.08rem;
+      font-weight: 700;
+      letter-spacing: 0.025em;
     }
 
     .brand-subtitle {
@@ -228,8 +235,10 @@
       display: block;
       padding: 9px 10px;
       color: var(--text-soft);
-      font-size: 0.88rem;
-      font-weight: 620;
+      font-size: 0.75rem;
+      font-weight: 680;
+      letter-spacing: 0.075em;
+      text-transform: uppercase;
       transition: color var(--transition), background var(--transition);
       border-radius: 10px;
     }
@@ -294,19 +303,40 @@
       overflow: clip;
     }
 
-    .section {
-      position: relative;
-      padding: 104px 0;
-      scroll-margin-top: calc(var(--header-height) + 12px);
+    /*
+      分栏显示逻辑：启用 JavaScript 时，每次只显示一个栏目。
+      active-section 类由页面底部脚本根据顶部导航和网址 #锚点 自动切换。
+    */
+    html.js .page-panel {
+      display: none;
     }
 
-    .section + .section {
-      border-top: 1px solid rgba(164, 186, 210, 0.09);
+    html.js .page-panel.active-section {
+      display: block;
+      animation: section-enter 260ms ease both;
+    }
+
+    @keyframes section-enter {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section {
+      position: relative;
+      min-height: calc(100svh - var(--header-height) - 88px);
+      padding: 66px 0 74px;
+      scroll-margin-top: calc(var(--header-height) + 12px);
     }
 
     .section-heading {
       max-width: 760px;
-      margin-bottom: 44px;
+      margin-bottom: 32px;
     }
 
     .section-heading.centered {
@@ -336,17 +366,17 @@
 
     .section-title {
       margin: 0;
-      font-size: clamp(2rem, 4.2vw, 3.35rem);
+      font-size: clamp(1.72rem, 3vw, 2.45rem);
       font-weight: 760;
-      letter-spacing: -0.035em;
-      line-height: 1.08;
+      letter-spacing: -0.03em;
+      line-height: 1.12;
     }
 
     .section-intro {
       max-width: 700px;
       margin: 18px 0 0;
       color: var(--text-soft);
-      font-size: 1.06rem;
+      font-size: 0.98rem;
     }
 
     .centered .section-intro {
@@ -395,16 +425,27 @@
        04. 首页首屏与轮播
        ============================================================ */
     .hero {
-      padding: 42px 0 96px;
+      min-height: calc(100svh - var(--header-height) - 88px);
+      padding: 24px 0 58px;
       scroll-margin-top: var(--header-height);
+    }
+
+    /*
+      首页采用“核心介绍 + 代表性成果图”的左右分栏。
+      这种结构借鉴优秀学术主页常用的信息层级：首屏只回答“研究是谁、做什么、代表成果是什么”。
+    */
+    .hero > .container {
+      display: grid;
+      grid-template-columns: minmax(360px, 0.78fr) minmax(520px, 1.22fr);
+      gap: 48px;
+      align-items: center;
     }
 
     .hero-copy {
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
-      align-items: end;
-      gap: 46px;
-      padding: 56px 0 38px;
+      grid-template-columns: 1fr;
+      gap: 22px;
+      padding: 42px 0;
     }
 
     .hero-kicker {
@@ -419,10 +460,17 @@
     .hero h1 {
       max-width: 840px;
       margin: 0;
-      font-size: clamp(2.6rem, 6.6vw, 5.9rem);
+      font-size: clamp(2.25rem, 4.4vw, 4rem);
       font-weight: 780;
-      letter-spacing: -0.055em;
-      line-height: 0.96;
+      letter-spacing: -0.045em;
+      line-height: 1;
+    }
+
+    .hero-highlight {
+      color: var(--primary);
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: normal;
+      font-weight: 700;
     }
 
     .hero h1 span {
@@ -436,16 +484,17 @@
     }
 
     .hero-summary {
-      margin: 0 0 24px;
+      max-width: 520px;
+      margin: 0 0 22px;
       color: var(--text-soft);
-      font-size: 1.04rem;
+      font-size: 0.98rem;
     }
 
     .hero-slider {
       position: relative;
       overflow: hidden;
-      aspect-ratio: 14 / 5;
-      min-height: 360px;
+      aspect-ratio: 4 / 3;
+      min-height: 430px;
       background: #02060b;
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
@@ -473,7 +522,7 @@
     .slide img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       object-position: center;
     }
 
@@ -501,7 +550,7 @@
     .slide-title {
       max-width: 620px;
       margin: 0;
-      font-size: clamp(1.35rem, 2.8vw, 2.45rem);
+      font-size: clamp(1.22rem, 2.15vw, 1.9rem);
       font-weight: 720;
       letter-spacing: -0.025em;
       line-height: 1.1;
@@ -609,6 +658,7 @@
     }
 
     .hero-facts {
+      grid-column: 1 / -1;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
@@ -649,7 +699,7 @@
     }
 
     .panel {
-      padding: clamp(26px, 4vw, 44px);
+      padding: clamp(24px, 3.4vw, 36px);
       background: linear-gradient(145deg, rgba(16, 32, 51, 0.9), rgba(8, 17, 31, 0.94));
       border: 1px solid var(--line);
       border-radius: var(--radius-md);
@@ -663,12 +713,12 @@
     }
 
     .panel h2 {
-      font-size: clamp(1.65rem, 3vw, 2.45rem);
+      font-size: clamp(1.45rem, 2.4vw, 1.95rem);
       letter-spacing: -0.025em;
     }
 
     .panel h3 {
-      font-size: 1.25rem;
+      font-size: 1.12rem;
     }
 
     .panel p {
@@ -720,13 +770,13 @@
        ============================================================ */
     .research-list {
       display: grid;
-      gap: 30px;
+      gap: 24px;
     }
 
     .research-card {
       display: grid;
       grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
-      min-height: 420px;
+      min-height: 360px;
       overflow: hidden;
       background: var(--surface);
       border: 1px solid var(--line);
@@ -745,7 +795,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: clamp(28px, 5vw, 52px);
+      padding: clamp(26px, 4vw, 42px);
     }
 
     .research-index {
@@ -758,7 +808,7 @@
 
     .research-title {
       margin: 0;
-      font-size: clamp(1.55rem, 3vw, 2.35rem);
+      font-size: clamp(1.35rem, 2.35vw, 1.8rem);
       letter-spacing: -0.035em;
       line-height: 1.12;
     }
@@ -832,7 +882,7 @@
 
     .pi-copy h3 {
       margin: 0;
-      font-size: 1.85rem;
+      font-size: 1.55rem;
       letter-spacing: -0.025em;
     }
 
@@ -865,7 +915,7 @@
 
     .recruit-card h3 {
       margin: 0 0 10px;
-      font-size: 1.35rem;
+      font-size: 1.18rem;
     }
 
     .recruit-card p {
@@ -975,7 +1025,7 @@
 
     .publication-title {
       margin: 0;
-      font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+      font-size: clamp(1.08rem, 1.8vw, 1.38rem);
       letter-spacing: -0.02em;
       line-height: 1.22;
     }
@@ -1023,7 +1073,7 @@
 
     .additional-publications h3 {
       margin: 0 0 18px;
-      font-size: 1.35rem;
+      font-size: 1.18rem;
     }
 
     .additional-publications ol {
@@ -1088,7 +1138,7 @@
 
     .contact-banner h2 {
       margin: 0;
-      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-size: clamp(1.72rem, 3vw, 2.45rem);
       letter-spacing: -0.04em;
       line-height: 1.05;
     }
@@ -1139,7 +1189,7 @@
        ============================================================ */
     @media (max-width: 980px) {
       :root {
-        --header-height: 68px;
+        --header-height: 64px;
       }
 
       .brand-subtitle {
@@ -1151,7 +1201,7 @@
         font-size: 0.82rem;
       }
 
-      .hero-copy,
+      .hero > .container,
       .about-grid,
       .people-grid,
       .contact-banner {
@@ -1160,6 +1210,7 @@
 
       .hero-copy {
         gap: 24px;
+        padding-bottom: 0;
       }
 
       .hero-summary {
@@ -1189,7 +1240,8 @@
       }
 
       .section {
-        padding: 76px 0;
+        min-height: calc(100svh - var(--header-height) - 100px);
+        padding: 48px 0 58px;
       }
 
       .menu-toggle {
@@ -1221,25 +1273,26 @@
 
       .site-nav a {
         padding: 11px 12px;
-        font-size: 0.9rem;
+        font-size: 0.78rem;
       }
 
       .hero {
-        padding-top: 20px;
-        padding-bottom: 72px;
+        min-height: calc(100svh - var(--header-height) - 100px);
+        padding-top: 12px;
+        padding-bottom: 52px;
       }
 
       .hero-copy {
-        padding: 38px 0 30px;
+        padding: 28px 0 24px;
       }
 
       .hero h1 {
-        font-size: clamp(2.45rem, 14vw, 4.2rem);
+        font-size: clamp(2.1rem, 10.5vw, 3.2rem);
       }
 
       .hero-slider {
         aspect-ratio: auto;
-        min-height: 510px;
+        min-height: 440px;
         border-radius: 20px;
       }
 
@@ -1427,13 +1480,13 @@
     <!-- ==========================================================
          HOME / 首屏
          ========================================================== -->
-    <section class="hero" id="home" aria-labelledby="hero-title">
+    <section class="hero page-panel active-section" id="home" aria-labelledby="hero-title">
       <div class="container">
         <div class="hero-copy">
           <div>
             <p class="hero-kicker">Nanjing University · Intelligent Materials</p>
             <h1 id="hero-title">
-              Materials-level Intelligence
+              Materials-level <strong class="hero-highlight">Intelligence</strong>
               <span>Smart Actuation &amp; Sensing Materials Lab</span>
             </h1>
           </div>
@@ -1572,7 +1625,7 @@
     <!-- ==========================================================
          ABOUT
          ========================================================== -->
-    <section class="section" id="about" aria-labelledby="about-title">
+    <section class="section page-panel" id="about" aria-labelledby="about-title">
       <div class="container">
         <div class="section-heading">
           <p class="eyebrow">About</p>
@@ -1625,7 +1678,7 @@
          RESEARCH
          视频路径保持不变；preload="none" 可避免首页一次性加载约 73 MB 视频
          ========================================================== -->
-    <section class="section" id="research" aria-labelledby="research-title">
+    <section class="section page-panel" id="research" aria-labelledby="research-title">
       <div class="container">
         <div class="section-heading centered">
           <p class="eyebrow">Research</p>
@@ -1764,7 +1817,7 @@
     <!-- ==========================================================
          PEOPLE
          ========================================================== -->
-    <section class="section" id="people" aria-labelledby="people-title">
+    <section class="section page-panel" id="people" aria-labelledby="people-title">
       <div class="container">
         <div class="section-heading">
           <p class="eyebrow">People</p>
@@ -1870,7 +1923,7 @@
          PUBLICATIONS
          图片、PDF、DOI 与 Google Scholar 链接均保持原路径
          ========================================================== -->
-    <section class="section" id="publications" aria-labelledby="publications-title">
+    <section class="section page-panel" id="publications" aria-labelledby="publications-title">
       <div class="container">
         <div class="section-heading">
           <p class="eyebrow">Publications</p>
@@ -2091,7 +2144,7 @@
          NEWS
          新增新闻时复制一个 li.timeline-item，并按“新到旧”排序
          ========================================================== -->
-    <section class="section" id="news" aria-labelledby="news-title">
+    <section class="section page-panel" id="news" aria-labelledby="news-title">
       <div class="container">
         <div class="section-heading">
           <p class="eyebrow">News</p>
@@ -2120,7 +2173,7 @@
     <!-- ==========================================================
          CONTACT
          ========================================================== -->
-    <section class="section contact-section" id="contact" aria-labelledby="contact-title">
+    <section class="section contact-section page-panel" id="contact" aria-labelledby="contact-title">
       <div class="container">
         <div class="contact-banner">
           <div>
@@ -2194,19 +2247,24 @@
       );
     });
 
-    navLinks.forEach((link) => link.addEventListener("click", closeMenu));
-
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") closeMenu();
     });
 
     /* ============================================================
-       02. 当前栏目高亮
-       IntersectionObserver 比滚动事件更轻量
+       02. 顶部导航切换栏目
+       - 页面始终只展示当前栏目，不再从首页连续滚动到底部
+       - #about 等网址仍可复制分享
+       - 浏览器的前进、后退按钮仍然有效
        ============================================================ */
-    const observedSections = navLinks
-      .map((link) => document.querySelector(link.getAttribute("href")))
-      .filter(Boolean);
+    const pagePanels = [...document.querySelectorAll(".page-panel")];
+    const internalSectionLinks = [...document.querySelectorAll('a[href^="#"]')].filter(
+      (link) => {
+        const target = document.querySelector(link.getAttribute("href"));
+        return target && target.classList.contains("page-panel");
+      }
+    );
+    const defaultTitle = document.title;
 
     function setActiveNavigation(sectionId) {
       navLinks.forEach((link) => {
@@ -2220,21 +2278,56 @@
       });
     }
 
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        const visibleEntry = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    function getSectionIdFromHash() {
+      const requestedId = window.location.hash.replace("#", "");
+      return pagePanels.some((panel) => panel.id === requestedId) ? requestedId : "home";
+    }
 
-        if (visibleEntry) setActiveNavigation(visibleEntry.target.id);
-      },
-      {
-        rootMargin: "-22% 0px -62% 0px",
-        threshold: [0, 0.1, 0.25, 0.5]
+    function showSection(sectionId, options = {}) {
+      const { addToHistory = false } = options;
+      const targetSection = pagePanels.find((panel) => panel.id === sectionId) || pagePanels[0];
+
+      pagePanels.forEach((panel) => {
+        const isActive = panel === targetSection;
+        panel.classList.toggle("active-section", isActive);
+        panel.hidden = !isActive;
+        panel.setAttribute("aria-hidden", String(!isActive));
+
+        if (!isActive) {
+          panel.querySelectorAll("video").forEach((video) => video.pause());
+        }
+      });
+
+      setActiveNavigation(targetSection.id);
+
+      const activeNavText = navLinks.find(
+        (link) => link.getAttribute("href") === `#${targetSection.id}`
+      )?.textContent?.trim();
+      document.title = targetSection.id === "home"
+        ? defaultTitle
+        : `${activeNavText || targetSection.id} | SASM Lab`;
+
+      if (addToHistory && window.location.hash !== `#${targetSection.id}`) {
+        window.history.pushState({ sectionId: targetSection.id }, "", `#${targetSection.id}`);
       }
-    );
 
-    observedSections.forEach((section) => sectionObserver.observe(section));
+      window.scrollTo({ top: 0, behavior: reduceMotionPreference ? "auto" : "smooth" });
+    }
+
+    const reduceMotionPreference = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    internalSectionLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        showSection(link.getAttribute("href").slice(1), { addToHistory: true });
+        closeMenu();
+      });
+    });
+
+    window.addEventListener("popstate", () => showSection(getSectionIdFromHash()));
+
+    /* 根据首次打开的网址决定初始栏目，例如 index.html#publications */
+    showSection(getSectionIdFromHash());
 
     /* ============================================================
        03. 首屏轮播
