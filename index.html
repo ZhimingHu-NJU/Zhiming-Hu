@@ -1040,25 +1040,56 @@
       color: var(--text-soft);
     }
 
-    .photo-strip {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
+   .photo-strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(280px, 38%);
+  gap: 16px;
 
-    .photo-strip img {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      border-radius: var(--radius-sm);
-    }
+  width: 100%;
+  padding: 4px 0 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(142, 160, 180, 0.65) transparent;
+}
+
+.photo-strip img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+.photo-strip::-webkit-scrollbar {
+  height: 7px;
+}
+
+.photo-strip::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.photo-strip::-webkit-scrollbar-thumb {
+  background: rgba(142, 160, 180, 0.55);
+  border-radius: 999px;
+}
+
+.photo-strip::-webkit-scrollbar-thumb:hover {
+  background: rgba(104, 215, 195, 0.75);
+}
 
     .team-gallery {
-      padding: 20px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-    }
+  min-width: 0;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
 
     .team-gallery-title {
       margin: 0 0 14px;
@@ -1504,13 +1535,14 @@
         grid-template-columns: 1fr;
       }
 
-      .photo-strip {
-        grid-template-columns: repeat(3, 1fr);
-      }
+     .photo-strip {
+  grid-auto-columns: 86%;
+  gap: 12px;
+}
 
-      .photo-strip img {
-        aspect-ratio: 4 / 3;
-      }
+.photo-strip img {
+  aspect-ratio: 4 / 3;
+}
 
       .publication-card {
         grid-template-columns: 1fr;
